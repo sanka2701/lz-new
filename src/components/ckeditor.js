@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import CKEDITOR from '../assets/ckeditor/ckeditor';
 const loadScript = require('load-script');
 
 export default class CKEditor extends Component {
@@ -10,17 +9,14 @@ export default class CKEditor extends Component {
             }
             else {
                 console.log('JO!', script);
-                window.CKEDITOR.replace("editor");
-                // script.replace("editor");
+                window.CKEDITOR.replace("ckEditorAnchor");
             }
         });
-
-        // window.CKEDITOR.replace("editor");
     }
 
     render() {
         return (
-            <textarea name="editor" cols="100" rows="6"/>
+            <textarea name="ckEditorAnchor"/>
         )
     }
 }
