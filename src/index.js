@@ -6,11 +6,11 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import store from './services/store';
 
 import App from './App';
-import SiteNavigation from './components/navbar';
+import SiteNavigation from './containers/navbar';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import registerServiceWorker from './registerServiceWorker';
+import './style/index.css';
+import registerServiceWorker from './services/registerServiceWorker';
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from './style/logo.svg';
+import './style/App.css';
 import CKEditor from './components/ckeditor';
 
 class App extends Component {
