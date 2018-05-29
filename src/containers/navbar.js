@@ -11,6 +11,11 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem } from 'reactstrap';
+import { FormattedMessage } from 'react-intl';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { changeLocale } from '../actions/index';
 
 class SiteNavigation extends Component {
     constructor(props) {
@@ -29,48 +34,55 @@ class SiteNavigation extends Component {
     render() {
         return (
             <div>
-                <Navbar color="dark" dark expand="md">
-                    <NavbarBrand href="/">LiptovZije</NavbarBrand>
+                <Navbar color='dark' dark expand='md'>
+                    <NavbarBrand href='/'>LiptovŽije</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className="mr-auto" navbar>
+                        <Nav className='mr-auto' navbar>
                             <NavItem>
-                                <NavLink href="/">Home</NavLink>
+                                <NavLink tag={Link} to='/'>
+                                    <FormattedMessage id='nav.home' defaultMessage='Home' />
+                                </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/events">Events</NavLink>
+                                <NavLink tag={Link} to='/events'>
+                                    <FormattedMessage id='nav.events' defaultMessage='Events' />
+                                </NavLink>
                             </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Options
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        Option 1
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        Option 2
-                                    </DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem>
-                                        Reset
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
                         </Nav>
                         <Nav navbar>
                             <NavItem>
-                                <NavLink href="/login">Log In</NavLink>
+                                <NavLink tag={Link} to='/login'>
+                                    <FormattedMessage id='nav.login' defaultMessage='Log In' />
+                                </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/register">Register</NavLink>
+                                <NavLink tag={Link} to='/register'>
+                                    <FormattedMessage id='nav.register' defaultMessage='Register' />
+                                </NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
                 </Navbar>
+                <button type='button' onClick={() => this.props.changeLocale('en')}>
+                    En Locale
+                </button>
+                <button type='button' onClick={() => this.props.changeLocale('sk')}>
+                    Sk Locale
+                </button>
             </div>
         );
     }
 }
 
-export default SiteNavigation;
+function mapStateToProps(state) {
+    return {
+        currentLocale: state.locale.locale
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({changeLocale}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SiteNavigation);

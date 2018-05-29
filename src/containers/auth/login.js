@@ -4,7 +4,9 @@ import { reduxForm } from 'redux-form';
 class Login extends Component{
     render() {
         return (
-            hello
+            <div>
+                login form
+            </div>
         )
     }
 }

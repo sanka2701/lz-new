@@ -28,9 +28,7 @@ class CKEditor extends Component {
 
     render() {
         return (
-            <textarea ref='ckEditorAnchor'>
-                {this.props.content}
-            </textarea>
+            <textarea ref='ckEditorAnchor' value={this.props.content} />
         )
     }
 }
