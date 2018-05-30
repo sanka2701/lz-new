@@ -1,17 +1,99 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
+import { Button, FormGroup, Label, Input, Alert } from 'reactstrap';
+import _ from 'lodash';
+import { loginUser } from '../../actions';
+
+const FIELDS = {
+    username: {
+        id: 'username',
+        type: 'text',
+        i18nText: 'auth.username',
+        i18nError: 'auth.mandatoryField',
+        defaultMsg: 'Username',
+        errorMsg: 'username error'
+    },
+    password: {
+        id: 'password',
+        type: 'password',
+        i18nText: 'auth.password',
+        i18nError: 'auth.mandatoryField',
+        defaultMsg: 'Password',
+    }
+};
 
 class Login extends Component{
-    render() {
+    renderField(field) {
+
+        const errorMessage = field.meta.touched && field.meta.error ? (
+            <Alert color="danger">
+                <FormattedMessage id={field.meta.error} defaultMessage='Mandatory Field'/>
+            </Alert>
+        ) : (
+            ''
+        );
+
         return (
-            <div>
-                login form
-            </div>
+            <FormGroup>
+                <Label for={field.config.id}>
+                    <FormattedMessage id={field.config.i18nText} defaultMessage={field.config.defaultMsg}/>
+                </Label>
+                <Input type={field.config.type} id={field.config.id} {...field.input}/>
+                {errorMessage}
+            </FormGroup>
+        )
+    }
+
+    addFormField(fieldConfig) {
+        return (
+            <Field key={fieldConfig.id}
+                   name={fieldConfig.id}
+                   config={fieldConfig}
+                   component={this.renderField}
+            />
+        )
+    }
+
+    onSubmit = formProps => {
+        this.props.loginUser(formProps);
+    };
+
+    render() {
+        const { handleSubmit } = this.props;
+
+        return (
+            <form onSubmit={handleSubmit(this.onSubmit)}>
+                <h3>
+                    <FormattedMessage id='auth.login' defaultMessage='Login'/>
+                </h3>
+                {_.map(FIELDS, this.addFormField.bind(this))}
+                <Button type='submit' color="primary">
+                    <FormattedMessage id='general.submit' defaultMessage='Submit'/>
+                </Button>{' '}
+                <Button type='button' color="warning">
+                    <FormattedMessage id='general.cancel' defaultMessage='Cance'/>
+                </Button>{' '}
+            </form>
         )
     }
 }
 
-export default reduxForm({
-    form: 'login',
-    fields: ['username', 'password']
-})(Login);
+function validate(values) {
+    const errors = {};
+
+    _.each(FIELDS, (type, field) => {
+        if(!values[field]) {
+            errors[field] = type.i18nError;
+        }
+    });
+
+    return errors;
+}
+
+export default compose(
+    connect(null, {loginUser}),
+    reduxForm({form: 'login', validate})
+)(Login);

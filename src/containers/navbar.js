@@ -21,23 +21,25 @@ class SiteNavigation extends Component {
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
+        this.toggleNavbar = this.toggleNavbar.bind(this);
         this.state = {
-            isOpen: false
+            isNavbarOpen: false
         };
     }
-    toggle() {
+    toggleNavbar() {
         this.setState({
-            isOpen: !this.state.isOpen
+            isNavbarOpen: !this.state.isNavbarOpen
         });
     }
     render() {
         return (
             <div>
                 <Navbar color='dark' dark expand='md'>
-                    <NavbarBrand href='/'>LiptovŽije</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
+                    <NavbarBrand tag={Link} to='/' >
+                            LiptovŽije
+                    </NavbarBrand>
+                    <NavbarToggler onClick={this.toggleNavbar} />
+                    <Collapse isOpen={this.state.isNavbarOpen} navbar>
                         <Nav className='mr-auto' navbar>
                             <NavItem>
                                 <NavLink tag={Link} to='/'>
@@ -61,15 +63,19 @@ class SiteNavigation extends Component {
                                     <FormattedMessage id='nav.register' defaultMessage='Register' />
                                 </NavLink>
                             </NavItem>
+                            <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle nav caret>
+                                    {this.props.currentLocale}
+                                </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem onClick={() => this.props.changeLocale('sk')}>Slovensky</DropdownItem>
+                                    <DropdownItem onClick={() => this.props.changeLocale('pl')}>Polski</DropdownItem>
+                                    <DropdownItem onClick={() => this.props.changeLocale('en')}>English</DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
                         </Nav>
                     </Collapse>
                 </Navbar>
-                <button type='button' onClick={() => this.props.changeLocale('en')}>
-                    En Locale
-                </button>
-                <button type='button' onClick={() => this.props.changeLocale('sk')}>
-                    Sk Locale
-                </button>
             </div>
         );
     }
@@ -81,8 +87,4 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({changeLocale}, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SiteNavigation);
+export default connect(mapStateToProps, {changeLocale})(SiteNavigation);

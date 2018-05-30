@@ -1,4 +1,4 @@
-import { LOCALE_CHANGED } from '../actions/index';
+import { LOCALE_CHANGED } from '../actions/types';
 
 import skMessages from '../translations/sk';
 import enMessages from '../translations/en';
@@ -13,16 +13,7 @@ const localizedMessages = {
 export default function (state = {}, action) {
     switch (action.type) {
         case LOCALE_CHANGED:
-            let tmp = {
-                ...state
-            };
-
-            tmp.locale = action.payload;
-            tmp.messages = localizedMessages[action.payload];
-
-            console.log('locale changed', tmp);
-
-            return tmp;
+            return {...state, locale: action.payload, messages: localizedMessages[action.payload]};
         default:
             return state
     }

@@ -1,6 +1,17 @@
 {
+  "general.submit" : "Submit",
+  "general.cancel" : "Cancel",
+
   "nav.home" : "Home",
   "nav.events" : "Events",
   "nav.login" : "Login",
-  "nav.register" : "Register"
+  "nav.register" : "Register",
+
+  "auth.register" : "Register",
+  "auth.login" : "Login",
+  "auth.username" : "Username",
+  "auth.password" : "Password",
+  "auth.mandatoryField" : "Mandatory field",
+  "auth.invalidCredential" : "Invalid Credentials"
+
 }
