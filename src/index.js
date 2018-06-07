@@ -18,7 +18,7 @@ import App from './App';
 import Register from './containers/auth/register';
 import Login from './containers/auth/login';
 import Home from './containers/home';
-
+import EventCreator from './components/event_creator';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -29,6 +29,7 @@ ReactDOM.render(
                         <Switch>
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
+                            {/*<Route path="/createEvent" component={EventCreator} />*/}
                             <Route path="/" component={Home} />
                         </Switch>
                     </App>

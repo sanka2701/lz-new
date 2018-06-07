@@ -5,12 +5,16 @@
   "nav.home" : "Domov",
   "nav.events" : "Udalosti",
   "nav.login" : "Prihlásiť",
+  "nav.logout" : "Odhlásiť",
   "nav.register" : "Registorvať",
 
   "auth.register" : "Registrácia",
   "auth.login" : "Prihlásenie",
+  "auth.email" : "Email",
   "auth.username" : "Meno",
   "auth.password" : "Heslo",
+  "auth.passwordVerify" : "Potvrdenie hesla",
+  "auth.passwordMismatch" : "Heslá sa nezhodujú",
   "auth.mandatoryField" : "Povinný údaj",
   "auth.invalidCredential" : "Nespávne prihlasovacie údaje"
 }

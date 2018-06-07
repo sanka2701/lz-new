@@ -12,28 +12,22 @@ const FIELDS = {
         id: 'username',
         type: 'text',
         i18nText: 'auth.username',
-        i18nError: 'auth.mandatoryField',
-        defaultMsg: 'Username',
-        errorMsg: 'username error'
+        defaultMsg: 'Username'
     },
     password: {
         id: 'password',
         type: 'password',
         i18nText: 'auth.password',
-        i18nError: 'auth.mandatoryField',
         defaultMsg: 'Password',
     }
 };
 
 class Login extends Component{
     renderField(field) {
-
-        const errorMessage = field.meta.touched && field.meta.error ? (
+        const errorMessage = (field.meta.touched && field.meta.error) && (
             <Alert color="danger">
                 <FormattedMessage id={field.meta.error} defaultMessage='Mandatory Field'/>
             </Alert>
-        ) : (
-            ''
         );
 
         return (
@@ -86,7 +80,7 @@ function validate(values) {
 
     _.each(FIELDS, (type, field) => {
         if(!values[field]) {
-            errors[field] = type.i18nError;
+            errors[field] = 'auth.mandatoryField';
         }
     });
 
