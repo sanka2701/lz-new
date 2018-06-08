@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
+import PlacesHandler from '../containers/places_handler';
+import { Container, Row, Col, Button, Collapse } from 'reactstrap';
 
+class EventCreator extends Component{
 
-export default class EventCreator extends Component{
     render() {
         return (
-            <div>
-                Ahoj!
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        Ahoj
+                    </Col>
+                </Row>
+                <PlacesHandler/>
+            </Container>
         )
     }
 }
+
+export default EventCreator;

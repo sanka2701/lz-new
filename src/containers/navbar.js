@@ -12,7 +12,6 @@ import {
     DropdownMenu,
     DropdownItem } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeLocale, logoutUser } from '../actions/index';
@@ -52,7 +51,7 @@ class SiteNavigation extends Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to='/events'>
+                                <NavLink tag={Link} to='/createEvent'>
                                     <FormattedMessage id='nav.events' defaultMessage='Events' />
                                 </NavLink>
                             </NavItem>

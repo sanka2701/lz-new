@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 const loadScript = require('load-script');
 
-const CKEDITOR_LIB_PATH = 'assets/ckeditor/ckeditor.js';
+const CKEDITOR_LIB_PATH = 'assets/ckeditor/ck_editor.js';
 
 class CKEditor extends Component {
     shouldComponentUpdate() {

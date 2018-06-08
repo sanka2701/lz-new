@@ -9,7 +9,6 @@ import ConnectedIntlProvider from './containers/connectedIntlProvider';
 import 'react-widgets/dist/css/react-widgets.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/index.css';
-import './style/App.css';
 
 import registerServiceWorker from './services/registerServiceWorker';
 import App from './App';
@@ -29,7 +28,7 @@ ReactDOM.render(
                         <Switch>
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
-                            {/*<Route path="/createEvent" component={EventCreator} />*/}
+                            <Route path="/createEvent" component={EventCreator} />
                             <Route path="/" component={Home} />
                         </Switch>
                     </App>

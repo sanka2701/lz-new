@@ -16,5 +16,9 @@
   "auth.passwordVerify" : "Potvrdenie hesla",
   "auth.passwordMismatch" : "Heslá sa nezhodujú",
   "auth.mandatoryField" : "Povinný údaj",
-  "auth.invalidCredential" : "Nespávne prihlasovacie údaje"
+  "auth.invalidCredential" : "Nespávne prihlasovacie údaje",
+
+  "places.name" : "Pomenujte miesto",
+  "places.showMap": "Zobratiť mapu",
+  "places.hideMap": "Skryť mapu"
 }

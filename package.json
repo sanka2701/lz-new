@@ -10,6 +10,8 @@
     "lodash": "^4.17.10",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-google-map": "^3.1.1",
+    "react-google-maps-loader": "^4.2.2",
     "react-icons": "^2.2.7",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.7",
@@ -22,7 +24,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

@@ -21,8 +21,50 @@ export const logoutUser = () => {
     }
 };
 
+export const get = (request) => async dispatch => {
+    const {endpoint, successAction, failureAction} = request;
+    await axios.get(`${ROOT_URL}/${endpoint}`, {
+        params: {
+            subname: 'bar'
+        }
+    })
+        .then( response => {
+            debugger;
+            dispatch({
+                type: successAction,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            debugger;
+            dispatch({
+                type: failureAction,
+                payload: err.response.data
+            })
+        })
+};
+
+export const post = (request) => async dispatch => {
+    const {endpoint, payload, successAction, failureAction} = request;
+    await axios.post(`${ROOT_URL}/${endpoint}`, payload)
+        .then( response => {
+            debugger;
+            dispatch({
+                type: successAction,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            debugger;
+            dispatch({
+                type: failureAction,
+                payload: err.response.data
+            })
+        })
+};
+
 export const loginUserByToken = (jwtToken) => async dispatch => {
-    await axios.get(`${ROOT_URL}/user`, { headers: {"Authorization" : `Bearer ${jwtToken}`} })
+    await axios.get(`${ROOT_URL}/user`, /*{ headers: {"Authorization" : `Bearer ${jwtToken}`} }*/)
         .then(response => {
             dispatch({
                 type: AUTH_USER,
