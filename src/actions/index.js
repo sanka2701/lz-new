@@ -3,9 +3,9 @@ import axios from 'axios';
 import { LOCALE_CHANGED } from './types';
 import { AUTH_USER } from './types';
 import { AUTH_USER_OUT } from './types';
-import { AUTH_ERROR } from './types';
+import { AUTH_ERROR, GOOGLE_PLACE_SELECTED, PLACE_SELECTED } from './types';
 
-const ROOT_URL = 'http://localhost:8080';
+import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 
 export const changeLocale = (locale)  => {
     return {
@@ -21,22 +21,41 @@ export const logoutUser = () => {
     }
 };
 
-export const get = (request) => async dispatch => {
-    const {endpoint, successAction, failureAction} = request;
-    await axios.get(`${ROOT_URL}/${endpoint}`, {
+export const placeSelected = (place) => {
+    return {
+        type: PLACE_SELECTED,
+        payload: place
+    }
+};
+
+export const fetchGooglePlace = (placeid) => async dispatch => {
+    await axios.get(`${GOOGLE_URL}`, {
         params: {
-            subname: 'bar'
+            placeid,
+            key: GOOGLE_API_KEY
         }
+    }).then( response => {
+        dispatch({
+            type: GOOGLE_PLACE_SELECTED,
+            payload: response.data.result
+        })
     })
+    .catch(err => {
+        //todo: do some error handling
+        debugger;
+    })
+};
+
+export const get = (request) => async dispatch => {
+    const {endpoint, successAction, failureAction, params} = request;
+    await axios.get(`${ROOT_URL}/${endpoint}`, {params})
         .then( response => {
-            debugger;
             dispatch({
                 type: successAction,
                 payload: response.data
             })
         })
         .catch(err => {
-            debugger;
             dispatch({
                 type: failureAction,
                 payload: err.response.data
@@ -45,8 +64,8 @@ export const get = (request) => async dispatch => {
 };
 
 export const post = (request) => async dispatch => {
-    const {endpoint, payload, successAction, failureAction} = request;
-    await axios.post(`${ROOT_URL}/${endpoint}`, payload)
+    const {endpoint, payload, successAction, failureAction, params} = request;
+    await axios.post(`${ROOT_URL}/${endpoint}`, payload, {params})
         .then( response => {
             debugger;
             dispatch({

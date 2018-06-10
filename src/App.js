@@ -10,7 +10,6 @@ class App extends Component {
 
         axios.interceptors.request.use(
             config => {
-                debugger;
                 const jwtToken = localStorage.getItem('token');
                 if(jwtToken) {
                     config.headers.Authorization = `Bearer ${jwtToken}`;

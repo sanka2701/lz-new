@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import store from './services/store';
-import ConnectedIntlProvider from './containers/connectedIntlProvider';
+import ConnectedIntlProvider from './containers/connected_intl_provider';
 
 import 'react-widgets/dist/css/react-widgets.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,7 +17,7 @@ import App from './App';
 import Register from './containers/auth/register';
 import Login from './containers/auth/login';
 import Home from './containers/home';
-import EventCreator from './components/event_creator';
+import EventCreator from './containers/event_creator';
 
 ReactDOM.render(
     <Provider store={store}>

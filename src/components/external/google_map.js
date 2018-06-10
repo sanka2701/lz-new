@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 const inlineStyles = {
     position: "relative",
@@ -18,7 +18,7 @@ class GoogleMap extends React.Component {
     }
 
     componentDidMount() {
-        const {coordinates, googleMaps, onLoaded, cb, ...props} = this.props
+        const {coordinates, googleMaps, onLoaded, callback, ...props} = this.props
 
         const map = new googleMaps.Map(this.ref_map, {
             ...props,
@@ -29,7 +29,7 @@ class GoogleMap extends React.Component {
         });
 
         if (onLoaded) {
-            onLoaded(googleMaps, map, cb)
+            onLoaded(googleMaps, map, callback)
         }
     }
 

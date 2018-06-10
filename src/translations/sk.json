@@ -20,5 +20,6 @@
 
   "places.name" : "Pomenujte miesto",
   "places.showMap": "Zobratiť mapu",
-  "places.hideMap": "Skryť mapu"
+  "places.hideMap": "Skryť mapu",
+  "places.address": "Adresa"
 }

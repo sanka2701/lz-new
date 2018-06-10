@@ -24,5 +24,6 @@
 
   "places.name" : "Name the place",
   "places.showMap": "Show map",
-  "places.hideMap": "Hide map"
+  "places.hideMap": "Hide map",
+  "places.address": "Address"
 }
