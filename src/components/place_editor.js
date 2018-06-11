@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Container, Row, Col, Button, Collapse, Input, Label, FormGroup } from 'reactstrap';
+import { Row, Col, Input, Label } from 'reactstrap';
 import PlacePicker from './map_picker'
 
-class PlaceCreator extends Component{
-
+class PlaceEditor extends Component{
     constructor(props){
         super(props);
         this.setMarker = this.setMarker.bind(this);
@@ -47,7 +46,7 @@ class PlaceCreator extends Component{
         const {selectedPlace} = this.state;
 
         return (
-            <Container>
+            <div>
                 <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                     <Col sm="3">
                         <Label>
@@ -104,12 +103,12 @@ class PlaceCreator extends Component{
                     </Col>
                 </Row>
 
-            </Container>
+            </div>
         )
     }
 }
 
-PlaceCreator.defaultProps = {
+PlaceEditor.defaultProps = {
     selectedPlace: {
         name: '',
         address: '',
@@ -118,4 +117,4 @@ PlaceCreator.defaultProps = {
     }
 };
 
-export default PlaceCreator;
+export default PlaceEditor;

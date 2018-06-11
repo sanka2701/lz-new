@@ -7,9 +7,9 @@ import { post, get, fetchGooglePlace, placeSelected } from '../actions/index';
 
 
 import PlaceSearch from '../components/place_search';
-import PlaceCreator from '../components/place_creator';
+import PlaceCreator from '../components/place_editor';
 
-class EventCreator extends Component{
+class PlaceHandler extends Component{
     constructor(props){
         super(props);
         this.onSuggestionPlaceSelect = this.onSuggestionPlaceSelect.bind(this);
@@ -39,7 +39,7 @@ class EventCreator extends Component{
         const request = {
             endpoint: 'places',
             // payload: {name: 'ahoj', longitude: 19.475004443359353, latitude: 49.07840145059205},
-            payload: this.state.selectedPlace,
+            payload: this.state.selectedPlace, // todo: think of a way to retrieve place from subcomponent
             params: {},
             successAction: 'ok',
             failureAction: 'nok'
@@ -65,7 +65,7 @@ class EventCreator extends Component{
         const { selectedPlace, createNewPlace } = this.state;
 
         return (
-            <Container>
+            <div>
                 {createNewPlace ? (
                     <PlaceCreator cb={this.onGooglePlaceSelect.bind(this)} selectedPlace={selectedPlace}/>
                 ) : (
@@ -79,7 +79,7 @@ class EventCreator extends Component{
                 <button onClick={this.toggle.bind(this)}>toggle</button>
                 <button onClick={this.submit.bind(this)}>post</button>
                 <button onClick={this.get.bind(this)}>get</button>
-            </Container>
+            </div>
         )
     }
 }
@@ -91,7 +91,7 @@ function mapStateToProps(state) {
     }
 }
 
-EventCreator.defaultProps = {
+PlaceHandler.defaultProps = {
     selectedPlace: {
         name: '',
         address: '',
@@ -100,6 +100,6 @@ EventCreator.defaultProps = {
     }
 };
 
-export default connect(mapStateToProps, { post, get, fetchGooglePlace, placeSelected })(EventCreator);
+export default connect(mapStateToProps, { post, get, fetchGooglePlace, placeSelected })(PlaceHandler);
 
 

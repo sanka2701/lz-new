@@ -25,6 +25,10 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.format_tags = 'p;h1;h2;h3;pre';
 	// config.removeDialogTabs = 'image:advanced;link:advanced';
 
+    config.extraPlugins = 'autogrow';
+    config.autoGrow_minHeight = 500;
+    config.autoGrow_maxHeight = 1000;
+
     config.toolbarGroups = [
         { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
         { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },

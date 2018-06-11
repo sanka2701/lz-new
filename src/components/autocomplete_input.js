@@ -37,6 +37,7 @@ class AutocompleteInput extends Component {
                     this.setState({ value: e.target.value });
                     this.props.onInputChange(e.target.value);
                 }}
+                wrapperStyle={{width: '100%'}}
                 onSelect={value => {
                     this.setState({ value });
                     this.props.onSuggestionSelect(value)
