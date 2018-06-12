@@ -10,9 +10,9 @@ export default function (state = {}, action) {
         case GOOGLE_PLACE_SELECTED:
             const selectedPlace = {
                 address: action.payload.formatted_address,
-                name: action.payload.name,
-                latitude: action.payload.geometry.location.lat,
-                longitude: action.payload.geometry.location.lng
+                label: action.payload.name,
+                lat: action.payload.geometry.location.lat,
+                lon: action.payload.geometry.location.lng
             };
             return {...state, selectedPlace};
         default:

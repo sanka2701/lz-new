@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Autocomplete from 'react-autocomplete';
+import _ from 'lodash';
 
 // todo: do not callOnInputChange callback for each keystroke but wait for some time first
 class AutocompleteInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: props.inputValue,
-            suggestions: props.suggestions
+            value: props.value,
+            suggestions: _.values(props.suggestions)
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.suggestions !== this.state.suggestions) {
-            this.setState({ suggestions: nextProps.suggestions });
+    componentWillReceiveProps({suggestions, value}) {
+        if (suggestions !== this.state.suggestions) {
+            this.setState({ suggestions: _.values(suggestions) });
+        }
+        if (value !== this.state.value) {
+            this.setState({ value });
         }
     }
 
@@ -50,7 +54,7 @@ class AutocompleteInput extends Component {
 AutocompleteInput.propTypes = {
     onInputChange: PropTypes.func.isRequired,
     onSuggestionSelect: PropTypes.func.isRequired,
-    inputValue: PropTypes.string
+    value: PropTypes.string
 };
 
 export default AutocompleteInput;

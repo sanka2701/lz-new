@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button, Collapse } from 'reactstrap';
+import { Field } from 'redux-form';
+import { FormGroup, Label, Row, Col, Input, Button, Collapse } from 'reactstrap';
 import _ from 'lodash';
 
 import { post, get, fetchGooglePlace, placeSelected } from '../actions/index';
 
+import { FormattedMessage } from 'react-intl';
+import AutocompleteInput from '../components/autocomplete_input';
 
-import PlaceSearch from '../components/place_search';
-import PlaceCreator from '../components/place_editor';
+import MapDisplay from '../components/map_display';
+import MapEditor from '../components/map_editor';
 
+// todo: if editor is opened with pre-set values update maps to given lat and lon
 class PlaceHandler extends Component{
     constructor(props){
         super(props);
@@ -20,12 +24,18 @@ class PlaceHandler extends Component{
     }
 
     componentWillReceiveProps({selectedPlace}) {
+        // debugger;
         if (selectedPlace !== this.state.selectedPlace) {
             this.setState({ selectedPlace });
+            this.props.change('place.label',   selectedPlace.label);
+            this.props.change('place.address', selectedPlace.address);
+            this.props.change('place.lat',     selectedPlace.lat);
+            this.props.change('place.lon',     selectedPlace.lon);
         }
     }
 
     get(subname) {
+        console.log('Fetching place suggestions ....');
         const request = {
             endpoint: 'places',
             params: {subname},
@@ -36,10 +46,11 @@ class PlaceHandler extends Component{
     }
 
     submit() {
+        // todo: remove - test only
         const request = {
             endpoint: 'places',
-            // payload: {name: 'ahoj', longitude: 19.475004443359353, latitude: 49.07840145059205},
-            payload: this.state.selectedPlace, // todo: think of a way to retrieve place from subcomponent
+            payload: {label: 'ahoj', address: 'volaka adresa', lon: 19.475004443359353, lat: 49.07840145059205},
+            // payload: this.state.selectedPlace,
             params: {},
             successAction: 'ok',
             failureAction: 'nok'
@@ -48,11 +59,19 @@ class PlaceHandler extends Component{
     }
 
     onSuggestionPlaceSelect(name) {
+        console.log('Suggestion selected ....');
         this.props.placeSelected(this.props.suggestions[name]);
     }
 
-    onGooglePlaceSelect(placeid) {
-        this.props.fetchGooglePlace(placeid)
+    onMapPlaceSelect({placeid, lat, lon}) {
+        if( placeid ) {
+            this.props.fetchGooglePlace(placeid);
+        } else {
+            let a = {lat, lon, address: '', label: ''};
+            debugger;
+
+            this.props.placeSelected();
+        }
     }
 
     toggle() {
@@ -61,24 +80,87 @@ class PlaceHandler extends Component{
         })
     }
 
-    render() {
-        const { selectedPlace, createNewPlace } = this.state;
+    renderAutocomplete = ({ input: { onChange, value }, suggestions}) => {
+        return (
+            <AutocompleteInput
+                onInputChange={(value) => { this.get(value); onChange(value) }}
+                onSuggestionSelect={(label) => { this.onSuggestionPlaceSelect(label); onChange(label) }}
+                suggestions={suggestions}
+                value={value}
+            />
+        )
+    };
 
+    renderInput = ({input, disabled}) => {
+        return (
+            <Input {...input} disabled={disabled}/>
+        )
+    };
+
+    render() {
         return (
             <div>
-                {createNewPlace ? (
-                    <PlaceCreator cb={this.onGooglePlaceSelect.bind(this)} selectedPlace={selectedPlace}/>
+                <Row style={{marginTop: '20px', marginBottom: '10px'}}>
+                    <Col sm="12">
+                        <FormGroup>
+                            <Label>
+                                <FormattedMessage id={'places.label'} defaultMessage='Name the place'/>
+                            </Label>
+
+                            <Field
+                                name={'place.label'}
+                                component={this.renderAutocomplete}
+                                suggestions={this.props.suggestions}
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
+
+                <Row style={{marginTop: '10px', marginBottom: '10px'}}>
+                    <Col sm="12">
+                        <Label>
+                            <FormattedMessage id={'places.address'} defaultMessage='Address'/>
+                        </Label>
+                        <Field
+                            name={'place.address'}
+                            component={this.renderInput}
+                            disabled={!this.state.createNewPlace}
+                        />
+                    </Col>
+                </Row>
+
+                <Row style={{marginTop: '10px', marginBottom: '10px'}}>
+                    <Col sm="6">
+                        <Label>
+                            <FormattedMessage id={'places.lat'} defaultMessage='Latitude'/>
+                        </Label>
+                        <Field
+                            name={'place.lat'}
+                            component={this.renderInput}
+                            disabled={true}
+                        />
+                    </Col>
+                    <Col sm="6">
+                        <Label>
+                            <FormattedMessage id={'places.lon'} defaultMessage='Longitude'/>
+                        </Label>
+                        <Field
+                            name={'place.lon'}
+                            component={this.renderInput}
+                            disabled={true}
+                        />
+                    </Col>
+                </Row>
+
+                {this.state.createNewPlace ? (
+                    <MapEditor onPlaceSelect={this.onMapPlaceSelect.bind(this)} selectedPlace={this.state.selectedPlace}/>
                 ) : (
-                    <PlaceSearch selectedPlace={selectedPlace}
-                                 onInputChange={(value) => this.get(value)}
-                                 suggestions={this.props.suggestions}
-                                 onSuggestionPlaceSelect={(name) => this.onSuggestionPlaceSelect(name)}
-                    />
+                    <MapDisplay selectedPlace={this.props.selectedPlace} />
                 )}
 
                 <button onClick={this.toggle.bind(this)}>toggle</button>
                 <button onClick={this.submit.bind(this)}>post</button>
-                <button onClick={this.get.bind(this)}>get</button>
+                {/*<button onClick={this.get.bind(this)}>get</button>*/}
             </div>
         )
     }
@@ -93,10 +175,10 @@ function mapStateToProps(state) {
 
 PlaceHandler.defaultProps = {
     selectedPlace: {
-        name: '',
+        label: '',
         address: '',
-        latitude: null,
-        longitude: null
+        lat: null,
+        lon: null
     }
 };
 

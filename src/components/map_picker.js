@@ -4,15 +4,16 @@ import GoogleMap from './external/google_map';
 import { areCoordinatesValid } from '../utils/helpers';
 import { LM_GPS_COORDS } from '../utils/constant';
 
-const MapPicker = ({onMarkerSet, coordinates, title}) => {
+const MapPicker = ({onMarkerSet, selectedPlace, renderPredefinedMarkers}) => {
     const getCoordinates = () => {
-        return areCoordinatesValid(coordinates) ? [
+        debugger;
+        return !renderPredefinedMarkers && areCoordinatesValid(selectedPlace) ? [
             {
-                title,
-                position: coordinates,
+                title: selectedPlace.label || "default",
+                position: {lng: selectedPlace.lon, lat: selectedPlace.lat},
                 onLoaded: (googleMaps, map, marker) => {
                     marker.setAnimation(googleMaps.Animation.BOUNCE);
-                    map.panTo(coordinates);
+                    map.panTo({lng: selectedPlace.lon, lat: selectedPlace.lat});
                 }
             }
         ] : [];
@@ -22,13 +23,14 @@ const MapPicker = ({onMarkerSet, coordinates, title}) => {
         <div style={{height: '300px'}}>
             <GoogleMap googleMaps={window.google.maps}
                        center={LM_GPS_COORDS}
-                       zoom={10}
+                       zoom={12}
                        callback={onMarkerSet}
                        gestureHandling={'cooperative'}
-                       // coordinates={getCoordinates()}
+                       coordinates={getCoordinates()}
                        onLoaded={(googleMaps, map, callback) => {
                            googleMaps.event.addListener(map, 'click', function(event) {
                                const placeInfo = {};
+                               map.panTo(event.latLng);
 
                                if (event.placeId) {
                                    placeInfo.placeid = event.placeId;
@@ -55,12 +57,22 @@ const MapPicker = ({onMarkerSet, coordinates, title}) => {
 };
 
 MapPicker.propTypes = {
+    renderPredefinedMarkers: PropTypes.boolean,
     onMarkerSet: PropTypes.func.isRequired,
-    title: PropTypes.string,
-    coordinates : PropTypes.shape({
+    selectedPlace : PropTypes.shape({
+        label: PropTypes.string,
         lat: PropTypes.number,
-        lng: PropTypes.number
+        lon: PropTypes.number
     })
+};
+
+MapPicker.defaultProps = {
+    renderPredefinedMarkers: false,
+    selectedPlace: {
+        label: '',
+        lat: '',
+        lon: ''
+    }
 };
 
 export default MapPicker;
