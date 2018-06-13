@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Row, Col } from 'reactstrap';
 import MapPicker from './map_picker'
 
-// todo: resolve double markers for editing existing places
 class MapEditor extends Component{
     constructor(props){
         super(props);
@@ -16,19 +15,12 @@ class MapEditor extends Component{
     }
 
     shouldComponentUpdate({selectedPlace}) {
-        let tmp = this.state.selectedPlace.lat !== selectedPlace.lat &&
-        this.state.selectedPlace.lon !== selectedPlace.lon
-        debugger;
-
-        return tmp
-
+        return this.state.selectedPlace.lat !== selectedPlace.lat &&
+            this.state.selectedPlace.lon !== selectedPlace.lon;
     }
 
     componentWillReceiveProps({selectedPlace}) {
-        debugger;
-        if (selectedPlace.lat !== null &&
-            selectedPlace.lon !== null &&
-            selectedPlace !== this.state.selectedPlace) {
+        if (selectedPlace !== this.state.selectedPlace) {
             this.setState({ selectedPlace });
             this.setState({placeSetFromPicker: false});
         }
@@ -39,11 +31,11 @@ class MapEditor extends Component{
         oldMarker && oldMarker.setMap(null);
 
         const place = {
-            lat: placeInfo ? placeInfo.marker.getPosition().lat() : '',
-            lon: placeInfo ? placeInfo.marker.getPosition().lng() : '',
+            lat: placeInfo ? placeInfo.lat : '',
+            lon: placeInfo ? placeInfo.lon : '',
             placeid: placeInfo ? placeInfo.placeid : null
         };
-debugger;
+
         this.setState(prevState => ({
             placeSetFromPicker: true,
             marker: placeInfo ? placeInfo.marker : null,
@@ -53,7 +45,6 @@ debugger;
                 lon: place.lat
             }
         }));
-debugger;
 
         this.props.onPlaceSelect(place);
     }

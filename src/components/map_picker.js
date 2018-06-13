@@ -4,16 +4,20 @@ import GoogleMap from './external/google_map';
 import { areCoordinatesValid } from '../utils/helpers';
 import { LM_GPS_COORDS } from '../utils/constant';
 
-const MapPicker = ({onMarkerSet, selectedPlace, renderPredefinedMarkers}) => {
+//todo: due to lot of shared code with map_display.js merge to single file
+const MapPicker = ({onMarkerSet, selectedPlace}) => {
     const getCoordinates = () => {
-        debugger;
-        return !renderPredefinedMarkers && areCoordinatesValid(selectedPlace) ? [
+        return areCoordinatesValid(selectedPlace) ? [
             {
                 title: selectedPlace.label || "default",
                 position: {lng: selectedPlace.lon, lat: selectedPlace.lat},
-                onLoaded: (googleMaps, map, marker) => {
+                onLoaded: (googleMaps, map, marker, callback) => {
                     marker.setAnimation(googleMaps.Animation.BOUNCE);
                     map.panTo({lng: selectedPlace.lon, lat: selectedPlace.lat});
+                    googleMaps.event.addListener(marker, 'click', function(event) {
+                        marker.setMap(null);
+                        callback(null);
+                    });
                 }
             }
         ] : [];
@@ -28,26 +32,18 @@ const MapPicker = ({onMarkerSet, selectedPlace, renderPredefinedMarkers}) => {
                        gestureHandling={'cooperative'}
                        coordinates={getCoordinates()}
                        onLoaded={(googleMaps, map, callback) => {
-                           googleMaps.event.addListener(map, 'click', function(event) {
-                               const placeInfo = {};
+                           googleMaps.event.addListener(map, 'click', (event) => {
                                map.panTo(event.latLng);
+                               const placeInfo = {
+                                   lat: event.latLng.lat(),
+                                   lon: event.latLng.lng()
+                               };
 
+                               //todo: investigate better way of disabling POIs info window and still keep POIs clickable
                                if (event.placeId) {
                                    placeInfo.placeid = event.placeId;
                                    event.stop();
                                }
-
-                               placeInfo.marker = new googleMaps.Marker({
-                                   position: event.latLng,
-                                   map: map
-                               });
-
-                               googleMaps.event.addListener(placeInfo.marker, 'click', function(event) {
-                                   placeInfo.marker.setMap(null);
-                                   callback(null);
-                               });
-
-                               placeInfo.marker.setAnimation(googleMaps.Animation.DROP);
                                callback(placeInfo);
                            });
                        }}
@@ -57,7 +53,6 @@ const MapPicker = ({onMarkerSet, selectedPlace, renderPredefinedMarkers}) => {
 };
 
 MapPicker.propTypes = {
-    renderPredefinedMarkers: PropTypes.boolean,
     onMarkerSet: PropTypes.func.isRequired,
     selectedPlace : PropTypes.shape({
         label: PropTypes.string,
@@ -67,7 +62,6 @@ MapPicker.propTypes = {
 };
 
 MapPicker.defaultProps = {
-    renderPredefinedMarkers: false,
     selectedPlace: {
         label: '',
         lat: '',

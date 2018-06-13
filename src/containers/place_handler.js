@@ -18,6 +18,7 @@ class PlaceHandler extends Component{
         super(props);
         this.onSuggestionPlaceSelect = this.onSuggestionPlaceSelect.bind(this);
         this.state = {
+            showMap: true,
             selectedPlace: props.selectedPlace,
             createNewPlace: true
         }
@@ -67,39 +68,51 @@ class PlaceHandler extends Component{
         if( placeid ) {
             this.props.fetchGooglePlace(placeid);
         } else {
-            let a = {lat, lon, address: '', label: ''};
-            debugger;
-
-            this.props.placeSelected();
+            this.props.placeSelected({lat, lon, address: '', label: ''});
         }
     }
 
-    toggle() {
+    togglePickCreate() {
         this.setState({
             createNewPlace: !this.state.createNewPlace
         })
     }
 
-    renderAutocomplete = ({ input: { onChange, value }, suggestions}) => {
-        return (
-            <AutocompleteInput
-                onInputChange={(value) => { this.get(value); onChange(value) }}
-                onSuggestionSelect={(label) => { this.onSuggestionPlaceSelect(label); onChange(label) }}
-                suggestions={suggestions}
-                value={value}
-            />
-        )
-    };
+    toogleMap() {
+        this.setState({
+            showMap : !this.state.showMap
+        })
+    }
 
-    renderInput = ({input, disabled}) => {
-        return (
-            <Input {...input} disabled={disabled}/>
-        )
-    };
+    renderAutocomplete = ({ input: { onChange, value }, suggestions}) => (
+        <AutocompleteInput
+            onInputChange={(value) => { this.get(value); onChange(value) }}
+            onSuggestionSelect={(label) => { this.onSuggestionPlaceSelect(label); onChange(label) }}
+            suggestions={suggestions}
+            value={value}
+        />
+    );
+
+    renderInput = ({input, disabled}) => (
+        <Input {...input} disabled={disabled}/>
+    );
 
     render() {
         return (
             <div>
+                <Row>
+                    <Col>
+                        <Button color="primary" type='button' onClick={this.togglePickCreate.bind(this)}>
+                            Create/Pick
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button color="info" type='button' onClick={this.toogleMap.bind(this)}>
+                            Show/Hide
+                        </Button>
+                    </Col>
+                </Row>
+
                 <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                     <Col sm="12">
                         <FormGroup>
@@ -116,49 +129,51 @@ class PlaceHandler extends Component{
                     </Col>
                 </Row>
 
-                <Row style={{marginTop: '10px', marginBottom: '10px'}}>
-                    <Col sm="12">
-                        <Label>
-                            <FormattedMessage id={'places.address'} defaultMessage='Address'/>
-                        </Label>
-                        <Field
-                            name={'place.address'}
-                            component={this.renderInput}
-                            disabled={!this.state.createNewPlace}
-                        />
-                    </Col>
-                </Row>
+                <Collapse isOpen={this.state.showMap}>
+                    <Row style={{marginTop: '10px', marginBottom: '10px'}}>
+                        <Col sm="12">
+                            <Label>
+                                <FormattedMessage id={'places.address'} defaultMessage='Address'/>
+                            </Label>
+                            <Field
+                                name={'place.address'}
+                                component={this.renderInput}
+                                disabled={!this.state.createNewPlace}
+                            />
+                        </Col>
+                    </Row>
 
-                <Row style={{marginTop: '10px', marginBottom: '10px'}}>
-                    <Col sm="6">
-                        <Label>
-                            <FormattedMessage id={'places.lat'} defaultMessage='Latitude'/>
-                        </Label>
-                        <Field
-                            name={'place.lat'}
-                            component={this.renderInput}
-                            disabled={true}
-                        />
-                    </Col>
-                    <Col sm="6">
-                        <Label>
-                            <FormattedMessage id={'places.lon'} defaultMessage='Longitude'/>
-                        </Label>
-                        <Field
-                            name={'place.lon'}
-                            component={this.renderInput}
-                            disabled={true}
-                        />
-                    </Col>
-                </Row>
+                    <Row style={{marginTop: '10px', marginBottom: '10px'}}>
+                        <Col sm="6">
+                            <Label>
+                                <FormattedMessage id={'places.lat'} defaultMessage='Latitude'/>
+                            </Label>
+                            <Field
+                                name={'place.lat'}
+                                component={this.renderInput}
+                                disabled={true}
+                            />
+                        </Col>
+                        <Col sm="6">
+                            <Label>
+                                <FormattedMessage id={'places.lon'} defaultMessage='Longitude'/>
+                            </Label>
+                            <Field
+                                name={'place.lon'}
+                                component={this.renderInput}
+                                disabled={true}
+                            />
+                        </Col>
+                    </Row>
 
-                {this.state.createNewPlace ? (
-                    <MapEditor onPlaceSelect={this.onMapPlaceSelect.bind(this)} selectedPlace={this.state.selectedPlace}/>
-                ) : (
-                    <MapDisplay selectedPlace={this.props.selectedPlace} />
-                )}
+                    {this.state.createNewPlace ? (
+                        <MapEditor onPlaceSelect={this.onMapPlaceSelect.bind(this)} selectedPlace={this.state.selectedPlace}/>
+                    ) : (
+                        <MapDisplay selectedPlace={this.state.selectedPlace} />
+                    )}
+                </Collapse>
 
-                <button onClick={this.toggle.bind(this)}>toggle</button>
+
                 <button onClick={this.submit.bind(this)}>post</button>
                 {/*<button onClick={this.get.bind(this)}>get</button>*/}
             </div>

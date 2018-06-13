@@ -104,6 +104,7 @@ class GoogleMap extends React.Component {
     addMarker(markerId, coordinate) {
         const {map} = this.state;
         const {googleMaps} = this.props;
+        const {callback} = this.props;
         const {onLoaded, ...markerProps} = coordinate;
 
         const marker = new googleMaps.Marker({
@@ -112,7 +113,7 @@ class GoogleMap extends React.Component {
         });
 
         if (onLoaded) {
-            onLoaded(googleMaps, map, marker)
+            onLoaded(googleMaps, map, marker, callback)
         }
 
         return marker

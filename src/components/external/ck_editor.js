@@ -20,7 +20,7 @@ class CKEditor extends Component {
 
         this.editorInstance = window.CKEDITOR.replace(this.refs.ckEditorAnchor);
 
-        for(const event in this.props.events){
+        for (const event in this.props.events) {
             const eventHandler = this.props.events[event];
             this.editorInstance.on(event, eventHandler);
         }
