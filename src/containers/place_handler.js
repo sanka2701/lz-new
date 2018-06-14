@@ -50,8 +50,8 @@ class PlaceHandler extends Component{
         // todo: remove - test only
         const request = {
             endpoint: 'places',
-            payload: {label: 'ahoj', address: 'volaka adresa', lon: 19.475004443359353, lat: 49.07840145059205},
-            // payload: this.state.selectedPlace,
+            // payload: {label: 'ahoj', address: 'volaka adresa', lon: 19.475004443359353, lat: 49.07840145059205},
+            payload: this.state.selectedPlace,
             params: {},
             successAction: 'ok',
             failureAction: 'nok'
@@ -117,7 +117,13 @@ class PlaceHandler extends Component{
                     <Col sm="12">
                         <FormGroup>
                             <Label>
-                                <FormattedMessage id={'places.label'} defaultMessage='Name the place'/>
+                                {
+                                    this.state.createNewPlace ? (
+                                        <FormattedMessage id={'places.nameLabel'} defaultMessage='Name the place'/>
+                                    ) : (
+                                        <FormattedMessage id={'places.searchLabel'} defaultMessage='Search for place'/>
+                                    )
+                                }
                             </Label>
 
                             <Field

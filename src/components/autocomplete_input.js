@@ -25,11 +25,11 @@ class AutocompleteInput extends Component {
     render() {
         return (
             <Autocomplete
-                getItemValue={(item) => item.name}
+                getItemValue={(item) => item.label}
                 items={this.state.suggestions}
                 renderItem={(item, isHighlighted) =>
                     <div key={item.id} style={{background: isHighlighted ? 'lightgray' : 'white'}}>
-                        {item.name}
+                        {item.label}
                     </div>
                 }
                 inputProps={{className:'form-control'}}
