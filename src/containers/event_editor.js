@@ -9,52 +9,27 @@ import EventDateEditor from '../components/event_date_editor';
 import CKEditor from '../components/external/ck_editor';
 import FileUploader from '../components/file_uploader';
 
-import imgSrcExtract from '../utils/img_src_extract';
-
-import axios from 'axios';
+import HtmlContentPostprocess from '../utils/html_content_postprocess';
 
 class EventEditor extends Component{
 
     onSubmit(values) {
-        debugger;
-    }
-
-    createElementFromHTML(htmlString) {
-        const div = document.createElement('div');
-        div.innerHTML = htmlString.trim();
-        return div;
-    }
-
-    test(){
-        const htmlContent = this.createElementFromHTML(this.props.eventContent);
-        const imgsSrcs  = imgSrcExtract(htmlContent);
-
-        const imgs = [];
-
-        axios.get(imgsSrcs[0])
-            .then(response => {
-                const file = response.data;
-
-                let data = new FormData();
-                data.append('image', file, file.name);
-
-                const config = {
-                    headers: { 'content-type': 'multipart/form-data' }
-                }
-
-                //todo: refactor, fix (returns http error 400)
-                axios.post('http://localhost:8080/files/upload', data, config)
-                    .then(request => {
-                        debugger;
-                    }).catch(err => {
-                        debugger;
-                    })
-
-                // imgs.push(response.data);
-            })
-            .catch(err => {
-                debugger;
+        // process images
+        const processor = new HtmlContentPostprocess();
+        processor.postProcess(this.props.eventContent)
+            .then(replaced => {
+                console.log(replaced)
             });
+        // resolve place
+        if(!values.place.id) {
+
+        }
+        // map values to fit backend api
+
+        // post
+    }
+
+    test() {
 
     }
 
@@ -75,8 +50,15 @@ class EventEditor extends Component{
         return (
             <form onSubmit={handleSubmit(this.onSubmit)}>
                 <Container>
-                    {/*<Field name="firstName" component="input" type="text" placeholder="First Name"/>*/}
-                    {/*<FileUploader />*/}
+                    {/*<Row>*/}
+                        {/*<Col sm='3'>*/}
+                            {/*<FileUploader />*/}
+                        {/*</Col>*/}
+                        {/*<Col sm='9'>*/}
+                            {/*<EventDateEditor />*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
+
                     <EventDateEditor />
                     <PlaceHandler change={this.props.change}/>
 
@@ -107,17 +89,17 @@ const selector = formValueSelector('create_event');
 function mapStateToProps(state) {
     return {
         // todo: connect to redux, this is just for testing initial form values
-        initialValues: {
-            time: {
-                startDay: Date.now()
-            }
-            ,
-            place: {
-                label: 'Liptovsky Hradok',
-                lat: '49.09725059408648',
-                lon: '19.625701904296875'
-            }
-        },
+        // initialValues: {
+        //     time: {
+        //         startDay: Date.now()
+        //     }
+        //     ,
+        //     place: {
+        //         label: 'Liptovsky Hradok',
+        //         lat: '49.09725059408648',
+        //         lon: '19.625701904296875'
+        //     }
+        // },
         eventContent: selector(state, 'content')
     }
 }

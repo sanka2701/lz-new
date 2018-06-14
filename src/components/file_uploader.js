@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './file_uploader_styles.scss';
+import './file_uploader_styles.css';
 
 // todo: fix
 class FileUploader extends React.Component {

@@ -174,8 +174,8 @@ class PlaceHandler extends Component{
                 </Collapse>
 
 
-                <button onClick={this.submit.bind(this)}>post</button>
-                {/*<button onClick={this.get.bind(this)}>get</button>*/}
+                <button type='button' onClick={this.submit.bind(this)}>post</button>
+                {/*<button type='button' onClick={this.get.bind(this)}>get</button>*/}
             </div>
         )
     }
