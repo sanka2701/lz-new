@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SiteNavigation from './containers/navbar';
-import { loginUserByToken } from "./actions/index";
+import { get } from "./actions/index";
+import { AUTH_USER, AUTH_ERROR } from './actions/types'
 import axios from 'axios';
 
 class App extends Component {
@@ -19,10 +20,15 @@ class App extends Component {
             error => Promise.reject(error)
         );
 
-        const jwtToken = localStorage.getItem('token');
-        if(jwtToken) {
-            console.log("Token found: ", jwtToken);
-            this.props.loginUserByToken(jwtToken);
+        if(localStorage.getItem('token')) {
+            console.log("Token found: ", localStorage.getItem('token'));
+            const request = {
+                endpoint: 'user',
+                params: {},
+                successAction: AUTH_USER,
+                failureAction: AUTH_ERROR
+            };
+            this.props.get(request);
         }
     }
 
@@ -36,4 +42,4 @@ class App extends Component {
     }
 }
 
-export default withRouter(connect(null, {loginUserByToken})(App));
+export default withRouter(connect(null, {get})(App));

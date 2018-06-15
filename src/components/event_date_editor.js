@@ -3,8 +3,11 @@ import { Row, Col, Label, FormGroup } from 'reactstrap';
 import { DropdownList, DateTimePicker } from 'react-widgets';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
+import ErrorSlider from './ui/error_slider';
+import { required } from '../utils/valdiators';
 import { timeToMilliseconds } from '../utils/helpers';
 
+//todo: move this configuration to more suitable place and support locale switch
 import momentLocaliser from 'react-widgets-moment';
 import moment from 'moment'
 import 'moment/locale/sk';
@@ -17,24 +20,43 @@ console.log('slovak', moment.locale('sk'));
 moment.updateLocale('sk');
 momentLocaliser(moment);
 
-const renderDateTimePicker = ({ input: { onChange, value }}) => (
-    <DateTimePicker
-        onChange={onChange}
-        format="DD MMM YYYY"
-        time={false}
-        value={!value ? null : new Date(value)}
-    />
-);
 
-const renderDropdownList = ({input, data}) => (
+const renderDateTimePicker = ({ input: { onChange, value }, meta}) => {
+    //todo: after value edit the touched attribute in meta is not changed
+    return (
+    <div>
+        <DateTimePicker
+            // onBlur={(e) => {DateTimePicker.onBlur(e)}}
+            onChange={(val) => { val && onChange(val.getTime())}}
+            format="DD MMM YYYY"
+            time={false}
+            value={!value ? null : new Date(value)}
+        />
+        <ErrorSlider
+            errorCode={meta.error}
+            // displayed={meta.touched && meta.error}
+            displayed={!!meta.error}
+        />
+    </div>
+)};
+
+const renderDropdownList = ({input, meta, data}) => (
     //todo: find a way to extract localized message for emptyFiles
-    <DropdownList
-        {...input}
-        filter
-        textField="label"
-        messages={{emptyFilter:'No options found'}}
-        data={data}
-    />
+    //todo: search by contains and not strict match
+    //todo: selecting value and the clicking outside of proposed list removes the previously selected value and sets it to empty
+    <div>
+        <DropdownList
+            {...input}
+            filter
+            textField="label"
+            messages={{emptyFilter:'No options found'}}
+            data={data}
+        />
+        <ErrorSlider
+            errorCode={meta.error}
+            displayed={meta.touched && meta.error}
+        />
+    </div>
 );
 
 const PlaceDateEditor = () => {
@@ -62,6 +84,7 @@ const PlaceDateEditor = () => {
                         <Field
                             name="time.startDay"
                             component={renderDateTimePicker}
+                            // validate={[required]}
                         />
                     </FormGroup>
                 </Col>
@@ -74,6 +97,7 @@ const PlaceDateEditor = () => {
                         <Field
                             name="time.endDay"
                             component={renderDateTimePicker}
+                            // validate={[required]}
                         />
                     </FormGroup>
                 </Col>
@@ -88,6 +112,7 @@ const PlaceDateEditor = () => {
                         name='time.startTime'
                         component={renderDropdownList}
                         data={getTimeSteps()}
+                        validate={[required]}
                     />
                 </Col>
                 <Col>
@@ -98,6 +123,7 @@ const PlaceDateEditor = () => {
                         name='time.endTime'
                         component={renderDropdownList}
                         data={getTimeSteps()}
+                        validate={[required]}
                     />
                 </Col>
             </Row>

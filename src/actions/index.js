@@ -64,10 +64,10 @@ export const get = (request) => async dispatch => {
 };
 
 export const post = (request) => async dispatch => {
-    const {endpoint, payload, successAction, failureAction, params} = request;
+    const {endpoint, payload, successAction, failureAction, params, successCallback} = request;
     await axios.post(`${ROOT_URL}/${endpoint}`, payload, {params})
         .then( response => {
-            debugger;
+            successCallback();
             dispatch({
                 type: successAction,
                 payload: response.data
@@ -82,22 +82,6 @@ export const post = (request) => async dispatch => {
         })
 };
 
-export const loginUserByToken = (jwtToken) => async dispatch => {
-    await axios.get(`${ROOT_URL}/user`, /*{ headers: {"Authorization" : `Bearer ${jwtToken}`} }*/)
-        .then(response => {
-            dispatch({
-                type: AUTH_USER,
-                payload: response.data
-            });
-        })
-        .catch(err => {
-            dispatch({
-                type: AUTH_ERROR,
-                payload: err.response.data
-            });
-        });
-};
-
 export const loginUser = (credentials) => async dispatch => {
     await axios.post(`${ROOT_URL}/users/login`, credentials)
         .then(response => {
@@ -107,6 +91,7 @@ export const loginUser = (credentials) => async dispatch => {
             });
         })
         .catch(err => {
+            debugger;
             dispatch({
                 type: AUTH_ERROR,
                 payload: err.response.data

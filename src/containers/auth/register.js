@@ -5,7 +5,8 @@ import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, FormGroup, Label, Input, Alert } from 'reactstrap';
 import _ from 'lodash';
-import { registerUser } from '../../actions';
+import { AUTH_USER, AUTH_ERROR } from '../../actions/types'
+import { post } from '../../actions';
 
 const FIELDS = {
     email: {
@@ -68,9 +69,16 @@ class Register extends Component{
     }
 
     onSubmit = formProps => {
-        this.props.registerUser(formProps, () => {
-            this.props.history.push('/')
-        });
+        const request = {
+            endpoint: 'users',
+            payload: formProps,
+            successAction: AUTH_USER,
+            failureAction: AUTH_ERROR,
+            successCallback: () => {
+                this.props.history.push('/')
+            }
+        };
+        this.props.post(request);
     };
 
     render() {
@@ -117,6 +125,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-    connect(mapStateToProps, {registerUser}),
+    connect(mapStateToProps, {post}),
     reduxForm({form: 'register', validate})
 )(Register);

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import GoogleMap from './external/google_map';
-import { areCoordinatesValid } from '../utils/helpers';
-import { LM_GPS_COORDS } from '../utils/constant';
+import GoogleMap from '../external/google_map';
+import { areCoordinatesValid } from '../../utils/helpers';
+import { LM_GPS_COORDS } from '../../utils/constant';
 
 //todo: due to lot of shared code with map_display.js merge to single file
 const MapPicker = ({onMarkerSet, selectedPlace}) => {

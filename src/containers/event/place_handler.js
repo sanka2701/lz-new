@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import { FormGroup, Label, Row, Col, Input, Button, Collapse } from 'reactstrap';
-import _ from 'lodash';
+import ErrorSlider from '../../components/ui/error_slider';
+import { required } from '../../utils/valdiators';
 
-import { post, get, fetchGooglePlace, placeSelected } from '../actions/index';
+import { post, get, fetchGooglePlace, placeSelected } from '../../actions/index';
 
 import { FormattedMessage } from 'react-intl';
-import AutocompleteInput from '../components/autocomplete_input';
+import AutocompleteInput from '../../components/autocomplete_input';
 
-import MapDisplay from '../components/map_display';
-import MapEditor from '../components/map_editor';
+import MapDisplay from '../../components/map/map_display';
+import MapEditor from '../../components/map/map_editor';
 
 // todo: if editor is opened with pre-set values update maps to given lat and lon
 class PlaceHandler extends Component{
@@ -84,17 +85,33 @@ class PlaceHandler extends Component{
         })
     }
 
-    renderAutocomplete = ({ input: { onChange, value }, suggestions}) => (
-        <AutocompleteInput
-            onInputChange={(value) => { this.get(value); onChange(value) }}
-            onSuggestionSelect={(label) => { this.onSuggestionPlaceSelect(label); onChange(label) }}
-            suggestions={suggestions}
-            value={value}
-        />
-    );
+    renderAutocomplete = ({ input: { onChange, value }, suggestions, meta}) => {
+        // todo: fix error message, touched is not changing after value edit (??? call onBlur ???)
+        // debugger;
+    return (
+        <div>
+            <AutocompleteInput
+                // onBlur={(e) => {AutocompleteInput.onBlur(e)}}
+                onInputChange={(value) => { onChange(value); this.get(value); }}
+                onSuggestionSelect={(label) => { onChange(label); this.onSuggestionPlaceSelect(label); }}
+                suggestions={suggestions}
+                value={value}
+            />
+            <ErrorSlider
+                errorCode={meta.error}
+                displayed={meta.touched && meta.error}
+            />
+        </div>
+    )};
 
-    renderInput = ({input, disabled}) => (
-        <Input {...input} disabled={disabled}/>
+    renderInput = ({input, disabled, meta}) => (
+        <div>
+            <Input {...input} disabled={disabled}/>
+            <ErrorSlider
+                errorCode={meta.error}
+                displayed={meta.touched && meta.error}
+            />
+        </div>
     );
 
     render() {
@@ -145,6 +162,7 @@ class PlaceHandler extends Component{
                                 name={'place.address'}
                                 component={this.renderInput}
                                 disabled={!this.state.createNewPlace}
+                                validate={[required]}
                             />
                         </Col>
                     </Row>
@@ -158,6 +176,7 @@ class PlaceHandler extends Component{
                                 name={'place.lat'}
                                 component={this.renderInput}
                                 disabled={true}
+                                validate={[required]}
                             />
                         </Col>
                         <Col sm="6">
@@ -168,6 +187,7 @@ class PlaceHandler extends Component{
                                 name={'place.lon'}
                                 component={this.renderInput}
                                 disabled={true}
+                                validate={[required]}
                             />
                         </Col>
                     </Row>

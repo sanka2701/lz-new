@@ -5,7 +5,8 @@ import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, FormGroup, Label, Input, Alert } from 'reactstrap';
 import _ from 'lodash';
-import { loginUser } from '../../actions';
+import { post } from '../../actions';
+import { AUTH_USER, AUTH_ERROR } from '../../actions/types'
 
 const FIELDS = {
     username: {
@@ -52,7 +53,16 @@ class Login extends Component{
     }
 
     onSubmit = formProps => {
-        this.props.loginUser(formProps);
+        const request = {
+            endpoint: 'users/login',
+            payload: formProps,
+            successAction: AUTH_USER,
+            failureAction: AUTH_ERROR,
+            successCallback: () => {
+                this.props.history.push('/')
+            }
+        };
+        this.props.post(request);
     };
 
     render() {
@@ -88,6 +98,6 @@ function validate(values) {
 }
 
 export default compose(
-    connect(null, {loginUser}),
+    connect(null, {post}),
     reduxForm({form: 'login', validate})
 )(Login);

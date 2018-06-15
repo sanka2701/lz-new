@@ -17,7 +17,7 @@ import App from './App';
 import Register from './containers/auth/register';
 import Login from './containers/auth/login';
 import Home from './containers/home';
-import EventEditor from './containers/event_editor';
+import EventEditor from './containers/event/event_editor';
 
 ReactDOM.render(
     <Provider store={store}>
