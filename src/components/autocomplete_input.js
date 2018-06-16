@@ -32,7 +32,7 @@ class AutocompleteInput extends Component {
                         {item.label}
                     </div>
                 }
-                inputProps={{className:'form-control'}}
+                inputProps={{className:'form-control', onBlur: this.props.onBlur}}
                 renderMenu={(items, value, {minWidth}) => {
                     return <div style={{ ...this.menuStyle, minWidth, zIndex:1, position: 'absolute' }} children={items}/>
                 }}

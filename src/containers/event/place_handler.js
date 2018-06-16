@@ -85,24 +85,20 @@ class PlaceHandler extends Component{
         })
     }
 
-    renderAutocomplete = ({ input: { onChange, value }, suggestions, meta}) => {
-        // todo: fix error message, touched is not changing after value edit (??? call onBlur ???)
-        // debugger;
-    return (
+    renderAutocomplete = ({ input, suggestions, meta}) => (
         <div>
             <AutocompleteInput
-                // onBlur={(e) => {AutocompleteInput.onBlur(e)}}
-                onInputChange={(value) => { onChange(value); this.get(value); }}
-                onSuggestionSelect={(label) => { onChange(label); this.onSuggestionPlaceSelect(label); }}
+                {...input}
+                onInputChange={(value) => { input.onChange(value); this.get(value); }}
+                onSuggestionSelect={(label) => { input.onChange(label); this.onSuggestionPlaceSelect(label); }}
                 suggestions={suggestions}
-                value={value}
             />
             <ErrorSlider
                 errorCode={meta.error}
                 displayed={meta.touched && meta.error}
             />
         </div>
-    )};
+    );
 
     renderInput = ({input, disabled, meta}) => (
         <div>

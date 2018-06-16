@@ -23,6 +23,7 @@ momentLocaliser(moment);
 
 const renderDateTimePicker = ({ input: { onChange, value }, meta}) => {
     //todo: after value edit the touched attribute in meta is not changed
+    // debugger;
     return (
     <div>
         <DateTimePicker

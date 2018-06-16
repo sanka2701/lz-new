@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import PlaceHandler from './place_handler';
 import EventDateEditor from '../../components/event_date_editor';
 import CKEditor from '../../components/external/ck_editor';
-import FileUploader from '../../components/file_uploader';
+import FileUploader from '../../components/ui/file_uploader';
 import ErrorSlider from '../../components/ui/error_slider';
 import { required } from '../../utils/valdiators';
 
