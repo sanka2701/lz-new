@@ -9,7 +9,7 @@ class FileUploader extends React.Component {
 
         this.state = {
             active: false,
-            imageSrc: '',
+            imageSrc: props.value,
             loaded: false
         };
 
@@ -38,7 +38,6 @@ class FileUploader extends React.Component {
     }
 
     onFileChange(e, file) {
-        debugger;
         var file = file || e.target.files[0],
             pattern = /image-*/,
             reader = new FileReader();
@@ -50,11 +49,13 @@ class FileUploader extends React.Component {
 
         this.setState({ loaded: false });
 
-        reader.onload = (e) => {
+        reader.onload = (event) => {
             this.setState({
                 imageSrc: reader.result,
                 loaded: true
             });
+            // this.props.onChange(this.state.imageSrc);
+            this.props.onChange(file);
         };
 
         reader.readAsDataURL(file);
@@ -93,7 +94,7 @@ class FileUploader extends React.Component {
                     <i className={`icon ${state.loaded ? 'loaded' : ''}`} style={{ color: iconColor }}>
                         <FontAwesome.FaCloudUpload />
                     </i>
-                    <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" hidden/>
+                    <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" onBlur={() => {debugger;}} hidden/>
                 </label>
             </div>
         );

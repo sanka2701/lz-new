@@ -21,33 +21,33 @@ moment.updateLocale('sk');
 momentLocaliser(moment);
 
 
-const renderDateTimePicker = ({ input: { onChange, value }, meta}) => {
-    //todo: after value edit the touched attribute in meta is not changed
+const renderDateTimePicker = ({ input: { onChange, onBlur, value }, meta}) => {
     // debugger;
     return (
     <div>
         <DateTimePicker
-            // onBlur={(e) => {DateTimePicker.onBlur(e)}}
             onChange={(val) => { val && onChange(val.getTime())}}
+            onBlur={() => onBlur(value)}
             format="DD MMM YYYY"
             time={false}
             value={!value ? null : new Date(value)}
         />
         <ErrorSlider
             errorCode={meta.error}
-            // displayed={meta.touched && meta.error}
-            displayed={!!meta.error}
+            displayed={meta.touched && !!meta.error}
         />
     </div>
 )};
 
-const renderDropdownList = ({input, meta, data}) => (
+const renderDropdownList = ({ input: {onBlur, onChange, value}, meta, data}) => (
     //todo: find a way to extract localized message for emptyFiles
     //todo: search by contains and not strict match
     //todo: selecting value and the clicking outside of proposed list removes the previously selected value and sets it to empty
     <div>
         <DropdownList
-            {...input}
+            value={value}
+            onChange={onChange}
+            onBlur={() => onBlur(value)}
             filter
             textField="label"
             messages={{emptyFilter:'No options found'}}
@@ -55,7 +55,7 @@ const renderDropdownList = ({input, meta, data}) => (
         />
         <ErrorSlider
             errorCode={meta.error}
-            displayed={meta.touched && meta.error}
+            displayed={meta.touched && !!meta.error}
         />
     </div>
 );
@@ -85,7 +85,7 @@ const PlaceDateEditor = () => {
                         <Field
                             name="time.startDay"
                             component={renderDateTimePicker}
-                            // validate={[required]}
+                            validate={[required]}
                         />
                     </FormGroup>
                 </Col>
@@ -98,7 +98,7 @@ const PlaceDateEditor = () => {
                         <Field
                             name="time.endDay"
                             component={renderDateTimePicker}
-                            // validate={[required]}
+                            validate={[required]}
                         />
                     </FormGroup>
                 </Col>

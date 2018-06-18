@@ -16,17 +16,23 @@ import HtmlContentPostprocess from '../../utils/html_content_postprocess';
 
 class EventEditor extends Component{
 
-    onSubmit(values) {
+    async onSubmit(values) {
         debugger;
 
         // process images
         const processor = new HtmlContentPostprocess();
-        processor.postProcess(this.props.eventContent)
-            .then(replaced => {
-                console.log(replaced)
-            });
+        const modifiedContent = await processor.postProcess(values.content);
+            // .then(replaced => {
+            //     console.log(replaced)
+            // });
 
         // get thumbnailUrl
+        debugger;
+        // const thumbailFile = await processor.blobUrlToFile(values.thumbnail);
+        const thumbailFile = values.thumbnail;
+        debugger;
+        const thumbnailUrl = await processor.uploadImg(thumbailFile);
+        debugger;
 
         // resolve place
         if(!values.place.id) {
@@ -47,24 +53,46 @@ class EventEditor extends Component{
 
     }
 
-    renderCKEditor = ({input: {onChange, value}}) => {
+    renderCKEditor = ({input: {onChange, onBlur, value}, meta}) => {
         // todo: rewrite to es6 style without return statement
         return (
-            <CKEditor
-                events={{
-                    change : (event) => {
-                        onChange(event.editor.getData());
-                    }
-                }}
-                content={value}
-            />
+            <div>
+                <CKEditor
+                    events={{
+                        change : (event) => {
+                            onChange(event.editor.getData());
+                        },
+                        blur : (event) => {
+                            onBlur();
+                        },
+                    }}
+                    value={value}
+                />
+                <ErrorSlider
+                    errorCode={meta.error}
+                    displayed={meta.touched && meta.error}
+                />
+            </div>
         )
     };
 
     renderInput = ({ input, meta }) => {
+        // debugger;
         return (
             <div>
                 <Input {...input} />
+                <ErrorSlider
+                    errorCode={meta.error}
+                    displayed={meta.touched && meta.error}
+                />
+            </div>
+        )
+    };
+
+    renderFileUpload = ({ input, meta }) => {
+        return (
+            <div>
+                <FileUploader {...input} />
                 <ErrorSlider
                     errorCode={meta.error}
                     displayed={meta.touched && meta.error}
@@ -79,6 +107,27 @@ class EventEditor extends Component{
         return (
             <form onSubmit={handleSubmit(this.onSubmit)}>
                 <Container>
+
+                    <button type="button" onClick={this.test.bind(this)}>test</button>
+
+                    <Row>
+                        <Col>
+                            <Button type='submit' color='success' >
+                                <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button type='button' color='warning' >
+                                <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button type='button' color='danger' >
+                                <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
+                            </Button>
+                        </Col>
+                    </Row>
+
                     <Row>
                         <Col>
                             <Label>
@@ -94,24 +143,25 @@ class EventEditor extends Component{
 
                     <Row>
                         <Col sm='4'>
-                            <FileUploader />
+                            <Field
+                                name={'thumbnail'}
+                                component={this.renderFileUpload}
+                                validate={[required]}
+                            />
                         </Col>
                         <Col sm='8' className={"align-self-center"}>
                             <EventDateEditor />
                         </Col>
                     </Row>
 
-                    {/*<EventDateEditor />*/}
                     <PlaceHandler change={this.props.change}/>
 
-                    <button type="submit" >Submit</button>
-
-                    <button type="button" onClick={this.test.bind(this)}>test</button>
                     <Row>
                         <Col>
                             <Field
                                 name={'content'}
                                 component={this.renderCKEditor}
+                                validate={[required]}
                             />
                         </Col>
                     </Row>
@@ -151,17 +201,22 @@ const selector = formValueSelector('create_event');
 function mapStateToProps(state) {
     return {
         // todo: connect to redux, this is just for testing initial form values
-        // initialValues: {
-        //     time: {
-        //         startDay: Date.now()
-        //     }
-        //     ,
-        //     place: {
-        //         label: 'Liptovsky Hradok',
-        //         lat: '49.09725059408648',
-        //         lon: '19.625701904296875'
-        //     }
-        // },
+        initialValues: {
+            time: {
+                startDay: Date.now(),
+                endDay: Date.now(),
+                startTime: 80,
+                endTime: 90
+            },
+            place: {
+                label: 'Liptovsky Hradok',
+                address: 'Belanska 574/8',
+                lat: '49.09725059408648',
+                lon: '19.625701904296875'
+            },
+            eventTitle: 'Testing event',
+            content: '<p> Testovaci paragraf</p>'
+        },
         eventContent: selector(state, 'content')
     }
 }

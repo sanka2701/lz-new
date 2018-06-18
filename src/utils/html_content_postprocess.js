@@ -35,9 +35,10 @@ export default class HtmlContentPostprocess {
             }).catch(err => {
                 debugger;
             });
-        return result;
+        return `${ROOT_URL}/img/${result.replace(/\\/g,'/')}`;
     };
 
+    // todo: remove
     getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -52,7 +53,7 @@ export default class HtmlContentPostprocess {
             responseType: 'blob'
         }).then(response => {
             // todo: remove random number assignement - just dev purpose
-            file = new File([response.data], 'sovycka' + this.getRandomInt(0,9999) + '.jpg', {
+            file = new File([response.data], 'img' + this.getRandomInt(0,9999) + '.jpg', {
                 type: "image/jpeg"
             });
         }).catch(err => {
@@ -78,8 +79,7 @@ export default class HtmlContentPostprocess {
         const urlMap = {};
         for (let blobUrl of blobUrls) {
             const file = await this.blobUrlToFile(blobUrl);
-            const serverSideLocation = await this.uploadImg(file);
-            urlMap[blobUrl] = `${ROOT_URL}/img/${serverSideLocation.replace(/\\/g,'/')}`
+            urlMap[blobUrl] = await this.uploadImg(file);
         }
         return urlMap;
     };
