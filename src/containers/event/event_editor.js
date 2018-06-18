@@ -25,6 +25,9 @@ class EventEditor extends Component{
             .then(replaced => {
                 console.log(replaced)
             });
+
+        // get thumbnailUrl
+
         // resolve place
         if(!values.place.id) {
 
@@ -34,11 +37,18 @@ class EventEditor extends Component{
         // post
     }
 
+    mapAttrsToApi(formValues) {
+        const apiObject = {
+
+        }
+    }
+
     test() {
 
     }
 
     renderCKEditor = ({input: {onChange, value}}) => {
+        // todo: rewrite to es6 style without return statement
         return (
             <CKEditor
                 events={{
@@ -82,16 +92,16 @@ class EventEditor extends Component{
                         </Col>
                     </Row>
 
-                    {/*<Row>*/}
-                        {/*<Col sm='3'>*/}
-                            {/*<FileUploader />*/}
-                        {/*</Col>*/}
-                        {/*<Col sm='9'>*/}
-                            {/*<EventDateEditor />*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col sm='4'>
+                            <FileUploader />
+                        </Col>
+                        <Col sm='8' className={"align-self-center"}>
+                            <EventDateEditor />
+                        </Col>
+                    </Row>
 
-                    <EventDateEditor />
+                    {/*<EventDateEditor />*/}
                     <PlaceHandler change={this.props.change}/>
 
                     <button type="submit" >Submit</button>

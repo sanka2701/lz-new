@@ -1,8 +1,8 @@
 import React from 'react';
+import * as FontAwesome from 'react-icons/lib/fa'
 
 import './file_uploader_styles.css';
 
-// todo: fix
 class FileUploader extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +11,7 @@ class FileUploader extends React.Component {
             active: false,
             imageSrc: '',
             loaded: false
-        }
+        };
 
         this.onDragEnter  = this.onDragEnter.bind(this);
         this.onDragLeave  = this.onDragLeave.bind(this);
@@ -38,12 +38,13 @@ class FileUploader extends React.Component {
     }
 
     onFileChange(e, file) {
+        debugger;
         var file = file || e.target.files[0],
             pattern = /image-*/,
             reader = new FileReader();
 
         if (!file.type.match(pattern)) {
-            alert('Formato inválido');
+            // todo: set error for invalid format
             return;
         }
 
@@ -54,7 +55,7 @@ class FileUploader extends React.Component {
                 imageSrc: reader.result,
                 loaded: true
             });
-        }
+        };
 
         reader.readAsDataURL(file);
     }
@@ -79,18 +80,22 @@ class FileUploader extends React.Component {
                     : props.baseColor;
 
         return (
-            <label
-                className={labelClass}
-                onDragEnter={this.onDragEnter}
-                onDragLeave={this.onDragLeave}
-                onDragOver={this.onDragOver}
-                onDrop={this.onDrop}
-                style={{outlineColor: borderColor}}>
+            <div className={'upload-wrapper'}>
+                <label
+                    className={labelClass}
+                    onDragEnter={this.onDragEnter}
+                    onDragLeave={this.onDragLeave}
+                    onDragOver={this.onDragOver}
+                    onDrop={this.onDrop}
+                    style={{outlineColor: borderColor}}>
 
-                <img src={state.imageSrc} className={state.loaded && 'loaded'}/>
-                <i className="icon icon-upload" style={{ color: iconColor }}></i>
-                <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" hidden/>
-            </label>
+                    <img src={state.imageSrc} className={state.loaded ? 'loaded' : ''}/>
+                    <i className={`icon ${state.loaded ? 'loaded' : ''}`} style={{ color: iconColor }}>
+                        <FontAwesome.FaCloudUpload />
+                    </i>
+                    <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" hidden/>
+                </label>
+            </div>
         );
     }
 }
