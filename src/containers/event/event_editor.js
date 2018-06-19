@@ -5,6 +5,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Container, Row, Col, Button, Input, Label } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
+import { post } from '../../actions'
 import PlaceHandler from './place_handler';
 import EventDateEditor from '../../components/event_date_editor';
 import CKEditor from '../../components/external/ck_editor';
@@ -13,44 +14,48 @@ import ErrorSlider from '../../components/ui/error_slider';
 import { required } from '../../utils/valdiators';
 
 import HtmlContentPostprocess from '../../utils/html_content_postprocess';
+import { postWithResult } from '../../utils/helpers';
 
 class EventEditor extends Component{
 
     async onSubmit(values) {
-        debugger;
-
-        // process images
         const processor = new HtmlContentPostprocess();
-        const modifiedContent = await processor.postProcess(values.content);
-            // .then(replaced => {
-            //     console.log(replaced)
-            // });
-
-        // get thumbnailUrl
-        debugger;
-        // const thumbailFile = await processor.blobUrlToFile(values.thumbnail);
-        const thumbailFile = values.thumbnail;
-        debugger;
-        const thumbnailUrl = await processor.uploadImg(thumbailFile);
-        debugger;
-
-        // resolve place
-        if(!values.place.id) {
-
-        }
-        // map values to fit backend api
-
-        // post
-    }
-
-    mapAttrsToApi(formValues) {
         const apiObject = {
+            heading: values.eventTitle,
+            startDate: values.time.startDay,
+            startTime: values.time.startTime,
+            endDate: values.time.endDay,
+            endTime: values.time.endTime
+        };
+        apiObject.placeId = values.place.id || await this.postPlace(values.place);
+        apiObject.content = await processor.postProcess(values.content);
+        apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
 
-        }
+        debugger;
+        this.postEvent(apiObject);
     }
 
-    test() {
+    postEvent(event) {
+        const request = {
+            endpoint: 'events',
+            payload: event,
+            params: {},
+            successAction: 'ok',
+            failureAction: 'nok'
+        };
+        this.props.post(request);
+    }
 
+    async postPlace(place) {
+        const request = {
+            endpoint: 'places',
+            payload: place,
+            params: {},
+            successAction: 'ok',
+            failureAction: 'nok'
+        };
+        const storeResponse = await postWithResult(request);
+        return storeResponse.place.id;
     }
 
     renderCKEditor = ({input: {onChange, onBlur, value}, meta}) => {
@@ -105,11 +110,8 @@ class EventEditor extends Component{
         const { handleSubmit } = this.props;
 
         return (
-            <form onSubmit={handleSubmit(this.onSubmit)}>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Container>
-
-                    <button type="button" onClick={this.test.bind(this)}>test</button>
-
                     <Row>
                         <Col>
                             <Button type='submit' color='success' >
@@ -222,6 +224,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-    connect(mapStateToProps, {}),
+    connect(mapStateToProps, {post}),
     reduxForm({form: 'create_event', validate})
 )(EventEditor);

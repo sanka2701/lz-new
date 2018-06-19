@@ -1,6 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
-import FormData from 'form-data'
+import FormData from 'form-data';
 import { ROOT_URL } from './constant';
 
 export default class HtmlContentPostprocess {
