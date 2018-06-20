@@ -1,11 +1,10 @@
 import React from 'react';
-import { Row, Col, Label, FormGroup } from 'reactstrap';
-import { DropdownList, DateTimePicker } from 'react-widgets';
-import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
-import ErrorSlider from './ui/error_slider';
+import { Row, Col } from 'reactstrap';
 import { required } from '../utils/valdiators';
 import { timeToMilliseconds } from '../utils/helpers';
+
+import FormDateTimePicker from './ui/fields/form_date_time_picker';
+import FormDropdownList from './ui/fields/form_dropdown_list';
 
 //todo: move this configuration to more suitable place and support locale switch
 import momentLocaliser from 'react-widgets-moment';
@@ -19,46 +18,6 @@ console.log('slovak', moment.locale('sk'));
 
 moment.updateLocale('sk');
 momentLocaliser(moment);
-
-
-const renderDateTimePicker = ({ input: { onChange, onBlur, value }, meta}) => {
-    // debugger;
-    return (
-    <div>
-        <DateTimePicker
-            onChange={(val) => { val && onChange(val.getTime())}}
-            onBlur={() => onBlur(value)}
-            format="DD MMM YYYY"
-            time={false}
-            value={!value ? null : new Date(value)}
-        />
-        <ErrorSlider
-            errorCode={meta.error}
-            displayed={meta.touched && !!meta.error}
-        />
-    </div>
-)};
-
-const renderDropdownList = ({ input: {onBlur, onChange, value}, meta, data}) => (
-    //todo: find a way to extract localized message for emptyFiles
-    //todo: search by contains and not strict match
-    //todo: selecting value and the clicking outside of proposed list removes the previously selected value and sets it to empty
-    <div>
-        <DropdownList
-            value={value}
-            onChange={onChange}
-            onBlur={() => onBlur(value)}
-            filter
-            textField="label"
-            messages={{emptyFilter:'No options found'}}
-            data={data}
-        />
-        <ErrorSlider
-            errorCode={meta.error}
-            displayed={meta.touched && !!meta.error}
-        />
-    </div>
-);
 
 const PlaceDateEditor = () => {
     const getTimeSteps = () => {
@@ -78,53 +37,41 @@ const PlaceDateEditor = () => {
         <div>
             <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                 <Col sm='6'>
-                    <FormGroup>
-                        <Label>
-                            <FormattedMessage id={'event.startDay'} defaultMessage='Select start day'/>
-                        </Label>
-                        <Field
-                            name="time.startDay"
-                            component={renderDateTimePicker}
-                            validate={[required]}
-                        />
-                    </FormGroup>
+                    <FormDateTimePicker
+                        name="time.startDay"
+                        validate={[required]}
+                        messageId={'event.startDay'}
+                        defaultMessage='Select start day'
+                    />
                 </Col>
 
-                <Col>
-                    <FormGroup>
-                        <Label>
-                            <FormattedMessage id={'event.endDay'} defaultMessage='Select end day'/>
-                        </Label>
-                        <Field
-                            name="time.endDay"
-                            component={renderDateTimePicker}
-                            validate={[required]}
-                        />
-                    </FormGroup>
+                <Col sm='6'>
+                    <FormDateTimePicker
+                        name="time.endDay"
+                        validate={[required]}
+                        messageId={'event.endDay'}
+                        defaultMessage='Select end day'
+                    />
                 </Col>
             </Row>
 
             <Row style={{marginTop: '10px', marginBottom: '10px'}}>
                 <Col>
-                        <Label>
-                        <FormattedMessage id={'event.startTime'} defaultMessage='Select start time'/>
-                    </Label>
-                    <Field
+                    <FormDropdownList
                         name='time.startTime'
-                        component={renderDropdownList}
                         data={getTimeSteps()}
                         validate={[required]}
+                        messageId={'event.startTime'}
+                        defaultMessage='Select start time'
                     />
                 </Col>
                 <Col>
-                    <Label>
-                        <FormattedMessage id={'event.endTime'} defaultMessage='Select end time'/>
-                    </Label>
-                    <Field
+                    <FormDropdownList
                         name='time.endTime'
-                        component={renderDropdownList}
                         data={getTimeSteps()}
                         validate={[required]}
+                        messageId={'event.endTime'}
+                        defaultMessage='Select end time'
                     />
                 </Col>
             </Row>

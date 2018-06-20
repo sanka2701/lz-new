@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
-import { Container, Row, Col, Button, Input, Label } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
+import { reduxForm, formValueSelector } from 'redux-form';
+import { Container, Row, Col, Button } from 'reactstrap';
 
 import { post } from '../../actions'
-import PlaceHandler from './place_handler';
-import EventDateEditor from '../../components/event_date_editor';
-import CKEditor from '../../components/external/ck_editor';
-import FileUploader from '../../components/ui/file_uploader';
-import ErrorSlider from '../../components/ui/error_slider';
 import { required } from '../../utils/valdiators';
-
-import HtmlContentPostprocess from '../../utils/html_content_postprocess';
 import { postWithResult } from '../../utils/helpers';
-
-import InputWithLabel from '../../components/ui/fields/input_with_label';
+import EventDateEditor from '../../components/event_date_editor';
+import HtmlContentPostprocess from '../../utils/html_content_postprocess';
+import PlaceHandler from './place_handler';
+import FormInput from '../../components/ui/fields/form_input';
+import FormFileUpload from '../../components/ui/fields/form_file_upload';
+import FormContentEditor from '../../components/ui/fields/form_content_editor';
 
 class EventEditor extends Component{
 
@@ -29,11 +26,10 @@ class EventEditor extends Component{
             endDate: values.time.endDay,
             endTime: values.time.endTime
         };
-        apiObject.placeId = values.place.id || await this.postPlace(values.place);
+        apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
         apiObject.content = await processor.postProcess(values.content);
         apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
 
-        debugger;
         this.postEvent(apiObject);
     }
 
@@ -48,7 +44,7 @@ class EventEditor extends Component{
         this.props.post(request);
     }
 
-    async postPlace(place) {
+    static async postPlace(place) {
         const request = {
             endpoint: 'places',
             payload: place,
@@ -60,107 +56,63 @@ class EventEditor extends Component{
         return storeResponse.place.id;
     }
 
-    renderCKEditor = ({input: {onChange, onBlur, value}, meta}) => {
-        // todo: rewrite to es6 style without return statement
-        return (
-            <div>
-                <CKEditor
-                    events={{
-                        change : (event) => {
-                            onChange(event.editor.getData());
-                        },
-                        blur : (event) => {
-                            onBlur();
-                        },
-                    }}
-                    value={value}
-                />
-                <ErrorSlider
-                    errorCode={meta.error}
-                    displayed={meta.touched && meta.error}
-                />
-            </div>
-        )
-    };
-
-    renderInput = ({ input, meta }) => {
-        // debugger;
-        return (
-            <div>
-                <Input {...input} />
-                <ErrorSlider
-                    errorCode={meta.error}
-                    displayed={meta.touched && meta.error}
-                />
-            </div>
-        )
-    };
-
-    renderFileUpload = ({ input, meta }) => {
-        return (
-            <div>
-                <FileUploader {...input} />
-                <ErrorSlider
-                    errorCode={meta.error}
-                    displayed={meta.touched && meta.error}
-                />
-            </div>
-        )
-    };
-
     render() {
         const { handleSubmit } = this.props;
 
         return (
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Container>
-                    {/*<Row>*/}
-                        {/*<Col>*/}
-                            {/*<Button type='submit' color='success' >*/}
-                                {/*<FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                        {/*<Col>*/}
-                            {/*<Button type='button' color='warning' >*/}
-                                {/*<FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                        {/*<Col>*/}
-                            {/*<Button type='button' color='danger' >*/}
-                                {/*<FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col>
+                            <Button type='submit' color='success' >
+                                <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button type='button' color='warning' >
+                                <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button type='button' color='danger' >
+                                <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
+                            </Button>
+                        </Col>
+                    </Row>
 
-                    <InputWithLabel messageId={'event.eventTitle'}
-                                    defaultMessage={'Event title'}
-                                    name={'eventTitle'}
-                                    validate={[required]}/>
+                    <Row>
+                        <Col>
+                            <FormInput
+                                messageId={'event.eventTitle'}
+                                defaultMessage={'Event title'}
+                                name={'eventTitle'}
+                                validate={[required]}
+                            />
+                        </Col>
+                    </Row>
 
-                    {/*<Row>*/}
-                        {/*<Col sm='4'>*/}
-                            {/*<Field*/}
-                                {/*name={'thumbnail'}*/}
-                                {/*component={this.renderFileUpload}*/}
-                                {/*validate={[required]}*/}
-                            {/*/>*/}
-                        {/*</Col>*/}
-                        {/*<Col sm='8' className={"align-self-center"}>*/}
-                            {/*<EventDateEditor />*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col sm='4'>
+                            <FormFileUpload
+                                name={'thumbnail'}
+                                validate={[required]}
+                            />
+                        </Col>
+                        <Col sm='8' className={"align-self-center"}>
+                            <EventDateEditor />
+                        </Col>
+                    </Row>
 
-                    {/*<PlaceHandler change={this.props.change}/>*/}
+                    <PlaceHandler change={this.props.change} />
 
-                    {/*<Row>*/}
-                        {/*<Col>*/}
-                            {/*<Field*/}
-                                {/*name={'content'}*/}
-                                {/*component={this.renderCKEditor}*/}
-                                {/*validate={[required]}*/}
-                            {/*/>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col>
+                            <FormContentEditor
+                                name={'content'}
+                                validate={[required]}
+                            />
+                        </Col>
+                    </Row>
                 </Container>
             </form>
         )

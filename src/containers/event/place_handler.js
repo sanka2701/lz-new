@@ -9,11 +9,11 @@ import { post, get, fetchGooglePlace, placeSelected } from '../../actions/index'
 
 import { FormattedMessage } from 'react-intl';
 import AutocompleteInput from '../../components/autocomplete_input';
+import FormInput from '../../components/ui/fields/form_input';
 
 import MapDisplay from '../../components/map/map_display';
 import MapEditor from '../../components/map/map_editor';
 
-// todo: if editor is opened with pre-set values update maps to given lat and lon
 class PlaceHandler extends Component{
     constructor(props){
         super(props);
@@ -45,19 +45,6 @@ class PlaceHandler extends Component{
             failureAction: 'nok'
         };
         this.props.get(request);
-    }
-
-    submit() {
-        // todo: remove - test only
-        const request = {
-            endpoint: 'places',
-            // payload: {label: 'ahoj', address: 'volaka adresa', lon: 19.475004443359353, lat: 49.07840145059205},
-            payload: this.state.selectedPlace,
-            params: {},
-            successAction: 'ok',
-            failureAction: 'nok'
-        };
-        this.props.post(request);
     }
 
     onSuggestionPlaceSelect(name) {
@@ -93,16 +80,6 @@ class PlaceHandler extends Component{
                 onSuggestionSelect={(label) => { input.onChange(label); this.onSuggestionPlaceSelect(label); }}
                 suggestions={suggestions}
             />
-            <ErrorSlider
-                errorCode={meta.error}
-                displayed={meta.touched && meta.error}
-            />
-        </div>
-    );
-
-    renderInput = ({input, disabled, meta}) => (
-        <div>
-            <Input {...input} disabled={disabled}/>
             <ErrorSlider
                 errorCode={meta.error}
                 displayed={meta.touched && meta.error}
@@ -151,39 +128,33 @@ class PlaceHandler extends Component{
                 <Collapse isOpen={this.state.showMap}>
                     <Row style={{marginTop: '10px', marginBottom: '10px'}}>
                         <Col sm="12">
-                            <Label>
-                                <FormattedMessage id={'places.address'} defaultMessage='Address'/>
-                            </Label>
-                            <Field
+                            <FormInput
+                                messageId={'places.address'}
+                                defaultMessage={'Address'}
                                 name={'place.address'}
-                                component={this.renderInput}
-                                disabled={!this.state.createNewPlace}
                                 validate={[required]}
+                                disabled={!this.state.createNewPlace}
                             />
                         </Col>
                     </Row>
 
                     <Row style={{marginTop: '10px', marginBottom: '10px'}}>
                         <Col sm="6">
-                            <Label>
-                                <FormattedMessage id={'places.lat'} defaultMessage='Latitude'/>
-                            </Label>
-                            <Field
+                            <FormInput
+                                messageId={'places.lat'}
+                                defaultMessage={'Latitude'}
                                 name={'place.lat'}
-                                component={this.renderInput}
-                                disabled={true}
                                 validate={[required]}
+                                disabled={true}
                             />
                         </Col>
                         <Col sm="6">
-                            <Label>
-                                <FormattedMessage id={'places.lon'} defaultMessage='Longitude'/>
-                            </Label>
-                            <Field
+                            <FormInput
+                                messageId={'places.lon'}
+                                defaultMessage={'Longitude'}
                                 name={'place.lon'}
-                                component={this.renderInput}
-                                disabled={true}
                                 validate={[required]}
+                                disabled={true}
                             />
                         </Col>
                     </Row>
@@ -194,10 +165,6 @@ class PlaceHandler extends Component{
                         <MapDisplay selectedPlace={this.state.selectedPlace} />
                     )}
                 </Collapse>
-
-
-                {/*<button type='button' onClick={this.submit.bind(this)}>post</button>*/}
-                {/*<button type='button' onClick={this.get.bind(this)}>get</button>*/}
             </div>
         )
     }
@@ -220,5 +187,3 @@ PlaceHandler.defaultProps = {
 };
 
 export default connect(mapStateToProps, { post, get, fetchGooglePlace, placeSelected })(PlaceHandler);
-
-
