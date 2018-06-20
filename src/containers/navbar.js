@@ -58,7 +58,7 @@ class SiteNavigation extends Component {
                         </Nav>
                         <Nav navbar>
                             {
-                                //todo: move to separate component
+                                //todo: move to separate components
                                 this.props.currentUser ? (
                                     <NavItem>
                                         <NavLink onClick={() => this.props.logoutUser()} tag={Link} to='/'>

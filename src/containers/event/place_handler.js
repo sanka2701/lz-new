@@ -9,7 +9,9 @@ import { post, get, fetchGooglePlace, placeSelected } from '../../actions/index'
 
 import { FormattedMessage } from 'react-intl';
 import AutocompleteInput from '../../components/autocomplete_input';
+
 import FormInput from '../../components/ui/fields/form_input';
+import FormAutocomplete from '../../components/ui/fields/form_autocomplete';
 
 import MapDisplay from '../../components/map/map_display';
 import MapEditor from '../../components/map/map_editor';
@@ -72,7 +74,7 @@ class PlaceHandler extends Component{
         })
     }
 
-    renderAutocomplete = ({ input, suggestions, meta}) => (
+    renderAutocomplete = ({ input, suggestions, meta }) => (
         <div>
             <AutocompleteInput
                 {...input}
@@ -105,23 +107,14 @@ class PlaceHandler extends Component{
 
                 <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                     <Col sm="12">
-                        <FormGroup>
-                            <Label>
-                                {
-                                    this.state.createNewPlace ? (
-                                        <FormattedMessage id={'places.nameLabel'} defaultMessage='Name the place'/>
-                                    ) : (
-                                        <FormattedMessage id={'places.searchLabel'} defaultMessage='Search for place'/>
-                                    )
-                                }
-                            </Label>
-
-                            <Field
-                                name={'place.label'}
-                                component={this.renderAutocomplete}
-                                suggestions={this.props.suggestions}
-                            />
-                        </FormGroup>
+                        <FormAutocomplete
+                            name={'place.label'}
+                            suggestions={this.props.suggestions}
+                            messageId={this.state.createNewPlace ? 'places.nameLabel' : 'places.searchLabel'}
+                            defaultMessage={this.state.createNewPlace ? 'Name the place' : 'Search for place'}
+                            onSuggestionPlaceSelect={this.onSuggestionPlaceSelect.bind(this)}
+                            getValues={this.get.bind(this)}
+                        />
                     </Col>
                 </Row>
 
