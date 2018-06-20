@@ -16,6 +16,8 @@ import { required } from '../../utils/valdiators';
 import HtmlContentPostprocess from '../../utils/html_content_postprocess';
 import { postWithResult } from '../../utils/helpers';
 
+import InputWithLabel from '../../components/ui/fields/input_with_label';
+
 class EventEditor extends Component{
 
     async onSubmit(values) {
@@ -112,61 +114,53 @@ class EventEditor extends Component{
         return (
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Container>
-                    <Row>
-                        <Col>
-                            <Button type='submit' color='success' >
-                                <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button type='button' color='warning' >
-                                <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button type='button' color='danger' >
-                                <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
-                            </Button>
-                        </Col>
-                    </Row>
+                    {/*<Row>*/}
+                        {/*<Col>*/}
+                            {/*<Button type='submit' color='success' >*/}
+                                {/*<FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>*/}
+                            {/*</Button>*/}
+                        {/*</Col>*/}
+                        {/*<Col>*/}
+                            {/*<Button type='button' color='warning' >*/}
+                                {/*<FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>*/}
+                            {/*</Button>*/}
+                        {/*</Col>*/}
+                        {/*<Col>*/}
+                            {/*<Button type='button' color='danger' >*/}
+                                {/*<FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>*/}
+                            {/*</Button>*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
 
-                    <Row>
-                        <Col>
-                            <Label>
-                                <FormattedMessage id={'event.eventTitle'} defaultMessage='Event title'/>
-                            </Label>
-                            <Field
-                                name={'eventTitle'}
-                                component={this.renderInput}
-                                validate={[required]}
-                            />
-                        </Col>
-                    </Row>
+                    <InputWithLabel messageId={'event.eventTitle'}
+                                    defaultMessage={'Event title'}
+                                    name={'eventTitle'}
+                                    validate={[required]}/>
 
-                    <Row>
-                        <Col sm='4'>
-                            <Field
-                                name={'thumbnail'}
-                                component={this.renderFileUpload}
-                                validate={[required]}
-                            />
-                        </Col>
-                        <Col sm='8' className={"align-self-center"}>
-                            <EventDateEditor />
-                        </Col>
-                    </Row>
+                    {/*<Row>*/}
+                        {/*<Col sm='4'>*/}
+                            {/*<Field*/}
+                                {/*name={'thumbnail'}*/}
+                                {/*component={this.renderFileUpload}*/}
+                                {/*validate={[required]}*/}
+                            {/*/>*/}
+                        {/*</Col>*/}
+                        {/*<Col sm='8' className={"align-self-center"}>*/}
+                            {/*<EventDateEditor />*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
 
-                    <PlaceHandler change={this.props.change}/>
+                    {/*<PlaceHandler change={this.props.change}/>*/}
 
-                    <Row>
-                        <Col>
-                            <Field
-                                name={'content'}
-                                component={this.renderCKEditor}
-                                validate={[required]}
-                            />
-                        </Col>
-                    </Row>
+                    {/*<Row>*/}
+                        {/*<Col>*/}
+                            {/*<Field*/}
+                                {/*name={'content'}*/}
+                                {/*component={this.renderCKEditor}*/}
+                                {/*validate={[required]}*/}
+                            {/*/>*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
                 </Container>
             </form>
         )
