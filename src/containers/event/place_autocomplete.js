@@ -4,8 +4,7 @@ import { formValueSelector } from 'redux-form';
 import { get, placeSelected } from '../../actions/index';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-
-const WAIT_INTERVAL = 270;
+import { INPUT_SEARCH_DELAY } from '../../utils/constant';
 
 class PlaceAutocomplete extends React.Component {
     constructor(props) {
@@ -48,7 +47,7 @@ class PlaceAutocomplete extends React.Component {
 
         this.setState({ value });
         clearTimeout(this.timer);
-        this.timer = setTimeout(this.triggerFetch, WAIT_INTERVAL);
+        this.timer = setTimeout(this.triggerFetch, INPUT_SEARCH_DELAY);
     }
 
     onSuggestionSelect(label) {

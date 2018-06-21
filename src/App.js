@@ -5,6 +5,7 @@ import SiteNavigation from './containers/navbar';
 import { get } from "./actions/index";
 import { AUTH_USER, AUTH_ERROR } from './actions/types'
 import axios from 'axios';
+import ModalExample from "./components/modal";
 
 class App extends Component {
     componentDidMount() {
@@ -36,6 +37,7 @@ class App extends Component {
         return (
             <div>
                 <SiteNavigation />
+                <ModalExample />
                 {this.props.children}
             </div>
         );

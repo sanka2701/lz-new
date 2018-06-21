@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 import { fetchGooglePlace, placeSelected } from '../../actions/index';
 import { Row, Col } from 'reactstrap';
 import MapPicker from '../../components/map/map_picker'
@@ -26,19 +26,18 @@ class MapEditor extends Component{
         }
     }
 
-    //todo: refactor
     setMarker(placeInfo) {
         const oldMarker = this.state.marker;
         oldMarker && oldMarker.setMap(null);
 
         const place = {
-            lat: placeInfo ? placeInfo.lat : '',
-            lon: placeInfo ? placeInfo.lon : '',
-            placeid: placeInfo ? placeInfo.placeid : null
+            lat: placeInfo.lat || '',
+            lon: placeInfo.lon || '',
+            placeid: placeInfo.placeid || ''
         };
 
         this.setState(prevState => ({
-            marker: placeInfo ? placeInfo.marker : null,
+            marker: placeInfo.marker || null,
             selectedPlace: {
                 ...prevState.selectedPlace,
                 lat: place.lon,
@@ -46,11 +45,9 @@ class MapEditor extends Component{
             }
         }));
 
-        if( place.placeid ) {
-            this.props.fetchGooglePlace(place.placeid);
-        } else {
+         place.placeid ?
+            this.props.fetchGooglePlace(place.placeid) :
             this.props.placeSelected({lat: place.lat, lon: place.lon, address: '', label: ''});
-        }
     }
 
     render() {
@@ -59,7 +56,7 @@ class MapEditor extends Component{
                 <Row style={{marginTop: '10px', marginBottom: '10px'}}>
                     <Col>
                         <MapPicker
-                            onMarkerSet={(placeInfo) => {this.setMarker(placeInfo)}}
+                            onMarkerSet={this.setMarker}
                             selectedPlace={this.state.selectedPlace}
                         />
                     </Col>

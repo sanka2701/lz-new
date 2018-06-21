@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Collapse } from 'reactstrap';
 import { required } from '../../utils/valdiators';
-
-import { fetchGooglePlace } from '../../actions/index';
-
 import MapDisplay from '../../components/map/map_display';
 import MapEditor from './map_editor';
 import FormInput from '../../components/ui/fields/form_input';
@@ -126,4 +123,4 @@ PlaceHandler.defaultProps = {
     }
 };
 
-export default connect(mapStateToProps, { fetchGooglePlace })(PlaceHandler);
+export default connect(mapStateToProps)(PlaceHandler);

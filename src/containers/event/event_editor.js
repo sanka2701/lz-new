@@ -62,57 +62,57 @@ class EventEditor extends Component{
         return (
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Container>
-                    {/*<Row>*/}
-                        {/*<Col>*/}
-                            {/*<Button type='submit' color='success' >*/}
-                                {/*<FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                        {/*<Col>*/}
-                            {/*<Button type='button' color='warning' >*/}
-                                {/*<FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                        {/*<Col>*/}
-                            {/*<Button type='button' color='danger' >*/}
-                                {/*<FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col>
+                            <Button type='submit' color='success' >
+                                <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button type='button' color='warning' >
+                                <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button type='button' color='danger' >
+                                <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
+                            </Button>
+                        </Col>
+                    </Row>
 
-                    {/*<Row>*/}
-                        {/*<Col>*/}
-                            {/*<FormInput*/}
-                                {/*messageId={'event.eventTitle'}*/}
-                                {/*defaultMessage={'Event title'}*/}
-                                {/*name={'eventTitle'}*/}
-                                {/*validate={[required]}*/}
-                            {/*/>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col>
+                            <FormInput
+                                messageId={'event.eventTitle'}
+                                defaultMessage={'Event title'}
+                                name={'eventTitle'}
+                                validate={[required]}
+                            />
+                        </Col>
+                    </Row>
 
-                    {/*<Row>*/}
-                        {/*<Col sm='4'>*/}
-                            {/*<FormFileUpload*/}
-                                {/*name={'thumbnail'}*/}
-                                {/*validate={[required]}*/}
-                            {/*/>*/}
-                        {/*</Col>*/}
-                        {/*<Col sm='8' className={"align-self-center"}>*/}
-                            {/*<EventDateEditor />*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col sm='4'>
+                            <FormFileUpload
+                                name={'thumbnail'}
+                                validate={[required]}
+                            />
+                        </Col>
+                        <Col sm='8' className={"align-self-center"}>
+                            <EventDateEditor />
+                        </Col>
+                    </Row>
 
                     <PlaceHandler change={this.props.change} />
 
-                    {/*<Row>*/}
-                        {/*<Col>*/}
-                            {/*<FormContentEditor*/}
-                                {/*name={'content'}*/}
-                                {/*validate={[required]}*/}
-                            {/*/>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
+                    <Row>
+                        <Col>
+                            <FormContentEditor
+                                name={'content'}
+                                validate={[required]}
+                            />
+                        </Col>
+                    </Row>
                 </Container>
             </form>
         )
