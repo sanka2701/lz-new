@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field } from 'redux-form';
-import { FormGroup, Label, Row, Col, Input, Button, Collapse } from 'reactstrap';
-import ErrorSlider from '../../components/ui/error_slider';
+import { Row, Col, Button, Collapse } from 'reactstrap';
 import { required } from '../../utils/valdiators';
 
-import { post, get, fetchGooglePlace, placeSelected } from '../../actions/index';
-
-import { FormattedMessage } from 'react-intl';
-import AutocompleteInput from '../../components/autocomplete_input';
-
-import FormInput from '../../components/ui/fields/form_input';
-import FormAutocomplete from '../../components/ui/fields/form_autocomplete';
+import { fetchGooglePlace } from '../../actions/index';
 
 import MapDisplay from '../../components/map/map_display';
-import MapEditor from '../../components/map/map_editor';
+import MapEditor from './map_editor';
+import FormInput from '../../components/ui/fields/form_input';
+import PlaceAutocomplete from './place_autocomplete';
 
 class PlaceHandler extends Component{
     constructor(props){
         super(props);
-        this.onSuggestionPlaceSelect = this.onSuggestionPlaceSelect.bind(this);
+        // todo: map marker is not ser when initialized with values
         this.state = {
             showMap: true,
             selectedPlace: props.selectedPlace,
@@ -38,30 +32,6 @@ class PlaceHandler extends Component{
         }
     }
 
-    get(subname) {
-        console.log('Fetching place suggestions ....');
-        const request = {
-            endpoint: 'places',
-            params: {subname},
-            successAction: 'PLACES_RECEIVED',
-            failureAction: 'nok'
-        };
-        this.props.get(request);
-    }
-
-    onSuggestionPlaceSelect(name) {
-        console.log('Suggestion selected ....');
-        this.props.placeSelected(this.props.suggestions[name]);
-    }
-
-    onMapPlaceSelect({placeid, lat, lon}) {
-        if( placeid ) {
-            this.props.fetchGooglePlace(placeid);
-        } else {
-            this.props.placeSelected({lat, lon, address: '', label: ''});
-        }
-    }
-
     togglePickCreate() {
         this.setState({
             createNewPlace: !this.state.createNewPlace
@@ -73,21 +43,6 @@ class PlaceHandler extends Component{
             showMap : !this.state.showMap
         })
     }
-
-    renderAutocomplete = ({ input, suggestions, meta }) => (
-        <div>
-            <AutocompleteInput
-                {...input}
-                onInputChange={(value) => { input.onChange(value); this.get(value); }}
-                onSuggestionSelect={(label) => { input.onChange(label); this.onSuggestionPlaceSelect(label); }}
-                suggestions={suggestions}
-            />
-            <ErrorSlider
-                errorCode={meta.error}
-                displayed={meta.touched && meta.error}
-            />
-        </div>
-    );
 
     render() {
         return (
@@ -107,14 +62,7 @@ class PlaceHandler extends Component{
 
                 <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                     <Col sm="12">
-                        <FormAutocomplete
-                            name={'place.label'}
-                            suggestions={this.props.suggestions}
-                            messageId={this.state.createNewPlace ? 'places.nameLabel' : 'places.searchLabel'}
-                            defaultMessage={this.state.createNewPlace ? 'Name the place' : 'Search for place'}
-                            onSuggestionPlaceSelect={this.onSuggestionPlaceSelect.bind(this)}
-                            getValues={this.get.bind(this)}
-                        />
+                        <PlaceAutocomplete />
                     </Col>
                 </Row>
 
@@ -153,7 +101,7 @@ class PlaceHandler extends Component{
                     </Row>
 
                     {this.state.createNewPlace ? (
-                        <MapEditor onPlaceSelect={this.onMapPlaceSelect.bind(this)} selectedPlace={this.state.selectedPlace}/>
+                        <MapEditor  selectedPlace={this.state.selectedPlace}/>
                     ) : (
                         <MapDisplay selectedPlace={this.state.selectedPlace} />
                     )}
@@ -165,7 +113,6 @@ class PlaceHandler extends Component{
 
 function mapStateToProps(state) {
     return {
-        suggestions: state.places.suggestions,
         selectedPlace : state.places.selectedPlace
     }
 }
@@ -179,4 +126,4 @@ PlaceHandler.defaultProps = {
     }
 };
 
-export default connect(mapStateToProps, { post, get, fetchGooglePlace, placeSelected })(PlaceHandler);
+export default connect(mapStateToProps, { fetchGooglePlace })(PlaceHandler);

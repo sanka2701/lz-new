@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from "prop-types";
+import { fetchGooglePlace, placeSelected } from '../../actions/index';
 import { Row, Col } from 'reactstrap';
-import MapPicker from './map_picker'
+import MapPicker from '../../components/map/map_picker'
 
 class MapEditor extends Component{
     constructor(props){
@@ -9,8 +11,7 @@ class MapEditor extends Component{
         this.setMarker = this.setMarker.bind(this);
         this.state = {
             marker: null,
-            selectedPlace: props.selectedPlace,
-            placeSetFromPicker: false
+            selectedPlace: props.selectedPlace
         }
     }
 
@@ -22,10 +23,10 @@ class MapEditor extends Component{
     componentWillReceiveProps({selectedPlace}) {
         if (selectedPlace !== this.state.selectedPlace) {
             this.setState({ selectedPlace });
-            this.setState({placeSetFromPicker: false});
         }
     }
 
+    //todo: refactor
     setMarker(placeInfo) {
         const oldMarker = this.state.marker;
         oldMarker && oldMarker.setMap(null);
@@ -37,7 +38,6 @@ class MapEditor extends Component{
         };
 
         this.setState(prevState => ({
-            placeSetFromPicker: true,
             marker: placeInfo ? placeInfo.marker : null,
             selectedPlace: {
                 ...prevState.selectedPlace,
@@ -46,7 +46,11 @@ class MapEditor extends Component{
             }
         }));
 
-        this.props.onPlaceSelect(place);
+        if( place.placeid ) {
+            this.props.fetchGooglePlace(place.placeid);
+        } else {
+            this.props.placeSelected({lat: place.lat, lon: place.lon, address: '', label: ''});
+        }
     }
 
     render() {
@@ -57,7 +61,6 @@ class MapEditor extends Component{
                         <MapPicker
                             onMarkerSet={(placeInfo) => {this.setMarker(placeInfo)}}
                             selectedPlace={this.state.selectedPlace}
-                            renderPredefinedMarkers={this.state.placeSetFromPicker}
                         />
                     </Col>
                 </Row>
@@ -82,4 +85,4 @@ MapEditor.defaultProps = {
     }
 };
 
-export default MapEditor;
+export default connect(null, { fetchGooglePlace, placeSelected })(MapEditor);

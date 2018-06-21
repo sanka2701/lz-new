@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Autocomplete from 'react-autocomplete';
-import _ from 'lodash';
 
 // todo: do not callOnInputChange callback for each keystroke but wait for some time first
 class AutocompleteInput extends Component {
@@ -9,13 +8,13 @@ class AutocompleteInput extends Component {
         super(props);
         this.state = {
             value: props.value,
-            suggestions: _.values(props.suggestions)
+            suggestions: props.suggestions
         }
     }
 
     componentWillReceiveProps({suggestions, value}) {
         if (suggestions !== this.state.suggestions) {
-            this.setState({ suggestions: _.values(suggestions) });
+            this.setState({ suggestions });
         }
         if (value !== this.state.value) {
             this.setState({ value });
@@ -28,7 +27,7 @@ class AutocompleteInput extends Component {
                 getItemValue={(item) => item.label}
                 items={this.state.suggestions}
                 renderItem={(item, isHighlighted) =>
-                    <div key={item.id} style={{background: isHighlighted ? 'lightgray' : 'white'}}>
+                    <div key={item.label} style={{background: isHighlighted ? 'lightgray' : 'white'}}>
                         {item.label}
                     </div>
                 }
@@ -54,7 +53,8 @@ class AutocompleteInput extends Component {
 AutocompleteInput.propTypes = {
     onInputChange: PropTypes.func.isRequired,
     onSuggestionSelect: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.string,
+    suggestions: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default AutocompleteInput;

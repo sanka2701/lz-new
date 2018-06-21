@@ -4,7 +4,7 @@ import _ from 'lodash';
 export default function (state = {}, action) {
     switch (action.type) {
         case PLACES_RECEIVED:
-            return {suggestions: _.mapKeys(action.payload.places, 'name')};
+            return {suggestions: _.mapKeys(action.payload.places, 'label')};
         case PLACE_SELECTED:
             return {...state, selectedPlace: action.payload};
         case GOOGLE_PLACE_SELECTED:

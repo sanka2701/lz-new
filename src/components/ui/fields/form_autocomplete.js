@@ -6,11 +6,12 @@ import withLabel from './decorators/with_label';
 import withErrorSlider from './decorators/with_error_slider';
 
 
-const BasicAutocomplete = ({ onChange, suggestions, getValues, onSuggestionPlaceSelect, props }) => (
+const BasicAutocomplete = ({ onChange, suggestions, onSuggestionSelect, value, onInputChange, ...props }) => (
     <AutocompleteInput
         {...props}
-        onInputChange={(value) => { onChange(value); getValues(value); }}
-        onSuggestionSelect={(label) => { onChange(label); onSuggestionPlaceSelect(label); }}
+        value={value}
+        onInputChange={(value) => { onChange(value); onInputChange(value); }}
+        onSuggestionSelect={(label) => { onChange(label); onSuggestionSelect(label); }}
         suggestions={suggestions}
     />
 );
