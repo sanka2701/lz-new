@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-import { LOCALE_CHANGED } from './types';
-import { AUTH_USER } from './types';
-import { AUTH_USER_OUT } from './types';
-import { AUTH_ERROR, GOOGLE_PLACE_SELECTED, PLACE_SELECTED } from './types';
+import { LOCALE_CHANGED, ERROR_DISMISSED, ERROR_SAVING_PLACE } from './types';
+import { AUTH_USER, AUTH_ERROR, AUTH_USER_OUT} from './types';
+import { PLACES_CLEARED, GOOGLE_PLACE_SELECTED, PLACE_SELECTED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 
@@ -11,6 +10,28 @@ export const changeLocale = (locale)  => {
     return {
         type: LOCALE_CHANGED,
         payload: locale
+    }
+};
+
+export const dismissModalError = () => {
+    return {
+        type: ERROR_DISMISSED,
+        payload: null
+    }
+};
+
+//todo: remove, just testing purposes
+export const testAction = () => {
+    return {
+        type: ERROR_SAVING_PLACE,
+        payload: null
+    }
+};
+
+export const clearSuggestions = () => {
+    return {
+        type: PLACES_CLEARED,
+        payload: null
     }
 };
 

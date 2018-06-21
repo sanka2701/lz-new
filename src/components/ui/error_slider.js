@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
-import './error_slider_style.css';
+import './error_slider_styles.css';
 
 export default function ({ errorCode, displayed }) {
     return(
