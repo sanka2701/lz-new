@@ -10,7 +10,7 @@ import { required } from '../../utils/valdiators';
 import { postWithResult } from '../../utils/helpers';
 import EventDateEditor from '../../components/event_date_editor';
 import HtmlContentPostprocess from '../../utils/html_content_postprocess';
-import PlaceHandler from './place_handler';
+import PlaceHandler from '../place/place_handler';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form_content_editor';
@@ -18,6 +18,7 @@ import FormContentEditor from '../../components/ui/fields/form_content_editor';
 class EventEditor extends Component{
 
     async onSubmit(values) {
+        debugger;
         const processor = new HtmlContentPostprocess();
         const apiObject = {
             heading: values.eventTitle,

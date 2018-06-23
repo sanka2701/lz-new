@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Collapse,
     Navbar,
@@ -14,9 +14,12 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeLocale, logoutUser } from '../actions/index';
+import { changeLocale, logoutUser } from '../../actions/index';
 
-class SiteNavigation extends Component {
+import UserLoggedIn from '../../components/header/logged_in';
+import UserLoggedOut from '../../components/header/logged_out';
+
+class SiteNavigation extends React.Component {
     constructor(props) {
         super(props);
 
@@ -51,36 +54,21 @@ class SiteNavigation extends Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to='/createEvent'>
+                                <NavLink tag={Link} to='/events'>
                                     <FormattedMessage id='nav.events' defaultMessage='Events' />
                                 </NavLink>
                             </NavItem>
                         </Nav>
                         <Nav navbar>
                             {
-                                //todo: move to separate components
                                 this.props.currentUser ? (
-                                    <NavItem>
-                                        <NavLink onClick={() => this.props.logoutUser()} tag={Link} to='/'>
-                                            <FormattedMessage id='nav.logout' defaultMessage='Log Out' />
-                                        </NavLink>
-                                    </NavItem>
+                                    <UserLoggedIn
+                                        onLogOut={this.props.logoutUser}
+                                        userName={this.props.currentUser.username}
+                                        role={this.props.currentUser.role}
+                                    />
                                 ) : (
-                                        <NavItem>
-                                            <NavLink tag={Link} to='/login'>
-                                                <FormattedMessage id='nav.login' defaultMessage='Log In' />
-                                            </NavLink>
-                                        </NavItem>
-                                )
-                            }
-
-                            {
-                                !this.props.currentUser && (
-                                    <NavItem>
-                                        <NavLink tag={Link} to='/register'>
-                                            <FormattedMessage id='nav.register' defaultMessage='Register' />
-                                        </NavLink>
-                                    </NavItem>
+                                    <UserLoggedOut />
                                 )
                             }
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Row, Col, Button, Collapse } from 'reactstrap';
 import { required } from '../../utils/valdiators';
 import MapDisplay from '../../components/map/map_display';
-import MapEditor from './map_editor';
+import MapEditor from '../map/map_editor';
 import FormInput from '../../components/ui/fields/form_input';
 import PlaceAutocomplete from './place_autocomplete';
 

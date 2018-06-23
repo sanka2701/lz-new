@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Jumbotron, Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import SiteNavigation from './containers/navbar';
+import SiteNavigation from './containers/header/navbar';
 import { get } from "./actions/index";
 import { AUTH_USER, AUTH_ERROR } from './actions/types'
 import axios from 'axios';
@@ -39,9 +40,13 @@ class App extends Component {
         return (
             <div>
                 <SiteNavigation />
-                <Spinner />
-                <ModalExample />
-                {this.props.children}
+                <Container>
+                    {/*<Jumbotron>*/}
+                        {/*<Spinner />*/}
+                        {/*<ModalExample />*/}
+                        {this.props.children}
+                    {/*</Jumbotron>*/}
+                </Container>
             </div>
         );
     }
