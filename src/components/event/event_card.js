@@ -8,7 +8,7 @@ export default ({event}) => {
     return (
         <div>
             <Card>
-                <CardImg top width="100%" src={event.thumbnail} />
+                <CardImg top src={event.thumbnail} style={{maxHeight: '25vw'}}/>
                 <CardBody>
                     <CardTitle>{event.heading}</CardTitle>
                     <CardSubtitle>Card subtitle</CardSubtitle>

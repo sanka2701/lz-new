@@ -8,21 +8,11 @@ import DOMPurify from 'dompurify';
 import MapDisplay from '../../components/map/map_display';
 import Spinner from '../../components/ui/spinner';
 
+import EventInfo from '../../components/event/event_info_bar';
+
+import './ckeditor_styles.css'
+
 class EventDetail extends React.Component {
-
-    componentWillReceiveProps({ event }) {
-        if (event) {
-            const { placeId } = event;
-            const request = {
-                endpoint: 'places/id/',
-                params: { id : placeId },
-                successAction: PLACE_RECEIVED,
-                failureAction: 'nok'
-            };
-            this.props.get(request);
-        }
-    }
-
     componentDidMount(){
         if(!this.props.event) {
             const {id} = this.props.match.params;
@@ -34,13 +24,28 @@ class EventDetail extends React.Component {
             };
 
             this.props.get(request);
+        } else {
+            this.loadPlace();
         }
+    }
+
+    loadPlace(){
+        const { placeId } = this.props.event;
+        const request = {
+            endpoint: 'places/id/',
+            params: { id : placeId },
+            successAction: PLACE_RECEIVED,
+            failureAction: 'nok'
+        };
+        this.props.get(request);
     }
 
     render(){
         const { event, place } = this.props;
 
         if(!event || !place) {
+            // todo: not a good place ... think of a better way to load place after event
+            !!event && this.loadPlace();
             return (
                 <div>
                     Loading ... <br />
@@ -53,13 +58,13 @@ class EventDetail extends React.Component {
             <div>
                 <Row>
                     <Col>
-                        <img src={event.thumbnail} />
+                        <img src={event.thumbnail} style={{ maxWidth: '100%', maxHeight: '100vh', height: 'auto' }}/>
                     </Col>
                 </Row>
 
                 <Row>
                     <Col>
-                        <MapDisplay selectedPlace={place} />
+                        <EventInfo event={event} place={place} />
                     </Col>
                 </Row>
 
@@ -82,12 +87,12 @@ class EventDetail extends React.Component {
 }
 
 // EventDetail.defaultProps = {
-//     event: {}
+//     event: null,
+//     place: null
 // };
 
 const mapStateToProps = ({ events, places }, ownProps) => {
     const { id } = ownProps.match.params;
-    // debugger;
     return {
         event: events[id],
         place: places.selectedPlace

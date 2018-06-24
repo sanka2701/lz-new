@@ -44,7 +44,7 @@ class PlaceHandler extends Component{
     render() {
         return (
             <div>
-                <Row>
+                <Row style={{textAlign: 'center'}}>
                     <Col>
                         <Button color="primary" type='button' onClick={this.togglePickCreate.bind(this)}>
                             Create/Pick

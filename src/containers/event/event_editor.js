@@ -63,7 +63,7 @@ class EventEditor extends Component{
         return (
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Container>
-                    <Row>
+                    <Row style={{textAlign: 'center'}}>
                         <Col>
                             <Button type='submit' color='success' >
                                 <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>

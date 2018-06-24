@@ -8,9 +8,6 @@ div .spinning{
     animation: up 1s;
     animation-iteration-count: infinite;
     transition:2s;
-    /*border: 1px solid red;*/
-    /*border-bottom:none;*/
-    /*border-right:none;*/
     animation-timing-function:linear;
     margin-left: -70px;
     margin-top: -70px;
