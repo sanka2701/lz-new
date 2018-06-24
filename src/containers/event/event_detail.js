@@ -10,8 +10,6 @@ import Spinner from '../../components/ui/spinner';
 
 import EventInfo from '../../components/event/event_info_bar';
 
-import './ckeditor_styles.css'
-
 class EventDetail extends React.Component {
     componentDidMount(){
         if(!this.props.event) {
