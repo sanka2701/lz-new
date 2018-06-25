@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { reduxForm, formValueSelector } from 'redux-form';
-import { Container, Row, Col, Button } from 'reactstrap';
-
+import Spinner from '../../components/ui/spinner';
 import { post, get } from '../../actions'
-import { required } from '../../utils/valdiators';
 import { postWithResult } from '../../utils/helpers';
-import EventDateEditor from '../../components/event_date_editor';
 import HtmlContentPostprocess from '../../utils/html_content_postprocess';
-import PlaceHandler from '../place/place_handler';
-import FormInput from '../../components/ui/fields/form_input';
-import FormFileUpload from '../../components/ui/fields/form_file_upload';
-import FormContentEditor from '../../components/ui/fields/form_content_editor';
 import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
+import EventEditForm from './event_edit_form';
 
 class EventEditor extends Component{
+
+    constructor(props) {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
     componentDidMount() {
         const { eventId, placeId } = this.props.match.params;
         (eventId && !this.props.event) && this.loadEvent(eventId);
@@ -46,23 +43,6 @@ class EventEditor extends Component{
         this.props.get(request);
     }
 
-    async onSubmit(values) {
-        debugger;
-        const processor = new HtmlContentPostprocess();
-        const apiObject = {
-            heading: values.eventTitle,
-            startDate: values.time.startDay,
-            startTime: values.time.startTime,
-            endDate: values.time.endDay,
-            endTime: values.time.endTime
-        };
-        apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
-        apiObject.content = await processor.postProcess(values.content);
-        apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
-
-        this.postEvent(apiObject);
-    }
-
     postEvent(event) {
         const request = {
             endpoint: 'events',
@@ -86,124 +66,51 @@ class EventEditor extends Component{
         return storeResponse.place.id;
     }
 
+    async onSubmit(values) {
+        debugger;
+        const processor = new HtmlContentPostprocess();
+        const apiObject = {
+            heading: values.eventTitle,
+            startDate: values.time.startDay,
+            startTime: values.time.startTime,
+            endDate: values.time.endDay,
+            endTime: values.time.endTime
+        };
+        apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
+        apiObject.content = await processor.postProcess(values.content);
+        apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
+
+        this.postEvent(apiObject);
+    }
+
     render() {
-        const { handleSubmit } = this.props;
+        const { match: {params: { eventId, placeId }}, event, place } = this.props;
+
+        if((eventId && !event) || (placeId && !place)) {
+            return (
+                <div>
+                    <Spinner />
+                </div>
+            )
+        }
 
         return (
-            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-                <Container>
-                    <Row style={{textAlign: 'center'}}>
-                        <Col>
-                            <Button type='submit' color='success' >
-                                <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button type='button' color='warning' onClick={() => this.props.reset()}>
-                                <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button type='button' color='danger' >
-                                <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
-                            </Button>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col>
-                            <FormInput
-                                messageId={'event.eventTitle'}
-                                defaultMessage={'Event title'}
-                                name={'eventTitle'}
-                                validate={[required]}
-                            />
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col sm='4'>
-                            <FormFileUpload
-                                name={'thumbnail'}
-                                validate={[required]}
-                            />
-                        </Col>
-                        <Col sm='8' className={"align-self-center"}>
-                            <EventDateEditor />
-                        </Col>
-                    </Row>
-
-                    <PlaceHandler change={this.props.change} />
-
-                    <Row>
-                        <Col>
-                            <FormContentEditor
-                                name={'content'}
-                                validate={[required]}
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-            </form>
+            <div>
+                <EventEditForm
+                    initialValues={{eventTitle: 'fdsfsg'}}
+                    onSubmit={this.onSubmit}
+                />
+            </div>
         )
     }
 }
 
-function validate(values) {
-    const errors = {};
-// debugger;
-    if(values.time) {
-        if(values.time.startDay &&
-           values.time.endDay &&
-           values.time.startDay > values.time.endDay
-        ) {
-            debugger;
-            errors.time={};
-            errors.time.startDay = 'error.time.startDateBeforeEnd';
-        }
-    }
-
-    if(!values.place || !values.place.label) {
-        // debugger;
-        errors.place={};
-        errors.place.label='error.field.required'
-    }
-
-    return errors;
-}
-
-const selector = formValueSelector('create_event');
-
-function mapStateToProps(state, ownProps) {
+function mapStateToProps({ events, places }, ownProps) {
     const { eventId, placeId } = ownProps.match.params;
-    const event = state.events[eventId];
-    const place = state.places[placeId];
-// debugger;
     return {
-        event: event,
-        place: place,
-        // initialValues: {
-        //     // time: {
-        //     //     startDay : event.startDate ? new Date(event.startDate) : '',
-        //     //     endDay   : event.endDate   ? new Date(event.endDate)   : '',
-        //     //     startTime: event.startTime,
-        //     //     endTime  : event.endTime
-        //     // },
-        //     place: place,
-        //     // place: {
-        //     //     label: 'Liptovsky Hradok',
-        //     //     address: 'Belanska 574/8',
-        //     //     lat: '49.09725059408648',
-        //     //     lon: '19.625701904296875'
-        //     // },
-        //     eventTitle: event.heading,
-        //     content: event.content
-        // },
-        eventContent: selector(state, 'content')
+        event: events[eventId],
+        place: places[placeId]
     }
 }
 
-export default compose(
-    connect(mapStateToProps, { post, get }),
-    reduxForm({form: 'create_event', validate})
-)(EventEditor);
+export default connect(mapStateToProps, { get, post })(EventEditor);

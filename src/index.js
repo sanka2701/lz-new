@@ -32,6 +32,7 @@ ReactDOM.render(
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
                             <Route path="/eventsEdit/:eventId?/:placeId?" component={EventEditor} />
+                            {/*<Route path="/eventsEdit" component={EventEditor} />*/}
                             <Route exact path="/events" component={EventList} />
                             <Route exact path="/events/manage" component={EventListManage} />
                             {/*<Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />*/} //todo: breaks down ckeditor
