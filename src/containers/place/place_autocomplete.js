@@ -35,7 +35,7 @@ class PlaceAutocomplete extends React.Component {
             const request = {
                 endpoint: 'places',
                 params: { subname : value },
-                successAction: 'PLACES_RECEIVED',
+                successAction: 'PLACES_LOADED',
                 failureAction: 'nok'
             };
             this.props.get(request);
@@ -50,10 +50,8 @@ class PlaceAutocomplete extends React.Component {
         this.timer = setTimeout(this.triggerFetch, INPUT_SEARCH_DELAY);
     }
 
-    onSuggestionSelect(label) {
-        console.log('Selected place', label);
-
-        this.props.placeSelected(this.state.suggestions[label]);
+    onSuggestionSelect(placeId) {
+        this.props.placeSelected(this.state.suggestions[placeId]);
     }
 
     render() {
@@ -74,7 +72,7 @@ const selector = formValueSelector('create_event');
 
 const mapStateToProps = (state) => {
     return{
-        suggestions: state.places.suggestions,
+        suggestions: state.places,
         value: selector(state, 'place.label')
     }
 };

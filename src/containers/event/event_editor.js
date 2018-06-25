@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { reduxForm, formValueSelector } from 'redux-form';
 import { Container, Row, Col, Button } from 'reactstrap';
 
-import { post } from '../../actions'
+import { post, get } from '../../actions'
 import { required } from '../../utils/valdiators';
 import { postWithResult } from '../../utils/helpers';
 import EventDateEditor from '../../components/event_date_editor';
@@ -14,8 +14,37 @@ import PlaceHandler from '../place/place_handler';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form_content_editor';
+import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
 
 class EventEditor extends Component{
+    componentDidMount() {
+        const { eventId, placeId } = this.props.match.params;
+        (eventId && !this.props.event) && this.loadEvent(eventId);
+        (placeId && !this.props.place) && this.loadPlace(placeId);
+    }
+
+    // todo: duplicate code with event detail
+    loadEvent(id) {
+        const request = {
+            endpoint: 'events',
+            params: { id },
+            successAction: EVENT_LOADED,
+            failureAction: 'nok'
+        };
+
+        this.props.get(request);
+    }
+
+    // todo: duplicate code with event detail
+    loadPlace(id){
+        const request = {
+            endpoint: 'places/id',
+            params: { id },
+            successAction: PLACE_LOADED,
+            failureAction: 'nok'
+        };
+        this.props.get(request);
+    }
 
     async onSubmit(values) {
         debugger;
@@ -70,7 +99,7 @@ class EventEditor extends Component{
                             </Button>
                         </Col>
                         <Col>
-                            <Button type='button' color='warning' >
+                            <Button type='button' color='warning' onClick={() => this.props.reset()}>
                                 <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
                             </Button>
                         </Col>
@@ -140,37 +169,41 @@ function validate(values) {
         errors.place.label='error.field.required'
     }
 
-
-
     return errors;
 }
 
 const selector = formValueSelector('create_event');
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+    const { eventId, placeId } = ownProps.match.params;
+    const event = state.events[eventId];
+    const place = state.places[placeId];
+// debugger;
     return {
-        // todo: connect to redux, this is just for testing initial form values
-        initialValues: {
-            time: {
-                startDay: Date.now(),
-                endDay: Date.now(),
-                startTime: 80,
-                endTime: 90
-            },
-            place: {
-                label: 'Liptovsky Hradok',
-                address: 'Belanska 574/8',
-                lat: '49.09725059408648',
-                lon: '19.625701904296875'
-            },
-            eventTitle: 'Testing event',
-            content: '<p> Testovaci paragraf</p>'
-        },
+        event: event,
+        place: place,
+        // initialValues: {
+        //     // time: {
+        //     //     startDay : event.startDate ? new Date(event.startDate) : '',
+        //     //     endDay   : event.endDate   ? new Date(event.endDate)   : '',
+        //     //     startTime: event.startTime,
+        //     //     endTime  : event.endTime
+        //     // },
+        //     place: place,
+        //     // place: {
+        //     //     label: 'Liptovsky Hradok',
+        //     //     address: 'Belanska 574/8',
+        //     //     lat: '49.09725059408648',
+        //     //     lon: '19.625701904296875'
+        //     // },
+        //     eventTitle: event.heading,
+        //     content: event.content
+        // },
         eventContent: selector(state, 'content')
     }
 }
 
 export default compose(
-    connect(mapStateToProps, {post}),
+    connect(mapStateToProps, { post, get }),
     reduxForm({form: 'create_event', validate})
 )(EventEditor);

@@ -20,6 +20,7 @@ import Home from './containers/home';
 import EventEditor from './containers/event/event_editor';
 import EventList from './containers/event/event_list';
 import EventDetail from './containers/event/event_detail';
+import EventListManage from './components/event/event_list_manage';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -30,9 +31,11 @@ ReactDOM.render(
                         <Switch>
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
-                            <Route path="/createEvent" component={EventEditor} />
-                            <Route path="/events/:id" component={EventDetail} />
-                            <Route path="/events" component={EventList} />
+                            <Route path="/eventsEdit/:eventId?/:placeId?" component={EventEditor} />
+                            <Route exact path="/events" component={EventList} />
+                            <Route exact path="/events/manage" component={EventListManage} />
+                            {/*<Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />*/} //todo: breaks down ckeditor
+                            <Route path="/events/:eventId/:placeId" component={EventDetail} />
                             <Route path="/" component={Home} />
                         </Switch>
                     </App>

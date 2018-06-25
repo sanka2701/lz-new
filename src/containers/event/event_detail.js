@@ -1,38 +1,36 @@
 import React from 'react';
-import { EVENT_LOADED, PLACE_RECEIVED } from '../../actions/types';
+import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
 import { connect } from 'react-redux';
 import { get } from '../../actions';
-import { FormattedMessage } from 'react-intl';
 import { Row, Col} from 'reactstrap';
 import DOMPurify from 'dompurify';
-import MapDisplay from '../../components/map/map_display';
 import Spinner from '../../components/ui/spinner';
 
 import EventInfo from '../../components/event/event_info_bar';
 
 class EventDetail extends React.Component {
-    componentDidMount(){
-        if(!this.props.event) {
-            const {id} = this.props.match.params;
-            const request = {
-                endpoint: 'events',
-                params: {id},
-                successAction: EVENT_LOADED,
-                failureAction: 'nok'
-            };
-
-            this.props.get(request);
-        } else {
-            this.loadPlace();
-        }
+    componentDidMount() {
+        const { eventId, placeId } = this.props.match.params;
+        !this.props.event && this.loadEvent(eventId);
+        !this.props.place && this.loadPlace(placeId);
     }
 
-    loadPlace(){
-        const { placeId } = this.props.event;
+    loadEvent(id) {
         const request = {
-            endpoint: 'places/id/',
-            params: { id : placeId },
-            successAction: PLACE_RECEIVED,
+            endpoint: 'events',
+            params: { id },
+            successAction: EVENT_LOADED,
+            failureAction: 'nok'
+        };
+
+        this.props.get(request);
+    }
+
+    loadPlace(id){
+        const request = {
+            endpoint: 'places/id',
+            params: { id },
+            successAction: PLACE_LOADED,
             failureAction: 'nok'
         };
         this.props.get(request);
@@ -42,15 +40,13 @@ class EventDetail extends React.Component {
         const { event, place } = this.props;
 
         if(!event || !place) {
-            // todo: not a good place ... think of a better way to load place after event
-            !!event && this.loadPlace();
             return (
                 <div>
-                    Loading ... <br />
                     <Spinner />
                 </div>
             )
         }
+
 
         return (
             <div>
@@ -90,10 +86,10 @@ class EventDetail extends React.Component {
 // };
 
 const mapStateToProps = ({ events, places }, ownProps) => {
-    const { id } = ownProps.match.params;
+    const { eventId, placeId } = ownProps.match.params;
     return {
-        event: events[id],
-        place: places.selectedPlace
+        event: events[eventId],
+        place: places[placeId]
     }
 };
 

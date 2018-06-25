@@ -1,13 +1,15 @@
-import { PLACE_SELECTED, PLACE_RECEIVED, GOOGLE_PLACE_SELECTED, PLACES_RECEIVED } from '../actions/types';
+import { PLACE_SELECTED, PLACE_LOADED, GOOGLE_PLACE_SELECTED, PLACES_LOADED } from '../actions/types';
 import _ from 'lodash';
 
 //todo: refactor naming of actions  PLACE_SELECTED -> PLACE_SUGGESTION_SELECTED so its clearer
 export default function (state = {}, action) {
     switch (action.type) {
-        case PLACES_RECEIVED:
-            return {suggestions: _.mapKeys(action.payload.places, 'label')};
-        case PLACE_RECEIVED:
-            return {selectedPlace: action.payload.place};
+        case PLACES_LOADED:
+            // return {suggestions: _.mapKeys(action.payload.places, 'label')};
+            return _.mapKeys(action.payload.places, 'id');
+        case PLACE_LOADED:
+            // return {selectedPlace: action.payload.place};
+            return { ...state, [action.payload.place.id] : action.payload.place };
         case PLACE_SELECTED:
             return {...state, selectedPlace: action.payload};
         case GOOGLE_PLACE_SELECTED:
