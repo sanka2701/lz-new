@@ -47,7 +47,6 @@ class EventDetail extends React.Component {
             )
         }
 
-
         return (
             <div>
                 <Row>
@@ -79,11 +78,6 @@ class EventDetail extends React.Component {
         )
     }
 }
-
-// EventDetail.defaultProps = {
-//     event: null,
-//     place: null
-// };
 
 const mapStateToProps = ({ events, places }, ownProps) => {
     const { eventId, placeId } = ownProps.match.params;

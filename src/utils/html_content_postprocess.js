@@ -13,7 +13,10 @@ export default class HtmlContentPostprocess {
     extractImgSources = (htmlRootNode) => {
         const outputList = [];
         const recurseDomChildren = (node) => {
-            (node.localName === 'img') && outputList.push(node.currentSrc);
+            if(node.localName === 'img') {
+                const srcLink = node.currentSrc;
+                srcLink.startsWith('blob:') && outputList.push(srcLink);
+            }
             node.childNodes.forEach((child) => {
                 recurseDomChildren(child)
             })

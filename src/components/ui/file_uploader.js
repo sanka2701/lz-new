@@ -6,7 +6,6 @@ import './file_uploader_styles.css';
 class FileUploader extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             active: false,
             imageSrc: props.value,

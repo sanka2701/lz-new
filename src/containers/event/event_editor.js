@@ -11,14 +11,19 @@ class EventEditor extends Component{
 
     constructor(props) {
         super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onCancel = this.onCancel.bind(this);
+        this.onSubmit  = this.onSubmit.bind(this);
+        this.onCancel  = this.onCancel.bind(this);
+        this.onApprove = this.onApprove.bind(this);
+        this.state = {
+            editMode: false
+        }
     }
 
     componentDidMount() {
         const { eventId, placeId } = this.props.match.params;
         (eventId && !this.props.event) && this.loadEvent(eventId);
         (placeId && !this.props.place) && this.loadPlace(placeId);
+        (eventId && placeId) && this.setState({ editMode: true })
     }
 
     // todo: duplicate code with event detail
@@ -79,9 +84,27 @@ class EventEditor extends Component{
         };
         apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
         apiObject.content = await processor.postProcess(values.content);
-        apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
+
+
+        const previousThumbnail = this.props.event.thumbnail;
+        debugger;
+        if(previousThumbnail !== values.thumbnail) {
+            apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
+        } else {
+            apiObject.thumbnail = values.thumbnail;
+        }
 
         this.postEvent(apiObject);
+    }
+
+    onApprove() {
+        const request = {
+            endpoint: 'events/approve',
+            params: { id: this.props.event.id },
+            successAction: 'ok',
+            failureAction: 'nok'
+        };
+        this.props.post(request);
     }
 
     onCancel() {
@@ -102,9 +125,11 @@ class EventEditor extends Component{
         return (
             <div>
                 <EventEditForm
+                    editMode={this.state.editMode}
                     initialValues={{ ...event, place }}
                     onSubmit={this.onSubmit}
                     onCancel={this.onCancel}
+                    onApprove={this.onApprove}
                 />
             </div>
         )

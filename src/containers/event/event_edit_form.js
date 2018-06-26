@@ -32,6 +32,13 @@ class EventEditForm extends React.Component {
                                 <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
                             </Button>
                         </Col>
+                        {this.props.editMode && (
+                            <Col>
+                                <Button type='button' color='info' onClick={this.props.onApprove} >
+                                    <FormattedMessage id={'event.approveButton'} defaultMessage='Approve'/>
+                                </Button>
+                            </Col>
+                        )}
                     </Row>
 
                     <Row>
