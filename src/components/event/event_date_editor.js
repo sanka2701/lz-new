@@ -1,10 +1,10 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { required } from '../utils/valdiators';
-import { timeToMilliseconds } from '../utils/helpers';
+import { required } from '../../utils/valdiators';
+import { timeToMilliseconds } from '../../utils/helpers';
 
-import FormDateTimePicker from './ui/fields/form_date_time_picker';
-import FormDropdownList from './ui/fields/form_dropdown_list';
+import FormDateTimePicker from '../ui/fields/form_date_time_picker';
+import FormDropdownList from '../ui/fields/form_dropdown_list';
 
 //todo: move this configuration to more suitable place and support locale switch
 import momentLocaliser from 'react-widgets-moment';
@@ -38,18 +38,18 @@ const PlaceDateEditor = () => {
             <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                 <Col sm='6'>
                     <FormDateTimePicker
-                        name="time.startDay"
+                        name="startDate"
                         validate={[required]}
-                        messageId={'event.startDay'}
+                        messageId={'event.startDate'}
                         defaultMessage='Select start day'
                     />
                 </Col>
 
                 <Col sm='6'>
                     <FormDateTimePicker
-                        name="time.endDay"
+                        name="endDate"
                         validate={[required]}
-                        messageId={'event.endDay'}
+                        messageId={'event.endate'}
                         defaultMessage='Select end day'
                     />
                 </Col>
@@ -58,7 +58,7 @@ const PlaceDateEditor = () => {
             <Row style={{marginTop: '10px', marginBottom: '10px'}}>
                 <Col>
                     <FormDropdownList
-                        name='time.startTime'
+                        name='startTime'
                         data={getTimeSteps()}
                         validate={[required]}
                         messageId={'event.startTime'}
@@ -67,7 +67,7 @@ const PlaceDateEditor = () => {
                 </Col>
                 <Col>
                     <FormDropdownList
-                        name='time.endTime'
+                        name='endTime'
                         data={getTimeSteps()}
                         validate={[required]}
                         messageId={'event.endTime'}

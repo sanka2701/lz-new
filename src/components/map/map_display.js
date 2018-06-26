@@ -31,11 +31,7 @@ const MapDisplay = ({selectedPlace}) => {
 };
 
 MapDisplay.propTypes = {
-    selectedPlace : PropTypes.shape({
-        label: PropTypes.string,
-        lat: PropTypes.number,
-        lon: PropTypes.number
-    })
+    selectedPlace : PropTypes.object
 };
 
 MapDisplay.defaultProps = {

@@ -10,7 +10,7 @@ export default ({event}) => {
             <Card>
                 <CardImg top src={event.thumbnail} style={{maxHeight: '25vw'}}/>
                 <CardBody>
-                    <CardTitle>{event.heading}</CardTitle>
+                    <CardTitle>{event.title}</CardTitle>
                     <CardSubtitle>Card subtitle</CardSubtitle>
                     <CardText>{$(event.content).text().slice(1,200)}...</CardText>
                 </CardBody>

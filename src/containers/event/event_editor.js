@@ -12,6 +12,7 @@ class EventEditor extends Component{
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onCancel = this.onCancel.bind(this);
     }
 
     componentDidMount() {
@@ -70,10 +71,10 @@ class EventEditor extends Component{
         debugger;
         const processor = new HtmlContentPostprocess();
         const apiObject = {
-            heading: values.eventTitle,
-            startDate: values.time.startDay,
+            title: values.title,
+            startDate: values.time.startDate,
             startTime: values.time.startTime,
-            endDate: values.time.endDay,
+            endDate: values.time.endDate,
             endTime: values.time.endTime
         };
         apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
@@ -81,6 +82,10 @@ class EventEditor extends Component{
         apiObject.thumbnail = await processor.uploadImg(values.thumbnail);
 
         this.postEvent(apiObject);
+    }
+
+    onCancel() {
+        this.props.history.goBack();
     }
 
     render() {
@@ -97,8 +102,9 @@ class EventEditor extends Component{
         return (
             <div>
                 <EventEditForm
-                    initialValues={{eventTitle: 'fdsfsg'}}
+                    initialValues={{ ...event, place }}
                     onSubmit={this.onSubmit}
+                    onCancel={this.onCancel}
                 />
             </div>
         )

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 import { Row, Col, Button, Collapse } from 'reactstrap';
 import { required } from '../../utils/valdiators';
 import MapDisplay from '../../components/map/map_display';
@@ -10,22 +11,9 @@ import PlaceAutocomplete from './place_autocomplete';
 class PlaceHandler extends Component{
     constructor(props){
         super(props);
-        // todo: map marker is not ser when initialized with values
         this.state = {
             showMap: true,
-            selectedPlace: props.selectedPlace,
             createNewPlace: true
-        }
-    }
-
-    componentWillReceiveProps({selectedPlace}) {
-        // debugger;
-        if (selectedPlace !== this.state.selectedPlace) {
-            this.setState({ selectedPlace });
-            this.props.change('place.label',   selectedPlace.label);
-            this.props.change('place.address', selectedPlace.address);
-            this.props.change('place.lat',     selectedPlace.lat);
-            this.props.change('place.lon',     selectedPlace.lon);
         }
     }
 
@@ -98,9 +86,9 @@ class PlaceHandler extends Component{
                     </Row>
 
                     {this.state.createNewPlace ? (
-                        <MapEditor  selectedPlace={this.state.selectedPlace}/>
+                        <MapEditor  selectedPlace={this.props.currentPlace} />
                     ) : (
-                        <MapDisplay selectedPlace={this.state.selectedPlace} />
+                        <MapDisplay selectedPlace={this.props.currentPlace} />
                     )}
                 </Collapse>
             </div>
@@ -108,19 +96,12 @@ class PlaceHandler extends Component{
     }
 }
 
+const selector = formValueSelector('create_event');
+
 function mapStateToProps(state) {
     return {
-        selectedPlace : state.places.selectedPlace
+        currentPlace : selector(state, 'place')
     }
 }
-
-PlaceHandler.defaultProps = {
-    selectedPlace: {
-        label: '',
-        address: '',
-        lat: null,
-        lon: null
-    }
-};
 
 export default connect(mapStateToProps)(PlaceHandler);

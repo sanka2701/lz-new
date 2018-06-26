@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { required } from "../../utils/valdiators";
 import { Container, Row, Col, Button } from 'reactstrap';
-import EventDateEditor from '../../components/event_date_editor';
+import EventDateEditor from '../../components/event/event_date_editor';
 import PlaceHandler from '../place/place_handler';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
@@ -23,12 +23,12 @@ class EventEditForm extends React.Component {
                             </Button>
                         </Col>
                         <Col>
-                            <Button type='button' color='warning' onClick={() => this.props.reset()}>
+                            <Button type='button' color='warning' onClick={this.props.reset} >
                                 <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
                             </Button>
                         </Col>
                         <Col>
-                            <Button type='button' color='danger' >
+                            <Button type='button' color='danger' onClick={this.props.onCancel} >
                                 <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
                             </Button>
                         </Col>
@@ -39,7 +39,7 @@ class EventEditForm extends React.Component {
                             <FormInput
                                 messageId={'event.eventTitle'}
                                 defaultMessage={'Event title'}
-                                name={'eventTitle'}
+                                name={'title'}
                                 validate={[required]}
                             />
                         </Col>
@@ -77,13 +77,13 @@ function validate(values) {
     const errors = {};
 // debugger;
     if(values.time) {
-        if(values.time.startDay &&
-            values.time.endDay &&
-            values.time.startDay > values.time.endDay
+        if(values.time.startDate &&
+            values.time.endDate &&
+            values.time.startDate > values.time.endDate
         ) {
             debugger;
             errors.time={};
-            errors.time.startDay = 'error.time.startDateBeforeEnd';
+            errors.time.startDate = 'error.time.startDateBeforeEnd';
         }
     }
 

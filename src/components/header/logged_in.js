@@ -44,15 +44,15 @@ export default ({ onLogOut, userName, role }) => {
                             <DropdownItem tag={Link} to='/events/manage'>
                                 <FormattedMessage id='nav.manageEvents' defaultMessage='Manage Events' />
                             </DropdownItem>
-                            <DropdownItem>
-                                <FormattedMessage id='nav.managePlaces' defaultMessage='Manage Places' />
-                            </DropdownItem>
-                            <DropdownItem>
-                                <FormattedMessage id='nav.manageUsers' defaultMessage='Manage Users' />
-                            </DropdownItem>
-                            <DropdownItem>
-                                <FormattedMessage id='nav.manageTags' defaultMessage='Manage Tags' />
-                            </DropdownItem>
+                            {/*<DropdownItem>*/}
+                                {/*<FormattedMessage id='nav.managePlaces' defaultMessage='Manage Places' />*/}
+                            {/*</DropdownItem>*/}
+                            {/*<DropdownItem>*/}
+                                {/*<FormattedMessage id='nav.manageUsers' defaultMessage='Manage Users' />*/}
+                            {/*</DropdownItem>*/}
+                            {/*<DropdownItem>*/}
+                                {/*<FormattedMessage id='nav.manageTags' defaultMessage='Manage Tags' />*/}
+                            {/*</DropdownItem>*/}
                         </div>
                     )}
                 </DropdownMenu>

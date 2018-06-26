@@ -13,7 +13,7 @@ export default ({event}) => {
                     <img src={event.thumbnail} className={styles.img}/>
                 </Col>
                 <Col>
-                    { event.heading }
+                    { event.title }
                 </Col>
                 <Col>
                     <Button tag={Link} to={`/events/${event.id}/${event.placeId}`}>

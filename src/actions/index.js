@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import { change } from 'redux-form'
 import { LOCALE_CHANGED, ERROR_DISMISSED, ERROR_SAVING_PLACE } from './types';
 import { AUTH_USER, AUTH_ERROR, AUTH_USER_OUT} from './types';
-import { PLACES_CLEARED, GOOGLE_PLACE_SELECTED, PLACE_SELECTED } from './types';
+import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 
@@ -42,24 +42,26 @@ export const logoutUser = () => {
     }
 };
 
-export const placeSelected = (place) => {
-    return {
-        type: PLACE_SELECTED,
-        payload: place
-    }
+export const selectPlace = (place) => dispatch => {
+    dispatch(change('create_event', 'place', place))
 };
 
-export const fetchGooglePlace = (placeid) => async dispatch => {
+export const selectGooglePOI = (placeid) => async dispatch => {
     await axios.get(`${GOOGLE_URL}`, {
         params: {
             placeid,
             key: GOOGLE_API_KEY
         }
     }).then( response => {
-        dispatch({
-            type: GOOGLE_PLACE_SELECTED,
-            payload: response.data.result
-        })
+        const { result } = response.data;
+        const domainPlace = {
+            address: result.formatted_address,
+            label:   result.name,
+            lat:     result.geometry.location.lat,
+            lon:     result.geometry.location.lng
+        };
+
+        dispatch(change('create_event', 'place', domainPlace))
     })
     .catch(err => {
         //todo: do some error handling
@@ -68,7 +70,6 @@ export const fetchGooglePlace = (placeid) => async dispatch => {
 };
 
 export const get = (request) => async dispatch => {
-    // debugger;
     const {endpoint, successAction, failureAction, params} = request;
     await axios.get(`${ROOT_URL}/${endpoint}`, {params})
         .then( response => {
@@ -102,43 +103,4 @@ export const post = (request) => async dispatch => {
                 payload: err.response.data
             })
         })
-};
-
-export const loginUser = (credentials) => async dispatch => {
-    await axios.post(`${ROOT_URL}/users/login`, credentials)
-        .then(response => {
-            dispatch({
-                type: AUTH_USER,
-                payload: response.data
-            });
-        })
-        .catch(err => {
-            debugger;
-            dispatch({
-                type: AUTH_ERROR,
-                payload: err.response.data
-            });
-        });
-    // try {
-    //     const response = await axios.post(`${ROOT_URL}/users/login`, credentials);
-    //     dispatch({type: AUTH_USER, payload: response.data.token});
-    // } catch (e) {
-    //     dispatch({type: AUTH_ERROR, payload: e});
-    // }
-};
-
-export const registerUser = (credentials, redirectCallback) => async (dispatch) => {
-    await axios.post(`${ROOT_URL}/users`, credentials)
-        .then((response) => {
-            dispatch({
-                type: AUTH_USER,
-                payload: response.data
-            });
-            redirectCallback();
-        }).catch((err) => {
-            dispatch({
-                type: AUTH_ERROR,
-                payload: err.response.data
-            });
-        });
 };

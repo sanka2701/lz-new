@@ -7,6 +7,7 @@ import { LM_GPS_COORDS } from '../../utils/constant';
 //todo: due to lot of shared code with map_display.js merge to single file
 const MapPicker = ({onMarkerSet, selectedPlace}) => {
     const getCoordinates = () => {
+        // debugger;
         return areCoordinatesValid(selectedPlace) ? [
             {
                 title: selectedPlace.label || "default",
@@ -16,7 +17,7 @@ const MapPicker = ({onMarkerSet, selectedPlace}) => {
                     map.panTo({lng: selectedPlace.lon, lat: selectedPlace.lat});
                     googleMaps.event.addListener(marker, 'click', function(event) {
                         marker.setMap(null);
-                        callback(null);
+                        callback({ lat: '', lon: '' }, null);
                     });
                 }
             }
@@ -34,17 +35,15 @@ const MapPicker = ({onMarkerSet, selectedPlace}) => {
                        onLoaded={(googleMaps, map, callback) => {
                            googleMaps.event.addListener(map, 'click', (event) => {
                                map.panTo(event.latLng);
-                               const placeInfo = {
+                               const coordinates = {
                                    lat: event.latLng.lat(),
                                    lon: event.latLng.lng()
                                };
 
-                               //todo: investigate better way of disabling POIs info window and still keep POIs clickable
                                if (event.placeId) {
-                                   placeInfo.placeid = event.placeId;
                                    event.stop();
                                }
-                               callback(placeInfo);
+                               callback(coordinates, event.placeId);
                            });
                        }}
             />
@@ -54,11 +53,7 @@ const MapPicker = ({onMarkerSet, selectedPlace}) => {
 
 MapPicker.propTypes = {
     onMarkerSet: PropTypes.func.isRequired,
-    selectedPlace : PropTypes.shape({
-        label: PropTypes.string,
-        lat: PropTypes.number,
-        lon: PropTypes.number
-    })
+    selectedPlace : PropTypes.object
 };
 
 MapPicker.defaultProps = {

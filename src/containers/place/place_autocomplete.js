@@ -1,7 +1,7 @@
 import React from 'react';
 import FormAutocomplete from '../../components/ui/fields/form_autocomplete';
 import { formValueSelector } from 'redux-form';
-import { get, placeSelected } from '../../actions/index';
+import { get, selectPlace } from '../../actions/index';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { INPUT_SEARCH_DELAY } from '../../utils/constant';
@@ -51,7 +51,7 @@ class PlaceAutocomplete extends React.Component {
     }
 
     onSuggestionSelect(placeId) {
-        this.props.placeSelected(this.state.suggestions[placeId]);
+        this.props.selectPlace(this.state.suggestions[placeId]);
     }
 
     render() {
@@ -77,4 +77,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, { get, placeSelected })(PlaceAutocomplete);
+export default connect(mapStateToProps, { get, selectPlace })(PlaceAutocomplete);

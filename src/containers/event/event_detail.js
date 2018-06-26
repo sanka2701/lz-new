@@ -65,7 +65,7 @@ class EventDetail extends React.Component {
                 <Row>
                     <Col>
                         <h3>
-                            {event.heading}
+                            {event.title}
                         </h3>
                     </Col>
                 </Row>
