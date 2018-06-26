@@ -13,18 +13,24 @@
     background: #666666;
 }
 
+.eventRow:hover .title {
+    color: #fff;
+}
+
+.title {
+    color: #000;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition:.75s;
+}
+
 .img {
     object-fit: cover;
     width: 90px;
     height: 90px;
     border-radius: 50%;
-}
-
-.title {
-    color: #fff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .button {
