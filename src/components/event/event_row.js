@@ -9,7 +9,7 @@ export default ({event}) => {
     return (
         <Row className={styles.eventRow} >
             <Col sm='2' >
-                {/*<img src={event.thumbnail} className={styles.img} />*/}
+                <img src={event.thumbnail} className={`${styles.img}`} />
             </Col>
             <Col sm='4' className={styles.title}>
                 { event.title }
