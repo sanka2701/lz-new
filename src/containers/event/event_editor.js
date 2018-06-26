@@ -6,6 +6,7 @@ import { postWithResult } from '../../utils/helpers';
 import HtmlContentPostprocess from '../../utils/html_content_postprocess';
 import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
 import EventEditForm from './event_edit_form';
+import PropTypes from "prop-types";
 
 class EventEditor extends Component{
 
@@ -77,10 +78,10 @@ class EventEditor extends Component{
         const processor = new HtmlContentPostprocess();
         const apiObject = {
             title: values.title,
-            startDate: values.time.startDate,
-            startTime: values.time.startTime,
-            endDate: values.time.endDate,
-            endTime: values.time.endTime
+            startDate: values.startDate,
+            startTime: values.startTime.millis,
+            endDate  : values.endDate,
+            endTime  : values.endTime.millis
         };
         apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
         apiObject.content = await processor.postProcess(values.content);
@@ -135,6 +136,16 @@ class EventEditor extends Component{
         )
     }
 }
+
+EventEditor.propTypes = {
+    event: PropTypes.object,
+    place: PropTypes.object
+};
+
+EventEditor.defaultProps = {
+    event: {},
+    place: {}
+};
 
 function mapStateToProps({ events, places }, ownProps) {
     const { eventId, placeId } = ownProps.match.params;

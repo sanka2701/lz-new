@@ -9,7 +9,7 @@ class FileUploader extends React.Component {
         this.state = {
             active: false,
             imageSrc: props.value,
-            loaded: false
+            loaded: !!props.value
         };
 
         this.onDragEnter  = this.onDragEnter.bind(this);
@@ -53,7 +53,6 @@ class FileUploader extends React.Component {
                 imageSrc: reader.result,
                 loaded: true
             });
-            // this.props.onChange(this.state.imageSrc);
             this.props.onChange(file);
         };
 
@@ -69,31 +68,22 @@ class FileUploader extends React.Component {
     }
 
     render() {
-        let state = this.state,
-            props = this.props,
-            labelClass  = `uploader ${state.loaded && 'loaded'}`,
-            borderColor = state.active ? props.activeColor : props.baseColor,
-            iconColor   = state.active
-                ? props.activeColor
-                : (state.loaded)
-                    ? props.overlayColor
-                    : props.baseColor;
+        let state = this.state;
 
         return (
             <div className={'upload-wrapper'}>
                 <label
-                    className={labelClass}
+                    className={`uploader ${state.loaded && 'loaded'}`}
                     onDragEnter={this.onDragEnter}
                     onDragLeave={this.onDragLeave}
                     onDragOver={this.onDragOver}
-                    onDrop={this.onDrop}
-                    style={{outlineColor: borderColor}}>
+                    onDrop={this.onDrop}>
 
                     <img src={state.imageSrc} className={state.loaded ? 'loaded' : ''}/>
-                    <i className={`icon ${state.loaded ? 'loaded' : ''}`} style={{ color: iconColor }}>
+                    <i className={`icon ${state.loaded ? 'loaded' : ''}`} >
                         <FontAwesome.FaCloudUpload />
                     </i>
-                    <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" onBlur={() => {debugger;}} hidden/>
+                    <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" hidden/>
                 </label>
             </div>
         );
