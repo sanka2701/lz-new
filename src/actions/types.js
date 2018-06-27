@@ -14,4 +14,7 @@ export const ERROR_SAVING_PLACE = 'ERROR_SAVING_PLACE';
 export const EVENTS_LOADED = 'EVENTS_LOADED';
 export const EVENT_LOADED = 'EVENT_LOADED';
 
+
+export const USERS_LOADED = 'USERS_LOADED';
+
 //todo: unify action naming and use FETCH instead of loaded, ...

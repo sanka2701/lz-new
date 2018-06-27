@@ -15,16 +15,12 @@ class EventEditor extends Component{
         this.onSubmit  = this.onSubmit.bind(this);
         this.onCancel  = this.onCancel.bind(this);
         this.onApprove = this.onApprove.bind(this);
-        this.state = {
-            editMode: false
-        }
     }
 
     componentDidMount() {
         const { eventId, placeId } = this.props.match.params;
         (eventId && !this.props.event) && this.loadEvent(eventId);
         (placeId && !this.props.place) && this.loadPlace(placeId);
-        (eventId && placeId) && this.setState({ editMode: true })
     }
 
     // todo: duplicate code with event detail
@@ -114,8 +110,9 @@ class EventEditor extends Component{
 
     render() {
         const { match: {params: { eventId, placeId }}, event, place } = this.props;
+        const editMode  = !!eventId && !!placeId;
 
-        if((eventId && !event) || (placeId && !place)) {
+        if(editMode && (!event || !place)) {
             return (
                 <div>
                     <Spinner />
@@ -126,8 +123,8 @@ class EventEditor extends Component{
         return (
             <div>
                 <EventEditForm
-                    editMode={this.state.editMode}
-                    initialValues={{ ...event, place }}
+                    editMode={editMode}
+                    initialValues={editMode ? { ...event, place } : null}
                     onSubmit={this.onSubmit}
                     onCancel={this.onCancel}
                     onApprove={this.onApprove}
@@ -143,8 +140,8 @@ EventEditor.propTypes = {
 };
 
 EventEditor.defaultProps = {
-    event: {},
-    place: {}
+    event: null,
+    place: null
 };
 
 function mapStateToProps({ events, places }, ownProps) {

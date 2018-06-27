@@ -6,7 +6,7 @@ import * as FontAwesome from 'react-icons/lib/fa'
 
 export default () => {
     return (
-        <Nav>
+        <Nav navbar>
             <NavItem>
                 <NavLink tag={Link} to='/login'>
                     <span>

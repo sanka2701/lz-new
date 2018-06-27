@@ -1,11 +1,14 @@
 import React from 'react';
 import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { get } from '../../actions';
-import { Row, Col} from 'reactstrap';
-import DOMPurify from 'dompurify';
+import { Row, Col, Button } from 'reactstrap';
+import PostContent from '../../components/post/post_content';
 import Spinner from '../../components/ui/spinner';
-
+import { isOwner, hasRole } from '../../utils/helpers';
+import { ROLE_ADMIN } from '../../utils/constant';
+import { FormattedMessage } from 'react-intl';
 import EventInfo from '../../components/event/event_info_bar';
 
 class EventDetail extends React.Component {
@@ -37,7 +40,7 @@ class EventDetail extends React.Component {
     }
 
     render(){
-        const { event, place } = this.props;
+        const { event, place, currentUser } = this.props;
 
         if(!event || !place) {
             return (
@@ -49,6 +52,26 @@ class EventDetail extends React.Component {
 
         return (
             <div>
+                {(isOwner(currentUser, event) || hasRole(currentUser, [ROLE_ADMIN])) && (
+                    <Row>
+                        <Col sm={8} />
+                        <Col sm={2} >
+                            <Button
+                                color='warning'
+                                tag={Link}
+                                to={`/events/edit/${event.id}/${place.id}`}
+                            >
+                                <FormattedMessage id='event.editButton' defaultMessage='Edit' />
+                            </Button>
+                        </Col>
+                        <Col sm={2} >
+                            <Button color='info' >
+                                <FormattedMessage id={'event.approveButton'} defaultMessage='Approve' />
+                            </Button>
+                        </Col>
+                    </Row>
+                )}
+
                 <Row>
                     <Col>
                         <img src={event.thumbnail} style={{ maxWidth: '100%', maxHeight: '100vh', height: 'auto' }}/>
@@ -71,7 +94,7 @@ class EventDetail extends React.Component {
 
                 <Row>
                     <Col>
-                          <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(event.content)}}/>
+                          <PostContent content={event.content} />
                     </Col>
                 </Row>
             </div>
@@ -79,11 +102,12 @@ class EventDetail extends React.Component {
     }
 }
 
-const mapStateToProps = ({ events, places }, ownProps) => {
+const mapStateToProps = ({ events, places, auth }, ownProps) => {
     const { eventId, placeId } = ownProps.match.params;
     return {
         event: events[eventId],
-        place: places[placeId]
+        place: places[placeId],
+        currentUser: auth.user
     }
 };
 

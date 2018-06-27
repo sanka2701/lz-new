@@ -21,7 +21,7 @@ export default ({event}) => {
                     tag={Link}
                     to={`/events/${event.id}/${event.placeId}`}
                 >
-                    <FormattedMessage id='event.view' defaultMessage='View' />
+                    <FormattedMessage id='event.viewButton' defaultMessage='View' />
                 </Button>
             </Col>
             <Col sm='2' >
@@ -29,9 +29,9 @@ export default ({event}) => {
                     color='warning'
                     className={styles.button}
                     tag={Link}
-                    to={`/eventsEdit/${event.id}/${event.placeId}`}
+                    to={`/events/edit/${event.id}/${event.placeId}`}
                 >
-                    <FormattedMessage id='event.edit' defaultMessage='Edit' />
+                    <FormattedMessage id='event.editButton' defaultMessage='Edit' />
                 </Button>
             </Col>
             <Col sm='2' >
@@ -39,7 +39,7 @@ export default ({event}) => {
                     color='success'
                     className={styles.button}
                 >
-                    <FormattedMessage id='event.approve' defaultMessage='Approve' />
+                    <FormattedMessage id={'event.approveButton'} defaultMessage='Approve' />
                 </Button>
             </Col>
         </Row>

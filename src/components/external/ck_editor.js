@@ -1,34 +1,53 @@
 import React, { Component } from 'react';
 const loadScript = require('load-script');
 
-const CKEDITOR_LIB_PATH = 'assets/ckeditor/ckeditor.js';
+const CKEDITOR_LIB_PATH = '/assets/ckeditor/ckeditor.js';
+const EDITOR_INSTANCE = 'lz_editor';
 
 class CKEditor extends Component {
+    componentDidMount() {
+        // debugger;
+        if(window.CKEDITOR) {
+            this.initInstance();
+        } else {
+            loadScript(CKEDITOR_LIB_PATH, this.onScriptLoad.bind(this));
+        }
+    }
+
+    componentWillUnmount() {
+        if(window.CKEDITOR) {
+            this.editorInstance.destroy();
+        }
+    }
+
     shouldComponentUpdate() {
         return false;
     }
 
-    componentDidMount() {
-        loadScript(CKEDITOR_LIB_PATH, this.onLoad.bind(this));
-    }
-
-    onLoad() {
-        if(!window.CKEDITOR) {
-            console.error('Unable to load CKEditor');
-            return;
-        }
-
-        this.editorInstance = window.CKEDITOR.replace(this.refs.ckEditorAnchor);
-
+    initInstance() {
+        this.editorInstance = window.CKEDITOR.replace(this.refs.ckEditorAnchor, {language:"en"});
         for (const event in this.props.events) {
             const eventHandler = this.props.events[event];
             this.editorInstance.on(event, eventHandler);
         }
     }
 
+    onScriptLoad() {
+        if(!window.CKEDITOR) {
+            console.error('Unable to load CKEditor');
+            return;
+        }
+        this.initInstance();
+    }
+
     render() {
         return (
-            <textarea ref='ckEditorAnchor' defaultValue={this.props.value} />
+            <textarea
+                name={EDITOR_INSTANCE}
+                ref='ckEditorAnchor'
+                defaultValue={this.props.value}
+            >
+            </textarea>
         )
     }
 }
@@ -39,16 +58,3 @@ CKEditor.defaultProps = {
 };
 
 export default CKEditor;
-
-// retrieve blob back from url
-// var xhr = new XMLHttpRequest();
-// xhr.open('GET', 'blob:http://localhost:3000/1195dc33-80f1-4a1b-9d43-e1f62f3c6d63', true);
-// xhr.responseType = 'blob';
-// xhr.onload = function(e) {
-//     if (this.status == 200) {
-//         var myBlob = this.response;
-//         console.log('data', myBlob);
-//         // myBlob is now the blob that the object URL pointed to.
-//     }
-// };
-// xhr.send();

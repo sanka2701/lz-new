@@ -5,6 +5,7 @@ import authReducer from './reducer_auth';
 import placesReducer from './reducer_places';
 import eventsReducer from './reducer_events';
 import errorReducer from './reducer_error';
+import usersReducer from './reducer_users';
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     places: placesReducer,
     events: eventsReducer,
+    users: usersReducer,
     error: errorReducer
 });
 

@@ -6,6 +6,7 @@ import withErrorSlider from './decorators/with_error_slider';
 
 const BasicContentEditor = ({ onChange, onBlur, value }) => (
     <CKEditor
+        value={value}
         events={{
             change : (event) => {
                 onChange(event.editor.getData());
@@ -14,7 +15,6 @@ const BasicContentEditor = ({ onChange, onBlur, value }) => (
                 onBlur();
             },
         }}
-        value={value}
     />
 );
 

@@ -1,11 +1,20 @@
 import axios from 'axios';
 import { ROOT_URL } from './constant';
 
-export const areCoordinatesValid = ({lat, lon}) => {
-    return lat
-        && lon
-        && typeof (lat) === 'number'
-        && typeof (lon) === 'number';
+export const hasRole = (user, roles) => {
+    return user && roles.includes(user.role) !== -1
+};
+
+export const isOwner = (user, event) => {
+    return user && event && user.id === event.ownerId;
+};
+
+export const areCoordinatesValid = (coords) => {
+    return coords
+        && coords.lat
+        && coords.lon
+        && typeof (coords.lat) === 'number'
+        && typeof (coords.lon) === 'number';
 };
 
 export const timeToMilliseconds = (hours, minutes) => (minutes * 60000 + hours * 3600000);

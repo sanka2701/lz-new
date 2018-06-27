@@ -18,7 +18,7 @@ import { ROLE_ADMIN } from "../../utils/constant";
 
 export default ({ onLogOut, userName, role }) => {
     return (
-        <Nav>
+        <Nav navbar>
             <NavItem>
                 <NavLink onClick={onLogOut} tag={Link} to='/'>
                     <span>
@@ -35,7 +35,7 @@ export default ({ onLogOut, userName, role }) => {
                     </span>
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <DropdownItem tag={Link} to='/eventsEdit'>
+                    <DropdownItem tag={Link} to='/events/edit'>
                         <FormattedMessage id='nav.createEvent' defaultMessage='Create Event' />
                     </DropdownItem>
                     {role === ROLE_ADMIN && (
@@ -44,11 +44,11 @@ export default ({ onLogOut, userName, role }) => {
                             <DropdownItem tag={Link} to='/events/manage'>
                                 <FormattedMessage id='nav.manageEvents' defaultMessage='Manage Events' />
                             </DropdownItem>
+                            <DropdownItem tag={Link} to='/users'>
+                                <FormattedMessage id='nav.manageUsers' defaultMessage='Manage Users' />
+                            </DropdownItem>
                             {/*<DropdownItem>*/}
                                 {/*<FormattedMessage id='nav.managePlaces' defaultMessage='Manage Places' />*/}
-                            {/*</DropdownItem>*/}
-                            {/*<DropdownItem>*/}
-                                {/*<FormattedMessage id='nav.manageUsers' defaultMessage='Manage Users' />*/}
                             {/*</DropdownItem>*/}
                             {/*<DropdownItem>*/}
                                 {/*<FormattedMessage id='nav.manageTags' defaultMessage='Manage Tags' />*/}

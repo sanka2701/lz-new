@@ -6,6 +6,9 @@ import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 
+export * from './place_actions';
+export * from './event_actions';
+
 export const changeLocale = (locale)  => {
     return {
         type: LOCALE_CHANGED,
