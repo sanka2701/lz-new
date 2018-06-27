@@ -82,8 +82,7 @@ class EventEditor extends Component{
         apiObject.placeId = values.place.id || await EventEditor.postPlace(values.place);
         apiObject.content = await processor.postProcess(values.content);
 
-
-        const previousThumbnail = this.props.event.thumbnail;
+        const previousThumbnail = this.props.event ? this.props.event.thumbnail : null;
         debugger;
         if(previousThumbnail !== values.thumbnail) {
             apiObject.thumbnail = await processor.uploadImg(values.thumbnail);

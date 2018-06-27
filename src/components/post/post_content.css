@@ -1,8 +1,3 @@
-/*
-Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
-*/
-
 .__lz_ck_content__ {
     /* Font */
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
@@ -56,7 +51,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 /*todo: maybe unused*/
 .__lz_ck_content__ hr
 {
-    border: 0px;
+    border: 0;
     border-top: 1px solid #ccc;
 }
 
@@ -123,36 +118,3 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
     border: none;
     outline: 1px solid #0782C1;
 }
-
-
-
-
-
-
-
-
-
-
-
-/*.__lz_ck_content__.easyimage {*/
-    /*background: transparent;*/
-    /*border: none;*/
-    /*outline: 0px;*/
-    /*display: block;*/
-    /*padding: 0;*/
-    /*clear: both;*/
-/*}*/
-
-/*.__lz_ck_content__.easyimage a > img {*/
-    /*outline: none;*/
-    /*border: 1px solid #0782C1;*/
-    /*box-sizing: border-box;*/
-    /*padding: 1px;*/
-/*}*/
-
-/*.__lz_ck_content__.easyimage img{*/
-    /*display: block;*/
-    /*height: auto;*/
-    /*margin: 0 auto;*/
-    /*max-width: 100%;*/
-/*}*/

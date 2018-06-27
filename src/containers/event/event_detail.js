@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { get } from '../../actions';
 import { Row, Col, Button } from 'reactstrap';
+import PostImage from '../../components/post/post_image';
+import PostContextMenu from '../../components/post/post_context_menu';
 import PostContent from '../../components/post/post_content';
 import Spinner from '../../components/ui/spinner';
 import { isOwner, hasRole } from '../../utils/helpers';
 import { ROLE_ADMIN } from '../../utils/constant';
 import { FormattedMessage } from 'react-intl';
 import EventInfo from '../../components/event/event_info_bar';
+
+import styles from './event_detail.module.css';
 
 class EventDetail extends React.Component {
     componentDidMount() {
@@ -52,29 +56,33 @@ class EventDetail extends React.Component {
 
         return (
             <div>
-                {(isOwner(currentUser, event) || hasRole(currentUser, [ROLE_ADMIN])) && (
-                    <Row>
-                        <Col sm={8} />
-                        <Col sm={2} >
-                            <Button
-                                color='warning'
-                                tag={Link}
-                                to={`/events/edit/${event.id}/${place.id}`}
-                            >
-                                <FormattedMessage id='event.editButton' defaultMessage='Edit' />
-                            </Button>
-                        </Col>
-                        <Col sm={2} >
-                            <Button color='info' >
-                                <FormattedMessage id={'event.approveButton'} defaultMessage='Approve' />
-                            </Button>
-                        </Col>
-                    </Row>
-                )}
+                {/*{(isOwner(currentUser, event) || hasRole(currentUser, [ROLE_ADMIN])) && (*/}
+                    {/*<Row>*/}
+                        {/*<Col sm={8} />*/}
+                        {/*<Col sm={2} >*/}
+                            {/*<Button*/}
+                                {/*color='warning'*/}
+                                {/*tag={Link}*/}
+                                {/*to={`/events/edit/${event.id}/${place.id}`}*/}
+                            {/*>*/}
+                                {/*<FormattedMessage id='event.editButton' defaultMessage='Edit' />*/}
+                            {/*</Button>*/}
+                        {/*</Col>*/}
+                        {/*<Col sm={2} >*/}
+                            {/*<Button color='info' >*/}
+                                {/*<FormattedMessage id={'event.approveButton'} defaultMessage='Approve' />*/}
+                            {/*</Button>*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
+                {/*)}*/}
+
+                <Row>
+                    <PostContextMenu />
+                </Row>
 
                 <Row>
                     <Col>
-                        <img src={event.thumbnail} style={{ maxWidth: '100%', maxHeight: '100vh', height: 'auto' }}/>
+                        <PostImage imgSrc={event.thumbnail} title={event.title} />
                     </Col>
                 </Row>
 
@@ -86,15 +94,7 @@ class EventDetail extends React.Component {
 
                 <Row>
                     <Col>
-                        <h3>
-                            {event.title}
-                        </h3>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                          <PostContent content={event.content} />
+                        <PostContent content={event.content} />
                     </Col>
                 </Row>
             </div>
