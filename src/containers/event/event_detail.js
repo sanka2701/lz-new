@@ -76,9 +76,9 @@ class EventDetail extends React.Component {
                     {/*</Row>*/}
                 {/*)}*/}
 
-                <Row>
-                    <PostContextMenu />
-                </Row>
+                {/*<Row>*/}
+                    {/*<PostContextMenu />*/}
+                {/*</Row>*/}
 
                 <Row>
                     <Col>
