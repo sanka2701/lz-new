@@ -6,6 +6,7 @@ import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 
+export * from './article_actions';
 export * from './place_actions';
 export * from './event_actions';
 
@@ -43,10 +44,6 @@ export const logoutUser = () => {
         type: AUTH_USER_OUT,
         payload: null
     }
-};
-
-export const selectPlace = (place) => dispatch => {
-    dispatch(change('create_event', 'place', place))
 };
 
 export const selectGooglePOI = (placeid) => async dispatch => {

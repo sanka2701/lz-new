@@ -40,6 +40,9 @@ export default ({ onLogOut, userName, role }) => {
                     </DropdownItem>
                     {role === ROLE_ADMIN && (
                         <div>
+                            <DropdownItem tag={Link} to='/articles/edit'>
+                                <FormattedMessage id='nav.createArticle' defaultMessage='Create Article' />
+                            </DropdownItem>
                             <DropdownItem divider />
                             <DropdownItem tag={Link} to='/events/manage'>
                                 <FormattedMessage id='nav.manageEvents' defaultMessage='Manage Events' />

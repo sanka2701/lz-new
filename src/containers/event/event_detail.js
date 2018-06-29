@@ -2,7 +2,7 @@ import React from 'react';
 import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { get } from '../../actions';
+import { loadEventById, loadPlaceById } from '../../actions';
 import { Row, Col, Button } from 'reactstrap';
 import PostImage from '../../components/post/post_image';
 import PostContextMenu from '../../components/post/post_context_menu';
@@ -18,29 +18,8 @@ import styles from './event_detail.module.css';
 class EventDetail extends React.Component {
     componentDidMount() {
         const { eventId, placeId } = this.props.match.params;
-        !this.props.event && this.loadEvent(eventId);
-        !this.props.place && this.loadPlace(placeId);
-    }
-
-    loadEvent(id) {
-        const request = {
-            endpoint: 'events',
-            params: { id },
-            successAction: EVENT_LOADED,
-            failureAction: 'nok'
-        };
-
-        this.props.get(request);
-    }
-
-    loadPlace(id){
-        const request = {
-            endpoint: 'places/id',
-            params: { id },
-            successAction: PLACE_LOADED,
-            failureAction: 'nok'
-        };
-        this.props.get(request);
+        !this.props.event && this.props.loadEventById(eventId);
+        !this.props.place && this.props.loadPlaceById(placeId);
     }
 
     render(){
@@ -111,4 +90,4 @@ const mapStateToProps = ({ events, places, auth }, ownProps) => {
     }
 };
 
-export default connect(mapStateToProps, { get })(EventDetail);
+export default connect(mapStateToProps, { loadEventById, loadPlaceById })(EventDetail);

@@ -11,25 +11,25 @@ import FormContentEditor from '../../components/ui/fields/form_content_editor';
 
 class EventEditForm extends React.Component {
     render() {
-        const { handleSubmit } = this.props;
+        const { handleSubmit, onSubmit } = this.props;
 
         return (
-            <form onSubmit={handleSubmit(this.props.onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Container>
                     <Row style={{textAlign: 'center'}}>
                         <Col>
                             <Button type='submit' color='success' >
-                                <FormattedMessage id={'event.submitButton'} defaultMessage='Submit event'/>
+                                <FormattedMessage id={'general.submitButton'} defaultMessage='Submit'/>
                             </Button>
                         </Col>
                         <Col>
                             <Button type='button' color='warning' onClick={this.props.reset} >
-                                <FormattedMessage id={'event.resetButton'} defaultMessage='Reset form'/>
+                                <FormattedMessage id={'general.resetButton'} defaultMessage='Reset'/>
                             </Button>
                         </Col>
                         <Col>
                             <Button type='button' color='danger' onClick={this.props.onCancel} >
-                                <FormattedMessage id={'event.cancelButton'} defaultMessage='Cancel'/>
+                                <FormattedMessage id={'general.cancelButton'} defaultMessage='Cancel'/>
                             </Button>
                         </Col>
                         {this.props.editMode && (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../../components/ui/spinner';
-import { post, get } from '../../actions'
+import { loadEventById, loadPlaceById, postEvent } from '../../actions'
 import { postWithResult } from '../../utils/helpers';
 import HtmlContentPostprocess from '../../utils/html_content_postprocess';
 import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
@@ -19,42 +19,8 @@ class EventEditor extends Component{
 
     componentDidMount() {
         const { eventId, placeId } = this.props.match.params;
-        (eventId && !this.props.event) && this.loadEvent(eventId);
-        (placeId && !this.props.place) && this.loadPlace(placeId);
-    }
-
-    // todo: duplicate code with event detail
-    loadEvent(id) {
-        const request = {
-            endpoint: 'events',
-            params: { id },
-            successAction: EVENT_LOADED,
-            failureAction: 'nok'
-        };
-
-        this.props.get(request);
-    }
-
-    // todo: duplicate code with event detail
-    loadPlace(id){
-        const request = {
-            endpoint: 'places/id',
-            params: { id },
-            successAction: PLACE_LOADED,
-            failureAction: 'nok'
-        };
-        this.props.get(request);
-    }
-
-    postEvent(event) {
-        const request = {
-            endpoint: 'events',
-            payload: event,
-            params: {},
-            successAction: 'ok',
-            failureAction: 'nok'
-        };
-        this.props.post(request);
+        (eventId && !this.props.event) && this.props.loadEventById(eventId);
+        (placeId && !this.props.place) && this.props.loadPlaceById(placeId);
     }
 
     static async postPlace(place) {
@@ -69,6 +35,7 @@ class EventEditor extends Component{
         return storeResponse.place.id;
     }
 
+    //todo
     async onSubmit(values) {
         debugger;
         const processor = new HtmlContentPostprocess();
@@ -90,7 +57,7 @@ class EventEditor extends Component{
             apiObject.thumbnail = values.thumbnail;
         }
 
-        this.postEvent(apiObject);
+        this.props.postEvent(apiObject);
     }
 
     onApprove() {
@@ -151,4 +118,4 @@ function mapStateToProps({ events, places }, ownProps) {
     }
 }
 
-export default connect(mapStateToProps, { get, post })(EventEditor);
+export default connect(mapStateToProps, { loadPlaceById, loadEventById, postEvent })(EventEditor);

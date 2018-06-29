@@ -58,6 +58,11 @@ class SiteNavigation extends React.Component {
                                     <FormattedMessage id='nav.events' defaultMessage='Events' />
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} to='/articles'>
+                                    <FormattedMessage id='nav.articles' defaultMessage='Articles' />
+                                </NavLink>
+                            </NavItem>
                         </Nav>
                         <Nav navbar>
                             {
