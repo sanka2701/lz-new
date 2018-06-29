@@ -6,27 +6,16 @@ import { Row, Col, Button } from 'reactstrap';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form_content_editor';
+import PostContextMenu from '../../components/post/post_context_menu';
 
 //todo: extract first row to some separate file
 const ArticleEditForm = ({ onCancel, reset, onSubmit, ...props}) => (
     <form onSubmit={props.handleSubmit(onSubmit)}>
-        <Row style={{textAlign: 'center'}}>
-            <Col>
-                <Button type='submit' color='success' >
-                    <FormattedMessage id={'general.submitButton'} defaultMessage='Submit'/>
-                </Button>
-            </Col>
-            <Col>
-                <Button type='button' color='warning' onClick={props.reset} >
-                    <FormattedMessage id={'general.resetButton'} defaultMessage='Reset'/>
-                </Button>
-            </Col>
-            <Col>
-                <Button type='button' color='danger' onClick={onCancel} >
-                    <FormattedMessage id={'general.cancelButton'} defaultMessage='Cancel'/>
-                </Button>
-            </Col>
-        </Row>
+        <PostContextMenu
+            onSubmit={() => {}}
+            onReset={reset}
+            onCancel={onCancel}
+        />
 
         <Row>
             <Col>
@@ -56,6 +45,12 @@ const ArticleEditForm = ({ onCancel, reset, onSubmit, ...props}) => (
                 />
             </Col>
         </Row>
+
+        <PostContextMenu
+            onSubmit={() => {}}
+            onReset={reset}
+            onCancel={onCancel}
+        />
     </form>
 );
 

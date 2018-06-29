@@ -1,13 +1,13 @@
-import { PLACE_LOADED, PLACES_LOADED } from '../actions/types';
+import {GET_PLACES_SUCCESS, POST_PLACE_SUCCESS} from '../actions/types';
+import Immutable from 'immutable';
 import _ from 'lodash';
 
-//todo: refactor naming of actions  PLACE_SELECTED -> PLACE_SUGGESTION_SELECTED so its clearer
-export default function (state = {}, action) {
+export default function (state = Immutable.OrderedMap({}), action) {
     switch (action.type) {
-        case PLACES_LOADED:
-            return _.mapKeys(action.payload.places, 'id');
-        case PLACE_LOADED:
-            return { ...state, [action.payload.place.id] : action.payload.place };
+        case POST_PLACE_SUCCESS:
+        case GET_PLACES_SUCCESS:
+            const addedPlaces = Immutable.OrderedMap(_.mapKeys(action.payload.places, 'id'));
+            return state.merge(addedPlaces);
         default:
             return state
     }

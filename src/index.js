@@ -42,7 +42,7 @@ ReactDOM.render(
                             <Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />
                             <Route path="/events/:eventId/:placeId" component={EventDetail} />
                             <Route path="/articles/edit/:articleId?" component={ArticleEditor} />
-                            <Route path="/events/:articleId" component={ArticleDetail} />
+                            <Route path="/articles/:articleId" component={ArticleDetail} />
                             <Route path="/" component={Home} />
                         </Switch>
                     </App>

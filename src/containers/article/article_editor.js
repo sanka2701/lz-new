@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postArticle, post, get } from '../../actions'
+import { postArticle, loadArticleById } from '../../actions'
 import Spinner from '../../components/ui/spinner';
-import HtmlContentPostprocess from '../../utils/html_content_postprocess';
-import { ARTICLE_LOADED, ARTICLES_LOADED } from '../../actions/types';
 import ArticleEditForm from './article_edit_form';
 import PropTypes from "prop-types";
 
@@ -16,17 +14,11 @@ class ArticleEditor extends Component{
 
     componentDidMount() {
         const { articleId } = this.props.match.params;
-        // todo
-        // (articleId && !this.props.article) && this.loadArticle(articleId);
+        (articleId && !this.props.article) && this.loadArticleById(articleId);
     }
 
     async onSubmit(values) {
-
-        let a = values.title;
-
-        debugger;
-
-        // this.props.postArticle();
+        this.props.postArticle(values);
     }
 
     onCancel() {
@@ -73,4 +65,4 @@ function mapStateToProps({ articles }, ownProps) {
     }
 }
 
-export default connect(mapStateToProps, { get, post })(ArticleEditor);
+export default connect(mapStateToProps, { postArticle, loadArticleById })(ArticleEditor);

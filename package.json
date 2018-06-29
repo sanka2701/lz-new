@@ -7,6 +7,7 @@
     "bootstrap": "^4.1.1",
     "dompurify": "^1.0.5",
     "form-data": "^2.3.2",
+    "immutable": "^3.8.2",
     "jquery": "^3.3.1",
     "load-script": "^1.0.0",
     "lodash": "^4.17.10",
@@ -29,7 +30,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "set PORT=3003 && react-app-rewired start",
+    "start": "set PORT=3004 && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-app-rewired eject"

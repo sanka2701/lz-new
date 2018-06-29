@@ -1,12 +1,12 @@
-import { EVENTS_LOADED, EVENT_LOADED } from '../actions/types'
+import { GET_EVENTS_SUCCESS } from '../actions/types'
 import _ from 'lodash';
 
 export default function (state = {}, action) {
     switch(action.type) {
-        case EVENT_LOADED:
-            return { ...state, [action.payload.event.id] : action.payload.event };
-        case EVENTS_LOADED:
-            return _.mapKeys(action.payload.events, "id");
+        case GET_EVENTS_SUCCESS:
+            //todo: consider filtering events on event_list by approved
+            // return  {...state, ..._.mapKeys(action.payload.events, "id")};
+            return  _.mapKeys(action.payload.events, "id");
         default:
             return state;
     }

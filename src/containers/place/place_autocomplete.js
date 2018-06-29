@@ -35,7 +35,7 @@ class PlaceAutocomplete extends React.Component {
             const request = {
                 endpoint: 'places',
                 params: { subname : value },
-                successAction: 'PLACES_LOADED',
+                successAction: 'GET_PLACES_SUCCESS',
                 failureAction: 'nok'
             };
             this.props.get(request);
@@ -72,7 +72,7 @@ const selector = formValueSelector('create_event');
 
 const mapStateToProps = (state) => {
     return{
-        suggestions: state.places,
+        suggestions: state.places.toJS(),
         value: selector(state, 'place.label')
     }
 };

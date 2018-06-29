@@ -35,8 +35,11 @@ export default class HtmlContentPostprocess {
         await axios.post(`${ROOT_URL}/files/upload`, formData)
             .then(request => {
                 result = request.data;
-            }).catch(err => {
-                debugger;
+            }).catch(error => {
+                throw {
+                    message: 'error.postingImage',
+                    error
+                }
             });
         return `${ROOT_URL}/img/${result.replace(/\\/g,'/')}`;
     };
@@ -59,8 +62,11 @@ export default class HtmlContentPostprocess {
             file = new File([response.data], 'img' + this.getRandomInt(0,9999) + '.jpg', {
                 type: "image/jpeg"
             });
-        }).catch(err => {
-            debugger
+        }).catch(error => {
+            throw {
+                message: 'error.retrievingBlob',
+                error
+            }
         });
 
         return file;

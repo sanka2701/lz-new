@@ -1,28 +1,18 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import { post } from '../../actions';
-import { EVENTS_LOADED } from '../../actions/types';
-import EventCard from '../../components/event/event_card';
-import EventRow from '../../components/event/event_row';
-import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import { Row, Col } from 'reactstrap';
+import { loadEventsByFilter } from '../../actions';
+import PostCard from '../../components/post/post_card';
+import EventRow from '../../components/event/event_row';
 import PropTypes from "prop-types";
+import _ from 'lodash';
 
 class EventList extends React.Component {
 
     componentDidMount(){
         console.log('manager view: ', this.props.managerView);
-
-        const request = {
-            endpoint: 'events/filter',
-            params: {},
-            payload: {approved : !this.props.managerView},
-            successAction: EVENTS_LOADED,
-            failureAction: 'nok'
-        };
-
-        this.props.post(request);
+        this.props.loadEventsByFilter({approved : !this.props.managerView});
     }
 
     renderEventRows(row) {
@@ -40,7 +30,7 @@ class EventList extends React.Component {
             return (
                 <Col sm='6' key={event.id}>
                     <Link to={`/events/${event.id}/${event.placeId}`} style={{ textDecoration: 'none', color: 'inherit' }} >
-                        <EventCard event={event}/>
+                        <PostCard post={event}/>
                     </Link>
                 </Col>
             )
@@ -85,4 +75,4 @@ const mapStateToProps = ({events}) => {
     return { events }
 };
 
-export default connect(mapStateToProps, { post })(EventList);
+export default connect(mapStateToProps, { loadEventsByFilter })(EventList);

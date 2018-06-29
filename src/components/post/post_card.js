@@ -4,15 +4,16 @@ import { FormattedMessage } from 'react-intl'
 
 import $ from 'jquery';
 
-export default ({event}) => {
+export default ({post}) => {
+    //todo: card text trucation by css
     return (
         <div>
             <Card>
-                <CardImg top src={event.thumbnail} style={{maxHeight: '25vw'}}/>
+                <CardImg top src={post.thumbnail} style={{maxHeight: '25vw'}}/>
                 <CardBody>
-                    <CardTitle>{event.title}</CardTitle>
+                    <CardTitle>{post.title}</CardTitle>
                     <CardSubtitle>Card subtitle</CardSubtitle>
-                    <CardText>{$(event.content).text().slice(1,200)}...</CardText>
+                    <CardText>{$(post.content).text().slice(1,200)}...</CardText>
                 </CardBody>
             </Card>
         </div>

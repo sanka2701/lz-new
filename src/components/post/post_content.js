@@ -9,7 +9,6 @@ const PostContent = ({content}) => (
         <div
             className={'__lz_ck_content__'}
             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content)}} />
-        />
     </div>
 );
 

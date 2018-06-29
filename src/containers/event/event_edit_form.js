@@ -1,6 +1,5 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
 import { required } from "../../utils/valdiators";
 import { Container, Row, Col, Button } from 'reactstrap';
 import EventDateEditor from '../../components/event/event_date_editor';
@@ -8,6 +7,7 @@ import PlaceHandler from '../place/place_handler';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form_content_editor';
+import PostContextMenu from '../../components/post/post_context_menu';
 
 class EventEditForm extends React.Component {
     render() {
@@ -16,30 +16,12 @@ class EventEditForm extends React.Component {
         return (
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Container>
-                    <Row style={{textAlign: 'center'}}>
-                        <Col>
-                            <Button type='submit' color='success' >
-                                <FormattedMessage id={'general.submitButton'} defaultMessage='Submit'/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button type='button' color='warning' onClick={this.props.reset} >
-                                <FormattedMessage id={'general.resetButton'} defaultMessage='Reset'/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button type='button' color='danger' onClick={this.props.onCancel} >
-                                <FormattedMessage id={'general.cancelButton'} defaultMessage='Cancel'/>
-                            </Button>
-                        </Col>
-                        {this.props.editMode && (
-                            <Col>
-                                <Button type='button' color='info' onClick={this.props.onApprove} >
-                                    <FormattedMessage id={'event.approveButton'} defaultMessage='Approve'/>
-                                </Button>
-                            </Col>
-                        )}
-                    </Row>
+                    <PostContextMenu
+                        onSubmit={() => {}}
+                        onReset={this.props.reset}
+                        onCancel={this.props.onCancel}
+                        onApprove={this.props.editMode ? this.props.onApprove : null}
+                    />
 
                     <Row>
                         <Col>
@@ -74,6 +56,13 @@ class EventEditForm extends React.Component {
                             />
                         </Col>
                     </Row>
+
+                    <PostContextMenu
+                        onSubmit={() => {}}
+                        onReset={this.props.reset}
+                        onCancel={this.props.onCancel}
+                        onApprove={this.props.editMode ? this.props.onApprove : null}
+                    />
                 </Container>
             </form>
         )

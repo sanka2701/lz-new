@@ -1,8 +1,7 @@
 import React from 'react';
-import { EVENT_LOADED, PLACE_LOADED } from '../../actions/types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loadEventById, loadPlaceById } from '../../actions';
+import { loadEventById, loadPlaceById, approveEvent } from '../../actions';
 import { Row, Col, Button } from 'reactstrap';
 import PostImage from '../../components/post/post_image';
 import PostContextMenu from '../../components/post/post_context_menu';
@@ -20,6 +19,20 @@ class EventDetail extends React.Component {
         const { eventId, placeId } = this.props.match.params;
         !this.props.event && this.props.loadEventById(eventId);
         !this.props.place && this.props.loadPlaceById(placeId);
+
+        this.onEdit = this.onEdit.bind(this);
+        this.onApprove = this.onApprove.bind(this);
+    }
+
+    onEdit() {
+        const { event, place } = this.props;
+        this.props.history.push(`/events/edit/${event.id}/${place.id}`);
+    }
+
+    onApprove() {
+        debugger;
+        const { event } = this.props;
+        this.props.approveEvent(event.id);
     }
 
     render(){
@@ -35,29 +48,12 @@ class EventDetail extends React.Component {
 
         return (
             <div>
-                {/*{(isOwner(currentUser, event) || hasRole(currentUser, [ROLE_ADMIN])) && (*/}
-                    {/*<Row>*/}
-                        {/*<Col sm={8} />*/}
-                        {/*<Col sm={2} >*/}
-                            {/*<Button*/}
-                                {/*color='warning'*/}
-                                {/*tag={Link}*/}
-                                {/*to={`/events/edit/${event.id}/${place.id}`}*/}
-                            {/*>*/}
-                                {/*<FormattedMessage id='event.editButton' defaultMessage='Edit' />*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                        {/*<Col sm={2} >*/}
-                            {/*<Button color='info' >*/}
-                                {/*<FormattedMessage id={'event.approveButton'} defaultMessage='Approve' />*/}
-                            {/*</Button>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
-                {/*)}*/}
-
-                {/*<Row>*/}
-                    {/*<PostContextMenu />*/}
-                {/*</Row>*/}
+                {(/*isOwner(currentUser, event) ||*/ hasRole(currentUser, [ROLE_ADMIN])) && (
+                    <PostContextMenu
+                        onEdit={this.onEdit}
+                        onApprove={!event.approved ? this.onApprove : null}
+                    />
+                )}
 
                 <Row>
                     <Col>
@@ -85,9 +81,9 @@ const mapStateToProps = ({ events, places, auth }, ownProps) => {
     const { eventId, placeId } = ownProps.match.params;
     return {
         event: events[eventId],
-        place: places[placeId],
+        place: places.toJS()[placeId],
         currentUser: auth.user
     }
 };
 
-export default connect(mapStateToProps, { loadEventById, loadPlaceById })(EventDetail);
+export default connect(mapStateToProps, { loadEventById, loadPlaceById, approveEvent })(EventDetail);
