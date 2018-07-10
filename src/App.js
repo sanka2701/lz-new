@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Container } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SiteNavigation from './containers/header/navbar';
@@ -9,6 +9,8 @@ import axios from 'axios';
 import ModalExample from "./containers/error/modal";
 
 import Spinner from './components/ui/spinner';
+
+import TopLogo from './components/header/logo/top_logo';
 
 class App extends Component {
     componentDidMount() {
@@ -39,13 +41,19 @@ class App extends Component {
     render() {
         return (
             <div>
+                <TopLogo />
                 <SiteNavigation />
                 <Container>
-                    {/*<Jumbotron>*/}
-                        {/*<Spinner />*/}
-                        {/*<ModalExample />*/}
-                        {this.props.children}
-                    {/*</Jumbotron>*/}
+                    <Row>
+                        <Col md={8}>
+                            {/*<Spinner />*/}
+                            {/*<ModalExample />*/}
+                            {this.props.children}
+                        </Col>
+                        <Col md={4} className="d-none d-md-block">
+                            nazdar
+                        </Col>
+                    </Row>
                 </Container>
             </div>
         );
