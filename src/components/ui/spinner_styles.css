@@ -38,7 +38,7 @@ div .spinning{
     left:50.70%;
     top:51.4%;
     animation-delay:.4s;
-    border: 2px solid green;
+    border: 2px solid #008000;
     border-bottom:none;
     border-right:none;
 }

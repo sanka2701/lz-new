@@ -2,11 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
+import { compose } from 'redux';
 import { loadEventsByFilter } from '../../actions';
+import withSideBar from '../../components/ui/content/with_sidebar';
 import PostCard from '../../components/post/post_card';
 import EventRow from '../../components/event/event_row';
 import PropTypes from "prop-types";
 import _ from 'lodash';
+
+import styles from './event_list.module.css';
 
 class EventList extends React.Component {
 
@@ -15,42 +19,35 @@ class EventList extends React.Component {
         this.props.loadEventsByFilter({approved : !this.props.managerView});
     }
 
-    renderEventRows(row) {
-        return _.map(row, event => {
-            return (
-                <Col sm='12' key={event.id}>
-                    <EventRow event={event}/>
-                </Col>
-            )
-        })
-    }
-
-    renderEventCards(row) {
-        return _.map(row, event => {
-            return (
-                <Col sm='6' key={event.id}>
-                    <Link to={`/events/${event.id}/${event.placeId}`} style={{ textDecoration: 'none', color: 'inherit' }} >
-                        <PostCard post={event}/>
-                    </Link>
-                </Col>
-            )
-        })
-    }
-
-
     renderRows() {
-        const managerView = this.props.managerView;
+        const { managerView } = this.props;
         const eventsArr = _.values(this.props.events);
-        const eventRows = _.chunk(eventsArr, managerView ? 1 : 2);
-        let index = 0;
 
-        return _.map(eventRows, row => {
-            return (
-                <Row key={'eventRow' + index++}>
-                    { managerView ? this.renderEventRows(row) : this.renderEventCards(row) }
-                </Row>
-            )
-        })
+        //todo: change key from numeric id something else
+        const content = _.map(eventsArr, event => {
+            if(managerView) {
+                return (
+                    <Col sm={12} key={event.id}>
+                        <EventRow event={event}/>
+                    </Col>
+                )
+            } else {
+                return (
+                    <Col md={6} key={event.id}>
+                        <Link to={`/events/${event.id}/${event.placeId}`}
+                              style={{textDecoration: 'none', color: 'inherit', height: '100%'}}>
+                            <PostCard post={event}/>
+                        </Link>
+                    </Col>
+                )
+            }
+        });
+
+        return (
+            <Row className={'row-eq-height'}>
+                {content}
+            </Row>
+        );
     }
 
     render() {
@@ -75,4 +72,7 @@ const mapStateToProps = ({events}) => {
     return { events }
 };
 
-export default connect(mapStateToProps, { loadEventsByFilter })(EventList);
+export default compose(
+    connect(mapStateToProps, { loadEventsByFilter }),
+    withSideBar
+)(EventList);

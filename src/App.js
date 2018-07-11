@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SiteNavigation from './containers/header/navbar';
@@ -44,16 +44,9 @@ class App extends Component {
                 <TopLogo />
                 <SiteNavigation />
                 <Container>
-                    <Row>
-                        <Col md={8}>
-                            {/*<Spinner />*/}
-                            {/*<ModalExample />*/}
-                            {this.props.children}
-                        </Col>
-                        <Col md={4} className="d-none d-md-block">
-                            nazdar
-                        </Col>
-                    </Row>
+                    {/*<Spinner />*/}
+                    {/*<ModalExample />*/}
+                    {this.props.children}
                 </Container>
             </div>
         );

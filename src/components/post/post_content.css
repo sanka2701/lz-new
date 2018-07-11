@@ -1,3 +1,8 @@
+/*
+!!! NOTE !!!
+ this is intentionally global css so the nested content from ck editor can be formatted as well
+*/
+
 .__lz_ck_content__ {
     /* Font */
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS";

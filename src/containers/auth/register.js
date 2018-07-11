@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, FormGroup, Label, Input, Alert } from 'reactstrap';
-import _ from 'lodash';
 import { AUTH_USER, AUTH_ERROR } from '../../actions/types'
 import { post } from '../../actions';
+import Border from '../../components/ui/content/bordered_content';
+import _ from 'lodash';
 
 const FIELDS = {
     email: {
@@ -85,21 +86,20 @@ class Register extends Component{
         const { handleSubmit } = this.props;
 
         return (
-            <form onSubmit={handleSubmit(this.onSubmit)}>
-                <h3>
-                    <FormattedMessage id='auth.register' defaultMessage='Register'/>
-                </h3>
-                {_.map(FIELDS, this.addFormField.bind(this))}
-                <Button type='submit' color="primary">
-                    <FormattedMessage id='general.submit' defaultMessage='Submit'/>
-                </Button>{' '}
-                <Button type='button' color="warning">
-                    <FormattedMessage id='general.cancel' defaultMessage='Cance'/>
-                </Button>{' '}
-                <div>
-                    {JSON.stringify(this.props.errorMessage)}
-                </div>
-            </form>
+            <Border>
+                <form onSubmit={handleSubmit(this.onSubmit)}>
+                    <h3>
+                        <FormattedMessage id='auth.register' defaultMessage='Register'/>
+                    </h3>
+                    {_.map(FIELDS, this.addFormField.bind(this))}
+                    <Button type='submit' color="primary">
+                        <FormattedMessage id='general.submit' defaultMessage='Submit'/>
+                    </Button>{' '}
+                    <Button type='button' color="warning">
+                        <FormattedMessage id='general.cancel' defaultMessage='Cance'/>
+                    </Button>
+                </form>
+            </Border>
         )
     }
 }

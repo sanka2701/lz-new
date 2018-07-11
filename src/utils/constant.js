@@ -9,4 +9,8 @@ export const ROLE_ADMIN =  'ROLE_ADMIN';
 export const ROLE_USER =  'ROLE_USER';
 export const ROLE_TRUSTED_USER =  'ROLE_TRUSTED_USER';
 
+export const BORDER_EVENT = 'B_EVENT';
+export const BORDER_ARTICLE = 'B_ARTICLE';
+export const BORDER_SIDEBAR = 'B_SIDEBAR';
+
 export const LM_GPS_COORDS = {lat: 49.0811, lng: 19.6192};
