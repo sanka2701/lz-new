@@ -23,6 +23,7 @@
 }
 .main-title:hover .main-logo svg .red {
     opacity: 1;
+    transition: 0.25s;
 }
 .main-title:hover .main-logo svg .red *{
     fill: #e14d43;

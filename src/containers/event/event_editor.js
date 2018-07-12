@@ -81,7 +81,7 @@ EventEditor.defaultProps = {
 function mapStateToProps({ events, places }, ownProps) {
     const { eventId, placeId } = ownProps.match.params;
     return {
-        event: events[eventId],
+        event: events.byId[eventId],
         place: places.toJS()[placeId]
     }
 }

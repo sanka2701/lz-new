@@ -80,7 +80,7 @@ class EventDetail extends React.Component {
 const mapStateToProps = ({ events, places, auth }, ownProps) => {
     const { eventId, placeId } = ownProps.match.params;
     return {
-        event: events[eventId],
+        event: events.byId[eventId],
         place: places.toJS()[placeId],
         currentUser: auth.user
     }
