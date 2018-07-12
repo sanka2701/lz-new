@@ -3,16 +3,20 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 import { compose } from 'redux';
-import { loadEventsByFilter } from '../../actions';
+import { loadEventsByFilter, setEventPagination } from '../../actions';
 import withSideBar from '../../components/ui/content/with_sidebar';
 import PostCard from '../../components/post/post_card';
 import EventRow from '../../components/event/event_row';
 import PropTypes from "prop-types";
 import _ from 'lodash';
-
+import Pagination from '../../components/ui/pagination';
 import styles from './event_list.module.css';
 
 class EventList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onPaginationChange = this.onPaginationChange.bind(this);
+    }
 
     componentDidMount(){
         console.log('manager view: ', this.props.managerView);
@@ -20,8 +24,8 @@ class EventList extends React.Component {
     }
 
     renderRows() {
-        const { managerView } = this.props;
-        const eventsArr = _.values(this.props.events);
+        const { managerView, events: { byId, pages, currentPage} } = this.props;
+        const eventsArr = _.map(pages[currentPage - 1], (id) => byId[id]);
 
         //todo: change key from numeric id something else
         const content = _.map(eventsArr, event => {
@@ -50,11 +54,17 @@ class EventList extends React.Component {
         );
     }
 
+    onPaginationChange(pageIndex) {
+        this.props.setEventPagination(pageIndex);
+    }
+
     render() {
         console.log(this.props.events);
+        const { pageCount, currentPage } = this.props.events;
         return (
             <div>
                 { this.renderRows() }
+                <Pagination activePage={currentPage} pageCount={pageCount} onPageSelect={this.onPaginationChange} />
             </div>
         )
     }
@@ -73,6 +83,6 @@ const mapStateToProps = ({events}) => {
 };
 
 export default compose(
-    connect(mapStateToProps, { loadEventsByFilter }),
+    connect(mapStateToProps, { loadEventsByFilter, setEventPagination }),
     withSideBar
 )(EventList);

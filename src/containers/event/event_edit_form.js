@@ -1,28 +1,35 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import { required } from "../../utils/valdiators";
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import EventDateEditor from '../../components/event/event_date_editor';
 import PlaceHandler from '../place/place_handler';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form_content_editor';
 import PostContextMenu from '../../components/post/post_context_menu';
+import Border from '../../components/ui/content/bordered_content';
 
-class EventEditForm extends React.Component {
-    render() {
-        const { handleSubmit, onSubmit } = this.props;
+const EventEditForm = ({
+    handleSubmit,
+    editMode,
+    change,
+    reset,
+    onCancel,
+    onSubmit,
+    onApprove,
+}) => (
+    <div>
+        <Container>
+            <PostContextMenu
+                onSubmit={handleSubmit(onSubmit)}
+                onReset={reset}
+                onCancel={onCancel}
+                onApprove={editMode ? onApprove : null}
+            />
 
-        return (
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Container>
-                    <PostContextMenu
-                        onSubmit={() => {}}
-                        onReset={this.props.reset}
-                        onCancel={this.props.onCancel}
-                        onApprove={this.props.editMode ? this.props.onApprove : null}
-                    />
-
+            <Border>
+                <form>
                     <Row>
                         <Col>
                             <FormInput
@@ -46,7 +53,7 @@ class EventEditForm extends React.Component {
                         </Col>
                     </Row>
 
-                    <PlaceHandler change={this.props.change} />
+                    <PlaceHandler change={change} />
 
                     <Row>
                         <Col>
@@ -56,18 +63,18 @@ class EventEditForm extends React.Component {
                             />
                         </Col>
                     </Row>
+                </form>
+            </Border>
 
-                    <PostContextMenu
-                        onSubmit={() => {}}
-                        onReset={this.props.reset}
-                        onCancel={this.props.onCancel}
-                        onApprove={this.props.editMode ? this.props.onApprove : null}
-                    />
-                </Container>
-            </form>
-        )
-    }
-}
+            <PostContextMenu
+                onSubmit={handleSubmit(onSubmit)}
+                onReset={reset}
+                onCancel={onCancel}
+                onApprove={editMode ? onApprove : null}
+            />
+        </Container>
+    </div>
+);
 
 function validate(values) {
     const errors = {};

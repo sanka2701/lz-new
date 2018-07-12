@@ -26,6 +26,12 @@ import EventDetail from './containers/event/event_detail';
 import EventListManage from './components/event/event_list_manage';
 import UserList from './containers/user/userList';
 
+import moment from 'moment';
+import 'moment/locale/sk';
+import 'moment/locale/pl';
+import 'moment/locale/en-gb';
+moment.locale('en');
+
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedIntlProvider>

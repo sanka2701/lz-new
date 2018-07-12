@@ -1,51 +1,7 @@
 .wrapper {
     justify-content: center;
-    padding-bottom: 15px;
-    padding-top: 15px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    background: #dddddd;
-    border: 1px solid #0069D9;
-    transition:.75s;
-}
-
-.wrapper:hover {
-    background: #666666;
 }
 
 .wrapper button {
     width: 100%;
 }
-
-/*.wrapper {*/
-    /*display: block;*/
-    /*position: relative;*/
-    /*width: 100%;*/
-    /*transition: 0.9s;*/
-    /*border: 1px solid black;*/
-    /*height: 7px;*/
-/*}*/
-
-/*.dash {*/
-    /*display: block;*/
-    /*position: absolute;*/
-    /*!*bottom: 0;*!*/
-    /*!*left: 0;*!*/
-    /*right: 0;*/
-
-    /*width: 30px;*/
-    /*transition: 0.9s;*/
-    /*border: 1px solid red;*/
-    /*border-bottom-width: 7px;*/
-    /*border-radius: 10px;*/
-/*}*/
-
-/*.wrapper:hover  {*/
-    /*height: 30px;*/
-/*}*/
-
-/*.wrapper:hover .dash {*/
-    /*right: 100%;*/
-    /*transform-origin: 0 0 0;*/
-    /*transform: rotateZ(90deg) translate(-1px,-5px);*/
-/*}*/

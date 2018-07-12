@@ -4,7 +4,6 @@ export const ROOT_URL = 'https://peaceful-lowlands-11080.herokuapp.com';
 export const GOOGLE_URL = 'https://maps.googleapis.com/maps/api/place/details/json';
 export const INPUT_SEARCH_DELAY =  270;
 
-
 export const ROLE_ADMIN =  'ROLE_ADMIN';
 export const ROLE_USER =  'ROLE_USER';
 export const ROLE_TRUSTED_USER =  'ROLE_TRUSTED_USER';
@@ -14,3 +13,6 @@ export const BORDER_ARTICLE = 'B_ARTICLE';
 export const BORDER_SIDEBAR = 'B_SIDEBAR';
 
 export const LM_GPS_COORDS = {lat: 49.0811, lng: 19.6192};
+
+export const POSTS_PER_PAGE = 4;
+export const PAGINATION_NUMBER_SPREAD = 2;

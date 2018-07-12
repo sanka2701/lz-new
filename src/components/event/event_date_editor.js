@@ -2,22 +2,8 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { required } from '../../utils/valdiators';
 import { timeToMilliseconds } from '../../utils/helpers';
-
 import FormDateTimePicker from '../ui/fields/form_date_time_picker';
 import FormDropdownList from '../ui/fields/form_dropdown_list';
-
-//todo: move this configuration to more suitable place and support locale switch
-import momentLocaliser from 'react-widgets-moment';
-import moment from 'moment'
-import 'moment/locale/sk';
-import 'moment/locale/pl';
-import 'moment/locale/en-gb';
-
-console.log('locales', moment.locales());
-console.log('slovak', moment.locale('sk'));
-
-moment.updateLocale('sk');
-momentLocaliser(moment);
 
 const PlaceDateEditor = () => {
     const getTimeSteps = () => {

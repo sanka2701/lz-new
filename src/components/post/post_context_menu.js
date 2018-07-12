@@ -2,14 +2,9 @@ import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { FormattedMessage } from 'react-intl'
 import PropTypes from "prop-types";
+import Border from '../ui/content/bordered_content';
 
 import styles from './post_context_menu.module.css';
-
-// const PostContextMenu = () => (
-//     <div className={styles.wrapper}>
-//         <div className={styles.dash}/>
-//     </div>
-// );
 
 const renderButton = ({type, color, message, defaultMessage, callback}) => (
     <Col>
@@ -20,13 +15,15 @@ const renderButton = ({type, color, message, defaultMessage, callback}) => (
 );
 
 const PostContextMenu = ({onSubmit, onReset, onEdit, onCancel, onApprove}) => (
-    <Row className={styles.wrapper}>
+    <Border>
+        <Row className={styles.wrapper}>
         { onSubmit  && renderButton({type:'submit', color:'success', message:'submitButton', defaultMessage:'Submit', callback:onSubmit}) }
         { onReset   && renderButton({type:'button', color:'warning', message:'resetButton', defaultMessage:'Reset', callback:onReset}) }
         { onEdit    && renderButton({type:'button', color:'warning', message:'editButton', defaultMessage:'Edit', callback:onEdit}) }
         { onCancel  && renderButton({type:'button', color:'danger', message:'cancelButton', defaultMessage:'Cancel', callback:onCancel}) }
         { onApprove && renderButton({type:'button', color:'info', message:'approveButton', defaultMessage:'Approve', callback:onApprove}) }
-    </Row>
+        </Row>
+    </Border>
 );
 
 PostContextMenu.defaultProps = {

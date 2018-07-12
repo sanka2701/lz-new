@@ -5,7 +5,7 @@
 }
 
 .container > img {
-    max-height: 480px;
+    height: auto;
     width: 100%;
     box-shadow: inset 10px 10px 10px #000000;
 }

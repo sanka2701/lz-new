@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { change } from 'redux-form'
-import { LOCALE_CHANGED, ERROR_DISMISSED, ERROR_SAVING_PLACE } from './types';
-import { AUTH_USER, AUTH_ERROR, AUTH_USER_OUT} from './types';
+import { ERROR_DISMISSED, ERROR_SAVING_PLACE } from './types';
+import { CHANGE_EVENT_PAGE, AUTH_USER_OUT} from './types';
 import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
@@ -9,18 +9,19 @@ import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 export * from './article_actions';
 export * from './place_actions';
 export * from './event_actions';
-
-export const changeLocale = (locale)  => {
-    return {
-        type: LOCALE_CHANGED,
-        payload: locale
-    }
-};
+export * from './locale_actions';
 
 export const dismissModalError = () => {
     return {
         type: ERROR_DISMISSED,
         payload: null
+    }
+};
+
+export const setEventPagination = (pageIndex) => {
+    return {
+        type: CHANGE_EVENT_PAGE,
+        payload: {pageIndex}
     }
 };
 
