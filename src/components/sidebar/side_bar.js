@@ -6,10 +6,10 @@ import { BORDER_SIDEBAR } from '../../utils/constant';
 export default (props) => (
     <div>
         <Border type={BORDER_SIDEBAR} >
-            Ahoj toto bude daky side bar
+            fotka tyzdna
         </Border>
         <Border type={BORDER_SIDEBAR} >
-            a zase volaco
+            nadchadzajuce udalosti
         </Border>
     </div>
 );

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { change } from 'redux-form'
 import { ERROR_DISMISSED, ERROR_SAVING_PLACE } from './types';
-import { CHANGE_EVENT_PAGE, AUTH_USER_OUT} from './types';
+import { AUTH_USER_OUT} from './types';
 import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
@@ -15,13 +15,6 @@ export const dismissModalError = () => {
     return {
         type: ERROR_DISMISSED,
         payload: null
-    }
-};
-
-export const setEventPagination = (pageIndex) => {
-    return {
-        type: CHANGE_EVENT_PAGE,
-        payload: {pageIndex}
     }
 };
 

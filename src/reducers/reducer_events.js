@@ -1,28 +1,29 @@
-import { CHANGE_EVENT_PAGE, GET_EVENTS_SUCCESS } from '../actions/types'
-import { POSTS_PER_PAGE } from '../utils/constant';
+import {GET_EVENTS_REQUEST, CHANGE_EVENT_PAGE, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE} from '../actions/types';
 import _ from 'lodash';
 
-const DEFAULT_STATE = {
+const defaultState = {
     byId: {},
     ids: [],
-    currentPage: 1,
-    pageCount: 1,
-    pages: []
+    isLoading: false,
+    currentPage: 1
 };
 
-export default function (state = DEFAULT_STATE, action) {
+export default function (state = defaultState, action) {
     switch(action.type) {
-        case CHANGE_EVENT_PAGE:
-            return {...state, currentPage: action.payload.pageIndex};
         case GET_EVENTS_SUCCESS:
             const {events} = action.payload;
             return {
                 ...state,
                 byId: _.mapKeys(events, 'id'),
                 ids: _.map(events, 'id'),
-                pageCount: Math.ceil(events.length/POSTS_PER_PAGE),
-                pages: _.chunk(_.map(events, 'id'), POSTS_PER_PAGE)
+                isLoading: false
             };
+        case GET_EVENTS_FAILURE:
+            return {...state, isLoading: false};
+        case GET_EVENTS_REQUEST:
+            return {...state, isLoading: true};
+        case CHANGE_EVENT_PAGE:
+            return {...state, currentPage: action.payload.pageIndex};
         default:
             return state;
     }

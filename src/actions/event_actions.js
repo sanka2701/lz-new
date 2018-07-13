@@ -1,8 +1,9 @@
 import { post, get } from './index';
-import {GET_EVENTS_FAILURE, GET_EVENTS_SUCCESS, POST_EVENT_SUCCESS, POST_PLACE_FAILURE} from "./types";
+import {GET_EVENTS_REQUEST,CHANGE_EVENT_PAGE,GET_EVENTS_FAILURE, GET_EVENTS_SUCCESS, POST_EVENT_SUCCESS, POST_PLACE_FAILURE} from "./types";
 import {postPlace} from "./place_actions";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
 
+// todo: transfer all the storing images and replacing image urls work to backend -> simplify frontend
 export const postEvent = ({thumbnail, content, place, ...event})=> async (dispatch, getState) => {
     try {
         if(!place.id) {
@@ -29,6 +30,7 @@ export const postEvent = ({thumbnail, content, place, ...event})=> async (dispat
     }
 };
 
+// todo: change to update event
 export const approveEvent = id => dispatch => {
     const request = {
         endpoint: 'events/approve',
@@ -39,7 +41,21 @@ export const approveEvent = id => dispatch => {
     dispatch(post(request));
 };
 
+export const setEventPagination = (pageIndex) => {
+    return {
+        type: CHANGE_EVENT_PAGE,
+        payload: {pageIndex}
+    }
+};
+
+export const requestEvents = () => {
+    return {
+        type: GET_EVENTS_REQUEST
+    }
+};
+
 export const loadEventById = id => dispatch => {
+    dispatch(requestEvents());
     const request = {
         endpoint: 'events',
         params: { id },
@@ -51,6 +67,7 @@ export const loadEventById = id => dispatch => {
 };
 
 export const loadEventsByFilter = filter => dispatch => {
+    dispatch(requestEvents());
     const request = {
         endpoint: 'events/filter',
         params: {},

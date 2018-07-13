@@ -27,10 +27,11 @@
     "reactstrap": "^6.0.1",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "reselect": "^3.0.1"
   },
   "scripts": {
-    "start": "set PORT=3007 && react-app-rewired start",
+    "start": "set PORT=3000 && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-app-rewired eject"
