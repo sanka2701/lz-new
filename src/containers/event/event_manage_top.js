@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { loadEventsByFilter, setEventPagination } from '../../actions';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
-import withSideBar from '../../components/ui/content/with_sidebar';
 import Pagination from '../../components/ui/pagination';
-import EventFilter from './event_filter';
-import EventList from './event_list';
+import EventManageList from './event_manage_list';
 import _ from 'lodash';
 
 import {makeGetEventsByApproval} from '../../filters/event_view_filter';
 
-const EventListWithSpinner = withLoadingAnimation(EventList);
+const EventListWithSpinner = withLoadingAnimation(EventManageList);
 
-class EventTop extends React.Component {
+class EventManageTop extends React.Component {
     constructor(props) {
         super(props);
         this.onPaginationChange = this.onPaginationChange.bind(this);
@@ -33,7 +31,6 @@ class EventTop extends React.Component {
 
         return (
             <div>
-                {/*<EventFilter />*/}
                 <EventListWithSpinner isLoading={isLoading} events={events} />
                 <Pagination activePage={currentPage} pageCount={pageCount} onPageSelect={this.onPaginationChange} />
             </div>
@@ -44,12 +41,11 @@ class EventTop extends React.Component {
 const mapStateToProps = ({ events }) => {
     const getEventsByApproval = makeGetEventsByApproval();
     return {
-        events: getEventsByApproval(events, {approved: true}),
+        events: getEventsByApproval(events, {approved: false}),
         isLoading: events.isLoading
     }
 };
 
 export default compose(
-    connect(mapStateToProps, { loadEventsByFilter, setEventPagination }),
-    withSideBar
-)(EventTop);
+    connect(mapStateToProps, { loadEventsByFilter, setEventPagination })
+)(EventManageTop);

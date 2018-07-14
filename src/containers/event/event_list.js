@@ -7,26 +7,20 @@ import _ from 'lodash';
 
 import styles from './event_list.module.css';
 
-class EventList extends React.Component {
-    getRows() {
-        return _.map(this.props.events, event => (
-            <Col md={6} key={'event-' + event.id}>
-                <Link to={`/events/${event.id}/${event.placeId}`}
-                      style={{textDecoration: 'none', color: 'inherit', height: '100%'}}>
-                    <PostCard post={event}/>
-                </Link>
-            </Col>
-        ));
-    }
+const getRows = (events) => _.map(events, event => (
+    <Col md={6} key={'event-' + event.id}>
+        <Link to={`/events/${event.id}/${event.placeId}`}
+              style={{textDecoration: 'none', color: 'inherit', height: '100%'}}>
+            <PostCard post={event}/>
+        </Link>
+    </Col>
+));
 
-    render() {
-        return (
-            <Row className={'row-eq-height'}>
-                { this.getRows() }
-            </Row>
-        )
-    }
-}
+const EventList = ({events}) => (
+    <Row className={'row-eq-height'}>
+        { getRows(events) }
+    </Row>
+);
 
 EventList.propTypes = {
     events: PropTypes.array.isRequired

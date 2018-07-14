@@ -1,20 +1,7 @@
 .eventRow {
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 5px;
-    background: #dddddd;
-    border: 1px solid #0069D9;
     transition:.75s;
-}
-
-.eventRow:hover {
-    background: #666666;
-}
-
-.eventRow:hover .title {
-    color: #fff;
 }
 
 .eventRow:hover .img {
@@ -27,7 +14,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition:.75s;
 }
 
 .img {

@@ -22,7 +22,7 @@ import ArticleList from './containers/article/article_list';
 import ArticleEditor from './containers/article/article_editor';
 import EventEditor from './containers/event/event_editor';
 import EventTop from './containers/event/event_top';
-import EventManageList from './containers/event/event_manage_list';
+import EventManageTop from './containers/event/event_manage_top';
 import EventDetail from './containers/event/event_detail';
 import UserList from './containers/user/userList';
 
@@ -44,7 +44,7 @@ ReactDOM.render(
                             <Route exact path="/users" component={UserList} />
                             <Route exact path="/events" component={EventTop} />
                             <Route exact path="/articles" component={ArticleList} />
-                            <Route exact path="/events/manage" component={EventManageList} />
+                            <Route exact path="/events/manage" component={EventManageTop} />
                             <Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />
                             <Route path="/events/:eventId/:placeId" component={EventDetail} />
                             <Route path="/articles/edit/:articleId?" component={ArticleEditor} />
