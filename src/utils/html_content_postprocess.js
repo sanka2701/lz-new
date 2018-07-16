@@ -72,31 +72,24 @@ export default class HtmlContentPostprocess {
         return file;
     };
 
-    substituteUrls = (map, content) => {
-        let replaced = content;
-        _.forOwn(map, (value, key) => {
-            replaced = replaced.replace(key, value)
-        });
-
-        // console.log('map', map);
-        // console.log(replaced);
-
-        return replaced;
-    };
-
     getUrlMap = async (blobUrls) => {
         const urlMap = {};
         for (let blobUrl of blobUrls) {
-            const file = await this.blobUrlToFile(blobUrl);
-            urlMap[blobUrl] = await this.uploadImg(file);
+            urlMap[blobUrl] = await this.blobUrlToFile(blobUrl);
         }
         return urlMap;
+    };
+
+    getContentFiles = async(content) => {
+        const htmlRootNode = this.contentToHtmlRootNode(content);
+        const imgBlobUrls = this.extractImgSources(htmlRootNode);
+        return await this.getUrlMap(imgBlobUrls);
     };
 
     postProcess = async (content) => {
         const htmlRootNode = this.contentToHtmlRootNode(content);
         const imgBlobUrls = this.extractImgSources(htmlRootNode);
         const urlMap = await this.getUrlMap(imgBlobUrls);
-        return this.substituteUrls(urlMap, content);
+        return urlMap;
     }
 }

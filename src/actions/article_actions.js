@@ -4,6 +4,7 @@ import HtmlContentPostprocess from '../utils/html_content_postprocess';
 
 export const postArticle = ({thumbnail, content, ...article}) => async dispatch => {
     try {
+        //todo: rework like events posting to form data and let server handle urls substitution
         const processor = new HtmlContentPostprocess();
         article.thumbnail = thumbnail instanceof File ? await processor.uploadImg(thumbnail): thumbnail;
         article.content = await processor.postProcess(content);
