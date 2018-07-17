@@ -13,6 +13,7 @@ const BasicDropdownList = ({ onBlur, onChange, value, meta, data }) => (
         onChange={onChange}
         onBlur={() => onBlur(value)}
         filter
+        valueField="millis"
         textField="label"
         messages={{emptyFilter:'No options found'}}
         data={data}

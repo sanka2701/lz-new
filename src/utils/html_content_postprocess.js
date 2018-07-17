@@ -27,6 +27,7 @@ export default class HtmlContentPostprocess {
         return outputList;
     };
 
+    //todo: remove
     uploadImg = async (file) => {
         let result;
         const formData = new FormData();
@@ -44,13 +45,6 @@ export default class HtmlContentPostprocess {
         return `${ROOT_URL}/img/${result.replace(/\\/g,'/')}`;
     };
 
-    // todo: remove
-    getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-    }
-
     blobUrlToFile = async (blobUrl) => {
         let file;
         await axios({
@@ -58,8 +52,7 @@ export default class HtmlContentPostprocess {
             url: blobUrl,
             responseType: 'blob'
         }).then(response => {
-            // todo: remove random number assignement - just dev purpose
-            file = new File([response.data], 'img' + this.getRandomInt(0,9999) + '.jpg', {
+            file = new File([response.data], 'temporaryImg.jpg', {
                 type: "image/jpeg"
             });
         }).catch(error => {
@@ -86,6 +79,7 @@ export default class HtmlContentPostprocess {
         return await this.getUrlMap(imgBlobUrls);
     };
 
+    //todo: remove
     postProcess = async (content) => {
         const htmlRootNode = this.contentToHtmlRootNode(content);
         const imgBlobUrls = this.extractImgSources(htmlRootNode);

@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loadEventById, loadPlaceById, approveEvent } from '../../actions';
+
+import { compose } from 'redux';
+import { loadEventById, loadPlaceById, updateEvent } from '../../actions';
 import { Row, Col, Button } from 'reactstrap';
 import PostImage from '../../components/post/post_image';
 import PostContextMenu from '../../components/post/post_context_menu';
@@ -20,8 +22,8 @@ class EventDetail extends React.Component {
         !this.props.event && this.props.loadEventById(eventId);
         !this.props.place && this.props.loadPlaceById(placeId);
 
-        this.onEdit = this.onEdit.bind(this);
-        this.onApprove = this.onApprove.bind(this);
+        // this.onEdit = this.onEdit.bind(this);
+        // this.onApprove = this.onApprove.bind(this);
     }
 
     onEdit() {
@@ -30,12 +32,11 @@ class EventDetail extends React.Component {
     }
 
     onApprove() {
-        debugger;
         const { event } = this.props;
-        this.props.approveEvent(event.id);
+        this.props.updateEvent(event);
     }
 
-    render(){
+    render() {
         const { event, place, currentUser } = this.props;
 
         if(!event || !place) {
@@ -50,8 +51,8 @@ class EventDetail extends React.Component {
             <div>
                 {(/*isOwner(currentUser, event) ||*/ hasRole(currentUser, [ROLE_ADMIN])) && (
                     <PostContextMenu
-                        onEdit={this.onEdit}
-                        onApprove={!event.approved ? this.onApprove : null}
+                        onEdit={this.onEdit.bind(this)}
+                        onApprove={!event.approved ? this.onApprove.bind(this) : null}
                     />
                 )}
 
@@ -86,4 +87,6 @@ const mapStateToProps = ({ events, places, auth }, ownProps) => {
     }
 };
 
-export default connect(mapStateToProps, { loadEventById, loadPlaceById, approveEvent })(EventDetail);
+export default compose(
+    connect(mapStateToProps, { loadEventById, loadPlaceById, updateEvent })
+)(EventDetail);

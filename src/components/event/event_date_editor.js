@@ -5,20 +5,20 @@ import { timeToMilliseconds } from '../../utils/helpers';
 import FormDateTimePicker from '../ui/fields/form_date_time_picker';
 import FormDropdownList from '../ui/fields/form_dropdown_list';
 
-const PlaceDateEditor = () => {
-    const getTimeSteps = () => {
-        const timeOptions = [];
-        for (let hours = 0; hours < 24; hours++) {
-            for (let minutes = 0; minutes < 60; minutes+=15) {
-                timeOptions.push({
-                    label: ("0" + hours).slice(-2) + ':' + ("0" + minutes).slice(-2),
-                    millis: timeToMilliseconds(hours, minutes)
-                })
-            }
+const getTimeSteps = () => {
+    const timeOptions = [];
+    for (let hours = 0; hours < 24; hours++) {
+        for (let minutes = 0; minutes < 60; minutes+=15) {
+            timeOptions.push({
+                label: ("0" + hours).slice(-2) + ':' + ("0" + minutes).slice(-2),
+                millis: timeToMilliseconds(hours, minutes)
+            })
         }
-        return timeOptions;
-    };
+    }
+    return timeOptions;
+};
 
+const PlaceDateEditor = () => {
     return (
         <div>
             <Row style={{marginTop: '20px', marginBottom: '10px'}}>
