@@ -11,39 +11,33 @@ const toFormData = async ({ place, thumbnail, ...event }) => {
     const formData = new FormData();
     formData.append('event', JSON.stringify(event));
     formData.append('place', JSON.stringify(place));
-    formData.append('thumbnail', thumbnail);
     _.forEach(files, ( file, url ) => {
         formData.append('fileUrls', url);
         formData.append('file', file);
     });
+    thumbnail instanceof File
+        ? formData.append('thumbnail', thumbnail)
+        : event.thumbnail = thumbnail;
 
     return formData;
 };
 
-export const postEvent = ( event ) => async (dispatch) => {
-    let formData = await toFormData(event);
-
-    const request = {
-        endpoint: 'events',
-        payload: formData,
-        params: {},
+const buildRequest = async ( event, endpoint ) => {
+    return {
+        endpoint: endpoint,
+        payload: await toFormData(event),
         successAction: POST_EVENT_SUCCESS,
         failureAction: POST_PLACE_FAILURE
-    };
+    }
+};
 
+export const postEvent = ( event ) => async (dispatch) => {
+    const request = await buildRequest(event, 'events');
     dispatch(post(request));
 };
 
 export const updateEvent = (event) => async dispatch => {
-    let formData = await toFormData(event);
-
-    const request = {
-        endpoint: 'events/update',
-        params: formData,
-        successAction: POST_EVENT_SUCCESS,
-        failureAction: POST_PLACE_FAILURE
-    };
-
+    const request = await buildRequest(event, 'events/update\'');
     dispatch(post(request));
 };
 
