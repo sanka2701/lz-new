@@ -6,7 +6,7 @@ import withLoadingAnimation from '../../components/ui/content/withLodingAnimatio
 import withSideBar from '../../components/ui/content/with_sidebar';
 import Pagination from '../../components/ui/pagination';
 import EventFilter from './event_filter';
-import EventList from './event_list';
+import EventList from '../../components/event/event_list';
 import _ from 'lodash';
 
 import {makeGetEventsByApproval} from '../../filters/event_view_filter';

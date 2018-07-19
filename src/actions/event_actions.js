@@ -1,6 +1,5 @@
 import { post, get } from './index';
 import {GET_EVENTS_REQUEST,CHANGE_EVENT_PAGE,GET_EVENTS_FAILURE, GET_EVENTS_SUCCESS, POST_EVENT_SUCCESS, POST_PLACE_FAILURE} from "./types";
-import {postPlace} from "./place_actions";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
 import _ from 'lodash';
 

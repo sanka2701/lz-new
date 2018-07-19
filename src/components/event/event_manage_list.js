@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import EventRow from '../../components/event/event_row';
+import EventRow from './event_row';
 import { Row, Col } from 'reactstrap';
 import _ from 'lodash';
 

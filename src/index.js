@@ -13,12 +13,12 @@ import './style/index.css';
 import registerServiceWorker from './services/registerServiceWorker';
 import App from './App';
 
-/*move to router component*/
+// todo: move to router component
 import Register from './containers/auth/register';
 import Login from './containers/auth/login';
 import Home from './containers/home';
 import ArticleDetail from './containers/article/article_detail';
-import ArticleList from './containers/article/article_list';
+import ArticleTop from './containers/article/article_top';
 import ArticleEditor from './containers/article/article_editor';
 import EventEditor from './containers/event/event_editor';
 import EventTop from './containers/event/event_top';
@@ -43,7 +43,7 @@ ReactDOM.render(
                             <Route path="/login" component={Login} />
                             <Route exact path="/users" component={UserList} />
                             <Route exact path="/events" component={EventTop} />
-                            <Route exact path="/articles" component={ArticleList} />
+                            <Route exact path="/articles" component={ArticleTop} />
                             <Route exact path="/events/manage" component={EventManageTop} />
                             <Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />
                             <Route path="/events/:eventId/:placeId" component={EventDetail} />

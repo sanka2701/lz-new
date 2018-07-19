@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
-import PostCard from '../../components/post/post_card';
+import PostCard from '../post/post_card';
 import PropTypes from "prop-types";
 import _ from 'lodash';
 
-import styles from './event_list.module.css';
+import styles from '../../containers/event/event_list.module.css';
 
 const getRows = (events) => _.map(events, event => (
     <Col md={6} key={'event-' + event.id}>

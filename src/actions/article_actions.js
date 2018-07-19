@@ -1,5 +1,8 @@
 import { get, post } from './index';
-import {GET_ARTICLES_FAILURE, GET_ARTICLES_SUCCESS, POST_PLACE_SUCCESS} from "./types";
+import {
+    CHANGE_ARTICLE_PAGE, GET_ARTICLES_FAILURE, GET_ARTICLES_REQUEST, GET_ARTICLES_SUCCESS,
+    POST_PLACE_SUCCESS
+} from "./types";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
 import _ from "lodash";
 
@@ -39,7 +42,21 @@ export const updateArticle = (article) => async dispatch => {
     await dispatch(post(request));
 };
 
+export const setArticlesPagination = (pageIndex) => {
+    return {
+        type: CHANGE_ARTICLE_PAGE,
+        payload: {pageIndex}
+    }
+};
+
+export const requestArticles = () => {
+    return {
+        type: GET_ARTICLES_REQUEST
+    }
+};
+
 export const loadArticleById = id => dispatch => {
+    dispatch(requestArticles());
     const request = {
         endpoint: 'articles',
         params: { id },
@@ -50,6 +67,7 @@ export const loadArticleById = id => dispatch => {
 };
 
 export const loadArticlesByFilter = filter => dispatch => {
+    dispatch(requestArticles());
     const request = {
         endpoint: 'articles/filter',
         params: {},

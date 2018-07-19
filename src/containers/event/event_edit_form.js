@@ -78,7 +78,6 @@ const EventEditForm = ({
 
 function validate(values) {
     const errors = {};
-// debugger;
     if(values.time) {
         if(values.time.startDate &&
             values.time.endDate &&
@@ -91,7 +90,6 @@ function validate(values) {
     }
 
     if(!values.place || !values.place.label) {
-        // debugger;
         errors.place={};
         errors.place.label='error.field.required'
     }

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { loadEventsByFilter, setEventPagination } from '../../actions';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import Pagination from '../../components/ui/pagination';
-import EventManageList from './event_manage_list';
+import EventManageList from '../../components/event/event_manage_list';
 import _ from 'lodash';
 
 import {makeGetEventsByApproval} from '../../filters/event_view_filter';

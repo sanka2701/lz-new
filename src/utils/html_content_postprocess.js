@@ -1,7 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
-import FormData from 'form-data';
-import { ROOT_URL } from './constant';
 
 export default class HtmlContentPostprocess {
     contentToHtmlRootNode = (htmlString) => {
@@ -25,24 +22,6 @@ export default class HtmlContentPostprocess {
         recurseDomChildren(htmlRootNode);
 
         return outputList;
-    };
-
-    //todo: remove
-    uploadImg = async (file) => {
-        let result;
-        const formData = new FormData();
-        formData.append('file', file);
-
-        await axios.post(`${ROOT_URL}/files/upload`, formData)
-            .then(request => {
-                result = request.data;
-            }).catch(error => {
-                throw {
-                    message: 'error.postingImage',
-                    error
-                }
-            });
-        return `${ROOT_URL}/img/${result.replace(/\\/g,'/')}`;
     };
 
     blobUrlToFile = async (blobUrl) => {
@@ -78,12 +57,4 @@ export default class HtmlContentPostprocess {
         const imgBlobUrls = this.extractImgSources(htmlRootNode);
         return await this.getUrlMap(imgBlobUrls);
     };
-
-    //todo: remove
-    postProcess = async (content) => {
-        const htmlRootNode = this.contentToHtmlRootNode(content);
-        const imgBlobUrls = this.extractImgSources(htmlRootNode);
-        const urlMap = await this.getUrlMap(imgBlobUrls);
-        return urlMap;
-    }
 }
