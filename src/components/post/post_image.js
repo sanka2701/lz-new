@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import styles from './psot_image.module.css';
+import styles from './post_image.module.css';
 
 const PostImage = ({ imgSrc, title }) => (
     <div className={styles.container}>

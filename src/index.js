@@ -49,7 +49,8 @@ ReactDOM.render(
                             <Route path="/events/:eventId/:placeId" component={EventDetail} />
                             <Route path="/articles/edit/:articleId?" component={ArticleEditor} />
                             <Route path="/articles/:articleId" component={ArticleDetail} />
-                            <Route path="/" component={Home} />
+                            {/*<Route path="/" component={Home} />*/}
+                            <Route path="/" component={EventTop} />
                         </Switch>
                     </App>
                 </div>

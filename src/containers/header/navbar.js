@@ -48,11 +48,11 @@ class SiteNavigation extends React.Component {
                     <NavbarToggler onClick={this.toggleNavbar} />
                     <Collapse isOpen={this.state.isNavbarOpen} navbar>
                         <Nav className='mr-auto' navbar>
-                            <NavItem>
-                                <NavLink tag={Link} to='/'>
-                                    <FormattedMessage id='nav.home' defaultMessage='Home' />
-                                </NavLink>
-                            </NavItem>
+                            {/*<NavItem>*/}
+                                {/*<NavLink tag={Link} to='/'>*/}
+                                    {/*<FormattedMessage id='nav.home' defaultMessage='Home' />*/}
+                                {/*</NavLink>*/}
+                            {/*</NavItem>*/}
                             <NavItem>
                                 <NavLink tag={Link} to='/events'>
                                     <FormattedMessage id='nav.events' defaultMessage='Events' />

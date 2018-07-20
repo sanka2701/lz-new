@@ -2,14 +2,14 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl'
 import { BORDER_EVENT } from '../../utils/constant';
 import Border from '../ui/content/bordered_content';
+import moment from 'moment';
 import $ from 'jquery';
+import PropTypes from 'prop-types';
 
 import styles from './post_card.module.css';
 
-import moment from 'moment';
-
-const formatDate = (date) => {
-    return moment().format('DD MMM');
+const formatDate = (dateMillis) => {
+    return moment(new Date(dateMillis)).format('DD MMM');
 };
 
 const PostCard = ({post}) => {
@@ -36,6 +36,10 @@ const PostCard = ({post}) => {
             </div>
         </Border>
     )
+};
+
+PostCard.propTypes = {
+    post: PropTypes.object.isRequired
 };
 
 export default PostCard

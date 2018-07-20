@@ -35,6 +35,7 @@ export const postEvent = ( event ) => async (dispatch) => {
     dispatch(post(request));
 };
 
+// todo: fire UPDATE EVENT action to update just one event in store
 export const updateEvent = (event) => async dispatch => {
     const request = await buildRequest(event, 'events/update\'');
     dispatch(post(request));

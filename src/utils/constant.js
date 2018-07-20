@@ -14,5 +14,6 @@ export const BORDER_SIDEBAR = 'B_SIDEBAR';
 
 export const LM_GPS_COORDS = {lat: 49.0811, lng: 19.6192};
 
+export const UPCOMING_EVENTS_COUNT = 10;
 export const POSTS_PER_PAGE = 4;
 export const PAGINATION_NUMBER_SPREAD = 2;
