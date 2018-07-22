@@ -25,6 +25,7 @@ import EventTop from './containers/event/event_top';
 import EventManageTop from './containers/event/event_manage_top';
 import EventDetail from './containers/event/event_detail';
 import UserList from './containers/user/userList';
+import PhotoManage from './containers/photo/photo_manage';
 
 import moment from 'moment';
 import 'moment/locale/sk';
@@ -41,6 +42,7 @@ ReactDOM.render(
                         <Switch>
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
+                            <Route exact path="/potw" component={PhotoManage} />
                             <Route exact path="/users" component={UserList} />
                             <Route exact path="/events" component={EventTop} />
                             <Route exact path="/articles" component={ArticleTop} />

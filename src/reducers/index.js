@@ -7,6 +7,7 @@ import articlesReducer from './reducer_articles';
 import eventsReducer from './reducer_events';
 import errorReducer from './reducer_error';
 import usersReducer from './reducer_users';
+import potwReducer from './reducer_potw';
 
 const rootReducer = combineReducers({
     form: formReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     articles: articlesReducer,
     events: eventsReducer,
     users: usersReducer,
-    error: errorReducer
+    error: errorReducer,
+    photos: potwReducer
 });
 
 export default rootReducer;

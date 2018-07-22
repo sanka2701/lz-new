@@ -44,15 +44,18 @@ export default ({ onLogOut, userName, role }) => {
                                 <FormattedMessage id='nav.createArticle' defaultMessage='Create Article' />
                             </DropdownItem>
                             <DropdownItem divider />
+                            <DropdownItem tag={Link} to='/potw'>
+                                <FormattedMessage id='nav.photoOfTheWeek' defaultMessage='Photo of the week' />
+                            </DropdownItem>
                             <DropdownItem tag={Link} to='/events/manage'>
                                 <FormattedMessage id='nav.manageEvents' defaultMessage='Manage Events' />
+                            </DropdownItem>
+                            <DropdownItem tag={Link} to='/places'>
+                                <FormattedMessage id='nav.managePlaces' defaultMessage='Manage Places' />
                             </DropdownItem>
                             <DropdownItem tag={Link} to='/users'>
                                 <FormattedMessage id='nav.manageUsers' defaultMessage='Manage Users' />
                             </DropdownItem>
-                            {/*<DropdownItem>*/}
-                                {/*<FormattedMessage id='nav.managePlaces' defaultMessage='Manage Places' />*/}
-                            {/*</DropdownItem>*/}
                             {/*<DropdownItem>*/}
                                 {/*<FormattedMessage id='nav.manageTags' defaultMessage='Manage Tags' />*/}
                             {/*</DropdownItem>*/}

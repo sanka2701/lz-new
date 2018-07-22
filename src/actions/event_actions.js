@@ -35,7 +35,7 @@ export const postEvent = ( event ) => async (dispatch) => {
     dispatch(post(request));
 };
 
-// todo: fire UPDATE EVENT action to update just one event in store
+//todo: fire UPDATE EVENT action to update just one event in store
 export const updateEvent = (event) => async dispatch => {
     const request = await buildRequest(event, 'events/update\'');
     dispatch(post(request));
@@ -73,7 +73,7 @@ export const loadEventsByFilter = filter => dispatch => {
         params: {},
         payload: {...filter},
         successAction: GET_EVENTS_SUCCESS,
-        failureAction: 'nok'
+        failureAction: GET_EVENTS_FAILURE
     };
     dispatch(post(request));
 };
