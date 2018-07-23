@@ -14,7 +14,7 @@ const toFormData = async ({ photoFile, ...weeklyPhoto }) => {
     formData.append('json', JSON.stringify(weeklyPhoto));
     photoFile instanceof File
         ? formData.append('file', photoFile)
-        : event.thumbnail = photoFile;
+        : weeklyPhoto.photoFile = photoFile;
 
     return formData;
 };
