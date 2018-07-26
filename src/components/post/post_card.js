@@ -13,7 +13,6 @@ const formatDate = (dateMillis) => {
 };
 
 const PostCard = ({post}) => {
-    //todo: card text trucation by css
     return (
         <div className={styles.card}>
             <div className={styles['ribbon-wrapper']}>
@@ -31,7 +30,7 @@ const PostCard = ({post}) => {
             </h5>
             <div className={styles["text-wrapper"]}>
                 <div className={styles.preview}>
-                    {$(post.content).text().slice(1,200)}...
+                    {$(post.content).text().slice(1,150)}
                 </div>
             </div>
         </div>

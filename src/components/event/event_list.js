@@ -9,7 +9,7 @@ import _ from 'lodash';
 import styles from '../../containers/event/event_list.module.css';
 
 const getRows = (events) => _.map(events, event => (
-    <BorderCol md={6} key={'event-' + event.id} style={{marting: '10px'}}>
+    <BorderCol md={6} grow={true} key={'event-' + event.id} >
         <Link to={`/events/${event.id}/${event.placeId}`}
               style={{textDecoration: 'none', color: 'inherit', height: '100%'}}>
             <PostCard post={event}/>

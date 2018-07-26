@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 const getRows = (articles) => _.map(articles, (article) => (
-    <Col md={6} key={'article-' + article.id}>
+    <Col md={6} grow={true} key={'article-' + article.id}>
         <Link to={`/articles/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }} >
             <PostCard post={article}/>
         </Link>

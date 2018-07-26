@@ -18,16 +18,21 @@ const resolveColor = (type) => {
     }
 };
 
-const BorderCol = ({ children, type, ...props }) => (
-    <Col className={styles["card-wrapper"]} style={{borderColor:resolveColor(type)}} {...props} >
-        <div className={styles.card}>
+const BorderCol = ({ children, type, grow, ...props }) => (
+    <Col className={`${styles["border-wrapper"]} ${grow && styles.grow}`} style={{borderColor:resolveColor(type)}} {...props} >
+        <div className={styles.border}>
             {children}
         </div>
     </Col>
 );
 
-BorderCol.propTypes ={
-    type: PropTypes.string
+BorderCol.propTypes = {
+    type: PropTypes.string,
+    grow: PropTypes.bool
+};
+
+BorderCol.defaultProps = {
+    grow: false
 };
 
 export default BorderCol;
