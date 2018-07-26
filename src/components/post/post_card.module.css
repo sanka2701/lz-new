@@ -1,6 +1,7 @@
 .card {
     margin: -15px;
-    height: 100%;
+    height: 30vw;
+    /*height: 100%;*/
 }
 
 .card .thumbnail {
@@ -9,11 +10,14 @@
 }
 
 .card .title {
-
+    margin-top: 5px;
+    margin-left: 10px;
 }
 
+/*todo: set 3 line text overflow*/
 .card .preview {
     margin: 15px;
+    width: 100%;
 }
 
 .ribbon-wrapper {

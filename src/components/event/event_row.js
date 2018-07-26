@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
-import Border from '../ui/content/bordered_content';
+import BorderCol from '../ui/content/bordered_content';
 
 import styles from './event_row.module.css';
 
 export default ({event}) => {
     return (
-        <Border>
+        <BorderCol>
             <Row className={styles.eventRow} >
                 <Col sm='2' >
                     <img src={event.thumbnail} className={`${styles.img}`} />
@@ -45,6 +45,6 @@ export default ({event}) => {
                     </Button>
                 </Col>
             </Row>
-        </Border>
+        </BorderCol>
     )
 }

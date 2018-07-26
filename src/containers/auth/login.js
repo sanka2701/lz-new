@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { post } from '../../actions';
 import { AUTH_USER, AUTH_ERROR } from '../../actions/types'
-import Border from '../../components/ui/content/bordered_content';
+import BorderCol from '../../components/ui/content/bordered_content';
 import _ from 'lodash';
 
 const FIELDS = {
@@ -70,7 +70,7 @@ class Login extends Component{
         const { handleSubmit } = this.props;
 
         return (
-            <Border>
+            <BorderCol>
                 <form onSubmit={handleSubmit(this.onSubmit)}>
                     <h3>
                         <FormattedMessage id='auth.login' defaultMessage='Login'/>
@@ -83,7 +83,7 @@ class Login extends Component{
                         <FormattedMessage id='general.cancel' defaultMessage='Cance'/>
                     </Button>{' '}
                 </form>
-            </Border>
+            </BorderCol>
         )
     }
 }

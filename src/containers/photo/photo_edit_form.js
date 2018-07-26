@@ -1,5 +1,5 @@
 import React from 'react';
-import Border from '../../components/ui/content/bordered_content';
+import BorderCol from '../../components/ui/content/bordered_content';
 import { Row, Col } from 'reactstrap';
 import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
@@ -20,7 +20,7 @@ const PhotoEditForm = ({
             onCancel={onCancel}
         />
 
-        <Border>
+        <BorderCol>
             <form>
                 <Row>
                     <Col>
@@ -51,7 +51,7 @@ const PhotoEditForm = ({
                     </Col>
                 </Row>
             </form>
-        </Border>
+        </BorderCol>
     </div>
 );
 

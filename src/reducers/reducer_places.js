@@ -6,7 +6,6 @@ export default function (state = Immutable.OrderedMap({}), action) {
     switch (action.type) {
         case POST_PLACE_SUCCESS:
         case GET_PLACES_SUCCESS:
-            debugger;
             const addedPlaces = Immutable.OrderedMap(_.mapKeys(action.payload.places, 'id'));
             return state.merge(addedPlaces);
         default:

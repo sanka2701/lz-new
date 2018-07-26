@@ -8,7 +8,7 @@ import FormInput from '../../components/ui/fields/form_input';
 import FormFileUpload from '../../components/ui/fields/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form_content_editor';
 import PostContextMenu from '../../components/post/post_context_menu';
-import Border from '../../components/ui/content/bordered_content';
+import BorderCol from '../../components/ui/content/bordered_content';
 
 const EventEditForm = ({
     handleSubmit,
@@ -28,7 +28,7 @@ const EventEditForm = ({
                 onApprove={editMode ? onApprove : null}
             />
 
-            <Border>
+            <BorderCol>
                 <form>
                     <Row>
                         <Col>
@@ -64,7 +64,7 @@ const EventEditForm = ({
                         </Col>
                     </Row>
                 </form>
-            </Border>
+            </BorderCol>
 
             <PostContextMenu
                 onSubmit={handleSubmit(onSubmit)}

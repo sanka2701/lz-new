@@ -4,10 +4,10 @@ import { Row, Col } from 'reactstrap';
 
 const withSideBar = (WrappedComponent) => ({ ...props }) => (
     <Row>
-        <Col md={8}>
+        <Col md={8} >
             <WrappedComponent {...props} />
         </Col>
-        <Col md={4} className={"d-none d-md-block"}>
+        <Col md={4} className={"d-none d-md-block"} >
             <SideBar />
         </Col>
     </Row>

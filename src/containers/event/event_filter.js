@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'reactstrap';
-import Border from '../../components/ui/content/bordered_content';
+import BorderCol from '../../components/ui/content/bordered_content';
 const EventFilter = ({test}) => {
     return (
         <Row>
             <Col>
-                <Border>
+                <BorderCol>
                     {test}
-                </Border>
+                </BorderCol>
             </Col>
         </Row>
     )

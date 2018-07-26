@@ -1,4 +1,5 @@
 import React from 'react';
+import { Col } from 'reactstrap';
 import PropTypes from "prop-types";
 import { BORDER_ARTICLE, BORDER_EVENT, BORDER_SIDEBAR } from '../../../utils/constant';
 
@@ -17,14 +18,16 @@ const resolveColor = (type) => {
     }
 };
 
-const Border = ({ children, type }) => (
-    <div className={styles.card} style={{borderColor:resolveColor(type)}}>
-        {children}
-    </div>
+const BorderCol = ({ children, type, ...props }) => (
+    <Col className={styles["card-wrapper"]} style={{borderColor:resolveColor(type)}} {...props} >
+        <div className={styles.card}>
+            {children}
+        </div>
+    </Col>
 );
 
-Border.propTypes ={
+BorderCol.propTypes ={
     type: PropTypes.string
 };
 
-export default Border;
+export default BorderCol;
