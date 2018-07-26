@@ -29,8 +29,10 @@ const PostCard = ({post}) => {
             <h5 className={styles.title}>
                 {post.title}
             </h5>
-            <div className={styles.preview}>
-                {$(post.content).text().slice(1,200)}...
+            <div className={styles["text-wrapper"]}>
+                <div className={styles.preview}>
+                    {$(post.content).text().slice(1,200)}...
+                </div>
             </div>
         </div>
     )

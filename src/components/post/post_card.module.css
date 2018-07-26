@@ -1,6 +1,7 @@
 .card {
     margin: -15px;
     height: 30vw;
+    /*overflow: hidden;*/
     /*height: 100%;*/
 }
 
@@ -14,10 +15,26 @@
     margin-left: 10px;
 }
 
-/*todo: set 3 line text overflow*/
-.card .preview {
-    margin: 15px;
+.card .text-wrapper {
+    padding: 10px;
+}
+
+.card .text-wrapper .preview {
+    overflow: hidden;
+    position: relative;
+    height: 3.6em;
+    line-height: 1.2em;
+}
+
+.card .text-wrapper .preview:after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     width: 100%;
+    height: 1.2em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 90%);
 }
 
 .ribbon-wrapper {
