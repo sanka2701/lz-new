@@ -6,6 +6,7 @@ import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
 
+export * from './user_actions';
 export * from './article_actions';
 export * from './place_actions';
 export * from './event_actions';

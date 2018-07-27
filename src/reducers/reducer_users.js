@@ -1,11 +1,34 @@
-import { USERS_LOADED} from '../actions/types';
+import {
+    GET_USERS_FAILURE,
+    GET_USERS_REQUEST,
+    GET_USERS_SUCCESS, SET_USERS_FILTER
+} from '../actions/types';
 import _ from 'lodash';
 
-export default function (state = {}, action) {
+const defaultState = {
+    byId: {},
+    ids: [],
+    isLoading: false,
+    filter : {}
+};
+
+export default function (state = defaultState, action) {
     switch (action.type) {
-        case USERS_LOADED:
-            return _.mapKeys(action.payload.users, 'id');
+        case GET_USERS_SUCCESS:
+            const { users } = action.payload;
+            return {
+                ...state,
+                byId: _.mapKeys(users, 'id'),
+                ids: _.map(users, 'id'),
+                isLoading: false
+            };
+        case GET_USERS_FAILURE:
+            return { ...state, isLoading: false };
+        case GET_USERS_REQUEST:
+            return { ...state, isLoading: true };
+        case SET_USERS_FILTER:
+            return { ...state, filter: { ...state.filter, ...action.payload.filter } };
         default:
-            return state
+            return state;
     }
 }

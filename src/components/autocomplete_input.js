@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Autocomplete from 'react-autocomplete';
 
-// todo: do not callOnInputChange callback for each keystroke but wait for some time first
 class AutocompleteInput extends Component {
     constructor(props) {
         super(props);
