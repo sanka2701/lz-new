@@ -1,0 +1,15 @@
+[ignore]
+.*/node_modules/.*
+.*/public/.*
+.*/src/services/.*
+.*/src/index\.js
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

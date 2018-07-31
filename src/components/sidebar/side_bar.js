@@ -5,7 +5,6 @@ import { BORDER_SIDEBAR } from '../../utils/constant';
 import UpcomingEvents from '../../containers/event/event_upcoming';
 import PhotoSidebar from '../../containers/photo/photo_sidebar';
 
-//todo: add content
 export default (props) => (
     <div>
         <BorderCol type={BORDER_SIDEBAR} >

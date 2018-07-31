@@ -26,12 +26,12 @@ class EventDetail extends React.Component {
         // this.onApprove = this.onApprove.bind(this);
     }
 
-    onEdit() {
+    onEdit = () => {
         const { event, place } = this.props;
         this.props.history.push(`/events/edit/${event.id}/${place.id}`);
-    }
+    };
 
-    onApprove() {
+    onApprove = () => {
         const { event } = this.props;
         this.props.updateEvent(event);
     }
@@ -51,8 +51,8 @@ class EventDetail extends React.Component {
             <div>
                 {(/*isOwner(currentUser, event) ||*/ hasRole(currentUser, [ROLE_ADMIN])) && (
                     <PostContextMenu
-                        onEdit={this.onEdit.bind(this)}
-                        onApprove={!event.approved ? this.onApprove.bind(this) : null}
+                        onEdit={this.onEdit}
+                        onApprove={!event.approved ? this.onApprove : null}
                     />
                 )}
 

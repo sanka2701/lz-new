@@ -25,7 +25,6 @@ class ModalExample extends React.Component {
     }
 
     render() {
-        // todo: 'nonexistent' in formatted message is hacky
         return (
             <div>
                 <Button color="danger" onClick={() => this.props.testAction()}>Test error modal</Button>
@@ -35,7 +34,9 @@ class ModalExample extends React.Component {
                         <FormattedMessage id={'error.modalHeader'} defaultMessage='Ooops wild error has appeared'/>
                     </ModalHeader>
                     <ModalBody>
-                        <FormattedMessage id={this.props.errorMessage || 'nonexistent'} defaultMessage='Unknown error has occured'/>
+                        {this.props.errorMessage &&
+                            <FormattedMessage id={this.props.errorMessage} defaultMessage='Unknown error has occured'/>
+                        }
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>okay</Button>
