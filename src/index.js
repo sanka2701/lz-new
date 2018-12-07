@@ -25,6 +25,7 @@ import EventTop from './containers/event/event_top';
 import EventManageTop from './containers/event/event_manage_top';
 import EventDetail from './containers/event/event_detail';
 import UserTop from './containers/user/user_top';
+import PlacesTop from './containers/place/place_top';
 import PhotoManage from './containers/photo/photo_manage';
 
 import moment from 'moment';
@@ -44,6 +45,7 @@ ReactDOM.render(
                             <Route path="/login" component={Login} />
                             <Route exact path="/potw" component={PhotoManage} />
                             <Route exact path="/users" component={UserTop} />
+                            <Route exact path="/places" component={PlacesTop} />
                             <Route exact path="/events" component={EventTop} />
                             <Route exact path="/articles" component={ArticleTop} />
                             <Route exact path="/events/manage" component={EventManageTop} />

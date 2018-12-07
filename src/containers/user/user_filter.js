@@ -2,24 +2,19 @@ import React from 'react';
 import {
     Row,
     Col,
-    Input,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Button } from 'reactstrap';
+    Input} from 'reactstrap';
+import BorderCol from '../../components/ui/content/bordered_content';
 import { connect } from 'react-redux';
 import { setUserFilter } from '../../actions';
-import BorderCol from '../../components/ui/content/bordered_content';
-import { INPUT_SEARCH_DELAY } from '../../utils/constant';
+import {
+  INPUT_SEARCH_DELAY,
+  ROLE_ADMIN,
+  ROLE_TRUSTED_USER,
+  ROLE_USER } from '../../utils/constant';
 
 import styles from './user_filter.module.css';
 
-const UserFilter = ({ filter, setUserFilter }) => {
-    const onFilterChanged = () => {
-
-    };
-
+const UserFilter = ({ setUserFilter }) => {
     const setFilter = (filterField, value) => {
         const filter = {};
         filter[filterField] = value;
@@ -32,6 +27,10 @@ const UserFilter = ({ filter, setUserFilter }) => {
         this.timer = setTimeout(() => setFilter('username', value) , INPUT_SEARCH_DELAY);
     };
 
+    const onRoleChanged = (event) => {
+      setFilter('role', event.target.value);
+    };
+
     return (
         <Row>
             <BorderCol sm={12}>
@@ -40,16 +39,20 @@ const UserFilter = ({ filter, setUserFilter }) => {
                         <Input onChange={onInputValueChanged} />
                     </Col>
                     <Col>
-                        <UncontrolledDropdown className={styles.dropdown}>
-                            <DropdownToggle color={'info'}>
-                                Role
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem >User</DropdownItem>
-                                <DropdownItem >Trusted User</DropdownItem>
-                                <DropdownItem >Admin</DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
+                      <Input type="select" name="select" onChange={onRoleChanged}>
+                        <option value=''>
+                          All
+                        </option>
+                        <option value={ROLE_USER}>
+                          User
+                        </option>
+                        <option value={ROLE_TRUSTED_USER}>
+                          Trusted User
+                        </option>
+                        <option value={ROLE_ADMIN}>
+                          Admin
+                        </option>
+                      </Input>
                     </Col>
                 </Row>
             </BorderCol>
@@ -57,10 +60,4 @@ const UserFilter = ({ filter, setUserFilter }) => {
     )
 };
 
-const mapStateToProps = ({ users: { filter } }) => {
-    return {
-
-    }
-};
-
-export default connect( mapStateToProps, { setUserFilter })(UserFilter);
+export default connect( null, { setUserFilter })(UserFilter);
