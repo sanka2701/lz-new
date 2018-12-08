@@ -17,11 +17,11 @@ const renderButton = ({type, color, message, defaultMessage, callback}) => (
 const PostContextMenu = ({onSubmit, onReset, onEdit, onCancel, onApprove}) => (
     <BorderCol>
         <Row className={styles.wrapper}>
-        { onSubmit  && renderButton({type:'submit', color:'success', message:'submitButton', defaultMessage:'Submit', callback:onSubmit}) }
-        { onReset   && renderButton({type:'button', color:'warning', message:'resetButton', defaultMessage:'Reset', callback:onReset}) }
-        { onEdit    && renderButton({type:'button', color:'warning', message:'editButton', defaultMessage:'Edit', callback:onEdit}) }
-        { onCancel  && renderButton({type:'button', color:'danger', message:'cancelButton', defaultMessage:'Cancel', callback:onCancel}) }
-        { onApprove && renderButton({type:'button', color:'info', message:'approveButton', defaultMessage:'Approve', callback:onApprove}) }
+        { onSubmit  && renderButton({type:'submit', color:'success', message:'submit', defaultMessage:'Submit', callback:onSubmit}) }
+        { onReset   && renderButton({type:'button', color:'warning', message:'reset', defaultMessage:'Reset', callback:onReset}) }
+        { onEdit    && renderButton({type:'button', color:'warning', message:'edit', defaultMessage:'Edit', callback:onEdit}) }
+        { onCancel  && renderButton({type:'button', color:'danger', message:'cancel', defaultMessage:'Cancel', callback:onCancel}) }
+        { onApprove && renderButton({type:'button', color:'info', message:'approve', defaultMessage:'Approve', callback:onApprove}) }
         </Row>
     </BorderCol>
 );

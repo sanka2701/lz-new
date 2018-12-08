@@ -32,7 +32,7 @@ const getTableRows = (users) => map(users, (user, index) => {
   )
 });
 
-const UserList = ({ users }) => (
+const PlaceList = ({ places }) => (
   <BorderCol>
     <Table responsive hover striped>
       <thead>
@@ -53,14 +53,14 @@ const UserList = ({ users }) => (
       </tr>
       </thead>
       <tbody>
-      { getTableRows(users) }
+      { getTableRows(places) }
       </tbody>
     </Table>
   </BorderCol>
 );
 
-UserList.propTypes = {
-    users: PropTypes.array.isRequired
+PlaceList.propTypes = {
+  places: PropTypes.array.isRequired
 };
 
-export default UserList;
+export default PlaceList;

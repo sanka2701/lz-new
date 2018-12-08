@@ -31,6 +31,7 @@ class PlaceAutocomplete extends React.Component {
     triggerFetch() {
         const { value } = this.state;
         if(!!value) {
+          // todo: move to place_actions
             console.log('Fetching place suggestions ....', value);
             const request = {
                 endpoint: 'places',

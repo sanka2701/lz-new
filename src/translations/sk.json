@@ -1,9 +1,13 @@
 {
   "general.submit" : "Odoslať",
+  "general.reset" : "Reset",
+  "general.edit" : "Reset",
+  "general.approve" : "Schváliť",
   "general.cancel" : "Zrušiť",
 
   "nav.home" : "Domov",
   "nav.events" : "Udalosti",
+  "nav.articles" : "Články",
   "nav.login" : "Prihlásiť",
   "nav.logout" : "Odhlásiť",
   "nav.register" : "Registorvať",
@@ -21,5 +25,20 @@
   "places.label" : "Pomenujte miesto",
   "places.showMap": "Zobratiť mapu",
   "places.hideMap": "Skryť mapu",
-  "places.address": "Adresa"
+  "places.address": "Adresa",
+
+  "user.username": "Uživateľské meno",
+  "user.firstName": "Meno",
+  "user.lastName": "Priezvisko",
+  "user.email": "E-mail",
+  "user.role": "Prístup",
+  "user.role.ALL": "Všetky",
+  "user.role.ROLE_ADMIN": "Admin",
+  "user.role.ROLE_USER": "Užívateľ",
+  "user.role.ROLE_TRUSTED_USER": "Partner",
+
+  "tag.category": "Kategória",
+
+  "place.map": "Mapa",
+  "place.label": "Názov"
 }

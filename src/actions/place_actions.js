@@ -1,5 +1,5 @@
 import { get, post } from './index';
-import {GET_PLACES_FAILURE, GET_PLACES_SUCCESS, POST_PLACE_FAILURE, POST_PLACE_SUCCESS} from "./types";
+import {GET_PLACES_FAILURE, GET_PLACES_SUCCESS, POST_PLACE_FAILURE, POST_PLACE_SUCCESS, GET_PLACES_REQUEST} from "./types";
 import {change} from "redux-form";
 
 export const loadPlaceById = id => dispatch => {
@@ -10,6 +10,16 @@ export const loadPlaceById = id => dispatch => {
         failureAction: GET_PLACES_FAILURE
     };
     dispatch(get(request));
+};
+
+export const loadPlaces = () => dispatch =>{
+  dispatch(requestPlaces());
+  const request = {
+    endpoint: 'places/list',
+    successAction: GET_PLACES_SUCCESS,
+    failureAction: GET_PLACES_FAILURE
+  };
+  dispatch(get(request));
 };
 
 export const postPlace = place => async dispatch => {
@@ -25,4 +35,10 @@ export const postPlace = place => async dispatch => {
 
 export const selectPlace = place => dispatch => {
     dispatch(change('create_event', 'place', place))
+};
+
+export const requestPlaces = () => {
+  return {
+    type: GET_PLACES_REQUEST
+  }
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Label,
     Row,
     Col,
     Input} from 'reactstrap';
@@ -11,8 +12,7 @@ import {
   ROLE_ADMIN,
   ROLE_TRUSTED_USER,
   ROLE_USER } from '../../utils/constant';
-
-import styles from './user_filter.module.css';
+import { FormattedMessage } from 'react-intl';
 
 const UserFilter = ({ setUserFilter }) => {
     const setFilter = (filterField, value) => {
@@ -32,31 +32,35 @@ const UserFilter = ({ setUserFilter }) => {
     };
 
     return (
-        <Row>
-            <BorderCol sm={12}>
-                <Row>
-                    <Col sm={8}>
-                        <Input onChange={onInputValueChanged} />
-                    </Col>
-                    <Col>
-                      <Input type="select" name="select" onChange={onRoleChanged}>
-                        <option value=''>
-                          All
-                        </option>
-                        <option value={ROLE_USER}>
-                          User
-                        </option>
-                        <option value={ROLE_TRUSTED_USER}>
-                          Trusted User
-                        </option>
-                        <option value={ROLE_ADMIN}>
-                          Admin
-                        </option>
-                      </Input>
-                    </Col>
-                </Row>
-            </BorderCol>
-        </Row>
+      <BorderCol sm={12}>
+          <Row>
+              <Col sm={8}>
+                  <Label>
+                    <FormattedMessage id={'user.username'} defaultMessage={'Username'}/>
+                  </Label>
+                  <Input onChange={onInputValueChanged} />
+              </Col>
+              <Col>
+                <Label>
+                  <FormattedMessage id={'user.role'} defaultMessage={'Role'}/>
+                </Label>
+                <Input type="select" name="select" onChange={onRoleChanged}>
+                  <option value=''>
+                    <FormattedMessage id={'user.role.ALL'} defaultMessage={'ALL'}/>
+                  </option>
+                  <option value={ROLE_USER}>
+                    <FormattedMessage id={'user.role.ROLE_USER'} defaultMessage={ROLE_USER}/>
+                  </option>
+                  <option value={ROLE_TRUSTED_USER}>
+                    <FormattedMessage id={'user.role.ROLE_TRUSTED_USER'} defaultMessage={ROLE_TRUSTED_USER}/>
+                  </option>
+                  <option value={ROLE_ADMIN}>
+                    <FormattedMessage id={'user.role.ROLE_ADMIN'} defaultMessage={ROLE_ADMIN}/>
+                  </option>
+                </Input>
+              </Col>
+          </Row>
+      </BorderCol>
     )
 };
 

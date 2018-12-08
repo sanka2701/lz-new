@@ -22,6 +22,7 @@ import ArticleTop from './containers/article/article_top';
 import ArticleEditor from './containers/article/article_editor';
 import EventEditor from './containers/event/event_editor';
 import EventTop from './containers/event/event_top';
+import EventTagTop from './containers/eventTag/event_tag_top';
 import EventManageTop from './containers/event/event_manage_top';
 import EventDetail from './containers/event/event_detail';
 import UserTop from './containers/user/user_top';
@@ -32,7 +33,7 @@ import moment from 'moment';
 import 'moment/locale/sk';
 import 'moment/locale/pl';
 import 'moment/locale/en-gb';
-moment.locale('en');
+moment.locale('sk');
 
 ReactDOM.render(
     <Provider store={store}>
@@ -47,6 +48,7 @@ ReactDOM.render(
                             <Route exact path="/users" component={UserTop} />
                             <Route exact path="/places" component={PlacesTop} />
                             <Route exact path="/events" component={EventTop} />
+                            <Route exact path="/tags" component={EventTagTop} />
                             <Route exact path="/articles" component={ArticleTop} />
                             <Route exact path="/events/manage" component={EventManageTop} />
                             <Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />

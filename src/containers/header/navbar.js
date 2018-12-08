@@ -77,16 +77,16 @@ class SiteNavigation extends React.Component {
                                 )
                             }
 
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    {this.props.currentLocale}
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem onClick={() => this.props.changeLocale('sk')}>Slovensky</DropdownItem>
-                                    <DropdownItem onClick={() => this.props.changeLocale('pl')}>Polski</DropdownItem>
-                                    <DropdownItem onClick={() => this.props.changeLocale('en')}>English</DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
+                            {/*<UncontrolledDropdown nav inNavbar>*/}
+                                {/*<DropdownToggle nav caret>*/}
+                                    {/*{this.props.currentLocale}*/}
+                                {/*</DropdownToggle>*/}
+                                {/*<DropdownMenu right>*/}
+                                    {/*<DropdownItem onClick={() => this.props.changeLocale('sk')}>Slovensky</DropdownItem>*/}
+                                    {/*<DropdownItem onClick={() => this.props.changeLocale('pl')}>Polski</DropdownItem>*/}
+                                    {/*<DropdownItem onClick={() => this.props.changeLocale('en')}>English</DropdownItem>*/}
+                                {/*</DropdownMenu>*/}
+                            {/*</UncontrolledDropdown>*/}
                         </Nav>
                     </Collapse>
                 </Navbar>

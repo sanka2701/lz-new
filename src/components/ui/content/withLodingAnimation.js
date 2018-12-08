@@ -4,9 +4,9 @@ import Spinner from '../spinner';
 
 const withLoadingAnimation = (WrappedComponent) => {
     const LoadingWrapper = ({isLoading, ...props}) => (
-        <div>
+        <React.Fragment>
             { isLoading ? <Spinner/> : <WrappedComponent {...props} /> }
-        </div>
+        </React.Fragment>
     );
 
     LoadingWrapper.propTypes = {

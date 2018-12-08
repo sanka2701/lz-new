@@ -12,6 +12,7 @@ export * from './place_actions';
 export * from './event_actions';
 export * from './locale_actions';
 export * from './potw_actions';
+export * from './tags_actions';
 
 export const dismissModalError = () => {
     return {

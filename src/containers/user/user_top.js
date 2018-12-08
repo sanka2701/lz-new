@@ -5,6 +5,7 @@ import UserFilter from './user_filter';
 import UserList from '../../components/user/user_list';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import { makeGetUsersByFilter } from '../../filters/users_filter';
+import BorderCol from '../../components/ui/content/bordered_content';
 
 const UserListWithSpinner = withLoadingAnimation(UserList);
 

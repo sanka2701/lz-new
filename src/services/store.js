@@ -14,7 +14,7 @@ addLocaleData([...enLocaleData, ...skLocaleData, ...plLocaleData]);
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-store.dispatch({type: LOCALE_CHANGED, payload: 'en'});
+store.dispatch({type: LOCALE_CHANGED, payload: 'sk'});
 
 export default store;
 
