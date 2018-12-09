@@ -1,14 +1,41 @@
-import {GET_PLACES_SUCCESS, POST_PLACE_SUCCESS} from '../actions/types';
-import Immutable from 'immutable';
-import _ from 'lodash';
+import {
+  GET_PLACES_SUCCESS,
+  GET_PLACES_FAILURE,
+  GET_PLACES_REQUEST,
+  POST_PLACE_SUCCESS} from "../actions/types";
+import { mapKeys, map } from 'lodash';
 
-export default function (state = Immutable.OrderedMap({}), action) {
+const defaultState = {
+  byId: {},
+  ids: [],
+  isLoading: false
+};
+
+export default function (state = defaultState, action) {
+    const { places } = action.payload ? action.payload : {places: []};
     switch (action.type) {
-        case POST_PLACE_SUCCESS:
-        case GET_PLACES_SUCCESS:
-            const addedPlaces = Immutable.OrderedMap(_.mapKeys(action.payload.places, 'id'));
-            return state.merge(addedPlaces);
-        default:
-            return state
+      case POST_PLACE_SUCCESS:
+        //todo: test if newly added place is added to the list
+        debugger;
+        var newState = {
+          ...state,
+          byId: Object.assign(state.byId, mapKeys(places, 'id')),
+          ids: state.ids.concat(map(places, 'id')),
+          isLoading: false
+        };
+        return newState;
+      case GET_PLACES_SUCCESS:
+        return {
+          ...state,
+          byId: mapKeys(places, 'id'),
+          ids: map(places, 'id'),
+          isLoading: false
+        };
+      case GET_PLACES_FAILURE:
+        return {...state, isLoading: false};
+      case GET_PLACES_REQUEST:
+        return {...state, isLoading: true};
+      default:
+        return state;
     }
 }

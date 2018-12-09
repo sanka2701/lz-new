@@ -1,81 +1,47 @@
 import React from 'react';
 import FormAutocomplete from '../../components/ui/fields/form_autocomplete';
 import { formValueSelector } from 'redux-form';
-import { get, selectPlace } from '../../actions/index';
+import { loadPlaces, selectPlace } from '../../actions/index';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { INPUT_SEARCH_DELAY } from '../../utils/constant';
+import { values } from 'lodash';
 
 class PlaceAutocomplete extends React.Component {
     constructor(props) {
         super(props);
         this.onSuggestionSelect = this.onSuggestionSelect.bind(this);
-        this.onValueChanged     = this.onValueChanged.bind(this);
-        this.triggerFetch       = this.triggerFetch.bind(this);
-        this.state={
-            value: props.value,
-            suggestions : props.suggestions
-        }
     }
 
-    componentWillReceiveProps({suggestions}) {
-        if (suggestions !== this.state.suggestions) {
-            this.setState({ suggestions });
-        }
-    }
-
-    componentWillMount() {
-        this.timer = null;
-    }
-
-    triggerFetch() {
-        const { value } = this.state;
-        if(!!value) {
-          // todo: move to place_actions
-            console.log('Fetching place suggestions ....', value);
-            const request = {
-                endpoint: 'places',
-                params: { subname : value },
-                successAction: 'GET_PLACES_SUCCESS',
-                failureAction: 'nok'
-            };
-            this.props.get(request);
-        }
-    }
-
-    onValueChanged(value) {
-        console.log('value', value);
-
-        this.setState({ value });
-        clearTimeout(this.timer);
-        this.timer = setTimeout(this.triggerFetch, INPUT_SEARCH_DELAY);
+    componentDidMount() {
+      this.props.loadPlaces();
     }
 
     onSuggestionSelect(placeId) {
-        this.props.selectPlace(this.state.suggestions[placeId]);
+      const { suggestions } = this.props;
+        this.props.selectPlace(suggestions[placeId]);
     }
 
     render() {
-        return (
-            <FormAutocomplete
-                name={'place.label'}
-                onInputChange={this.onValueChanged}
-                onSuggestionSelect={this.onSuggestionSelect}
-                suggestions={_.values(this.state.suggestions)}
-                messageId={'places.searchLabel'}
-                defaultMessage={'Search for place'}
-            />
-        )
+      const { suggestions } = this.props;
+
+      return (
+        <FormAutocomplete
+          name={'place.label'}
+          onSuggestionSelect={this.onSuggestionSelect}
+          suggestions={values(suggestions)}
+          messageId={'places.searchLabel'}
+          defaultMessage={'Search for place'}
+        />
+      )
     }
 }
 
 const selector = formValueSelector('create_event');
 
-const mapStateToProps = (state) => {
-    return{
-        suggestions: state.places.toJS(),
-        value: selector(state, 'place.label')
-    }
+const mapStateToProps = ({ places }) => {
+  return{
+      suggestions: places.byId,
+      value: selector(places, 'label')
+  }
 };
 
-export default connect(mapStateToProps, { get, selectPlace })(PlaceAutocomplete);
+export default connect(mapStateToProps, { loadPlaces, selectPlace })(PlaceAutocomplete);

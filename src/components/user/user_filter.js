@@ -4,9 +4,9 @@ import {
     Row,
     Col,
     Input} from 'reactstrap';
-import BorderCol from '../../components/ui/content/bordered_content';
+import BorderCol from '../ui/content/bordered_content';
 import { connect } from 'react-redux';
-import { setUserFilter } from '../../actions';
+import { setUserFilter } from '../../actions/index';
 import {
   INPUT_SEARCH_DELAY,
   ROLE_ADMIN,

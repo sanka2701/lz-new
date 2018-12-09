@@ -1,8 +1,11 @@
 import { get, post } from './index';
 import {
-    CHANGE_ARTICLE_PAGE, GET_ARTICLES_FAILURE, GET_ARTICLES_REQUEST, GET_ARTICLES_SUCCESS,
-    POST_PLACE_SUCCESS
-} from "./types";
+  CHANGE_ARTICLE_PAGE,
+  GET_ARTICLES_FAILURE,
+  GET_ARTICLES_REQUEST,
+  GET_ARTICLES_SUCCESS,
+  POST_ARTICLE_SUCCESS,
+  POST_ARTICLE_FAILURE } from "./types";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
 import _ from "lodash";
 
@@ -27,8 +30,8 @@ const buildRequest = async ( article, endpoint ) => {
     return {
         endpoint: endpoint,
         payload: await toFormData(article),
-        successAction: POST_PLACE_SUCCESS,
-        failureAction: POST_PLACE_SUCCESS
+        successAction: POST_ARTICLE_SUCCESS,
+        failureAction: POST_ARTICLE_FAILURE
     }
 };
 

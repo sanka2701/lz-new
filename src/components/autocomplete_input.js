@@ -7,24 +7,19 @@ class AutocompleteInput extends Component {
         super(props);
         this.state = {
             value: props.value,
-            suggestions: props.suggestions
-        }
-    }
-
-    componentWillReceiveProps({suggestions, value}) {
-        if (suggestions !== this.state.suggestions) {
-            this.setState({ suggestions });
-        }
-        if (value !== this.state.value) {
-            this.setState({ value });
         }
     }
 
     render() {
+      const { suggestions } = this.props;
+        //todo: redo shouldItemRender to take punctiatoin into consideration and word proximity
         return (
             <Autocomplete
                 getItemValue={(item) => item.label}
-                items={this.state.suggestions}
+                items={suggestions}
+                shouldItemRender={
+                  (item, value) => value && item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+                }
                 renderItem={(item, isHighlighted) =>
                     <div key={item.label} style={{background: isHighlighted ? 'lightgray' : 'white'}}>
                         {item.label}

@@ -5,28 +5,29 @@ import { map } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import BorderCol from '../ui/content/bordered_content';
+import MapDisplay from '../../components/map/map_display';
 
-
-const getTableRows = (users) => map(users, (user, index) => {
+const getTableRows = (places) => map(places, (place, index) => {
   return (
-    <tr key={'tag-mng-' + user.id}>
+    <tr key={'tag-mng-' + place.id}>
       <th scope="row">
         {parseInt(index) + 1}
       </th>
       <td>
-        {user.username}
+        <MapDisplay
+          height={'150px'}
+          width={'150px'}
+          zoom={14}
+          selectedPlace={place}
+          animation={'NONE'}
+          disableDefaultUI
+        />
       </td>
       <td>
-        {user.firstName || '-' }
+        {place.address}
       </td>
       <td>
-        {user.lastName  || '-' }
-      </td>
-      <td>
-        {user.email  || '-' }
-      </td>
-      <td>
-        <FormattedMessage id={'user.role.' + user.role} defaultMessage={user.role}/>
+        {place.label || '-' }
       </td>
     </tr>
   )
@@ -39,17 +40,14 @@ const PlaceList = ({ places }) => (
       <tr>
         <th>#</th>
         <th>
-          <FormattedMessage id={'user.username'} defaultMessage={'Username'}/>
+          <FormattedMessage id={'place.map'} defaultMessage={'Map'}/>
         </th>
         <th>
-          <FormattedMessage id={'user.firstName'} defaultMessage={'First Name'}/>
+          <FormattedMessage id={'place.address'} defaultMessage={'Address'}/>
         </th>
         <th>
-          <FormattedMessage id={'user.lastName'} defaultMessage={'Last Name'}/></th>
-        <th>
-          <FormattedMessage id={'user.email'} defaultMessage={'E-mail'}/></th>
-        <th>
-          <FormattedMessage id={'user.role'} defaultMessage={'Role'}/></th>
+          <FormattedMessage id={'place.label'} defaultMessage={'Label'}/>
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -61,6 +59,10 @@ const PlaceList = ({ places }) => (
 
 PlaceList.propTypes = {
   places: PropTypes.array.isRequired
+};
+
+PlaceList.defaultProps = {
+  places: []
 };
 
 export default PlaceList;

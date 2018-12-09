@@ -48,7 +48,7 @@ export const selectGooglePOI = (placeid) => async dispatch => {
         params: {
             placeid,
             key: GOOGLE_API_KEY
-        }
+        },
     }).then( response => {
         const { result } = response.data;
         const domainPlace = {

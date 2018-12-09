@@ -82,7 +82,7 @@ const mapStateToProps = ({ events, places, auth }, ownProps) => {
     const { eventId, placeId } = ownProps.match.params;
     return {
         event: events.byId[eventId],
-        place: places.toJS()[placeId],
+        place: places.byId[placeId],
         currentUser: auth.user
     }
 };

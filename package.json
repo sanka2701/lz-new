@@ -12,6 +12,7 @@
     "load-script": "^1.0.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
+    "rc-slider": "^8.6.4",
     "react": "^16.4.0",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^16.4.0",
@@ -31,7 +32,7 @@
     "reselect": "^3.0.1"
   },
   "scripts": {
-    "start": "set PORT=3001 && react-app-rewired start",
+    "start": "set PORT=3002 && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-app-rewired eject"

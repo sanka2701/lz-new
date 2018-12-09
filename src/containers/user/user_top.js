@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { loadUsersByFilter } from '../../actions';
-import UserFilter from './user_filter';
+import UserFilter from '../../components/user/user_filter';
 import UserList from '../../components/user/user_list';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import { makeGetUsersByFilter } from '../../filters/users_filter';

@@ -10,7 +10,7 @@ const BasicAutocomplete = ({ onChange, suggestions, onSuggestionSelect, value, o
     <AutocompleteInput
         {...props}
         value={value}
-        onInputChange={(value) => { onChange(value); onInputChange(value); }}
+        onInputChange={(value) => { onChange(value); onInputChange && onInputChange(value); }}
         onSuggestionSelect={(label) => { onChange(label); onSuggestionSelect(label); }}
         suggestions={suggestions}
     />

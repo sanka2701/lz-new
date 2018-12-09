@@ -26,7 +26,6 @@ export const postPlace = place => async dispatch => {
     const request = {
         endpoint: 'places',
         payload: place,
-        params: {},
         successAction: POST_PLACE_SUCCESS,
         failureAction: POST_PLACE_FAILURE
     };
@@ -34,7 +33,8 @@ export const postPlace = place => async dispatch => {
 };
 
 export const selectPlace = place => dispatch => {
-    dispatch(change('create_event', 'place', place))
+  //todo: this method may set valueto multiple forms -> parametrize to which form
+  dispatch(change('create_event', 'place', place))
 };
 
 export const requestPlaces = () => {

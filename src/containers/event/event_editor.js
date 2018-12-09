@@ -81,7 +81,7 @@ function mapStateToProps({ events, places }, ownProps) {
     const { eventId, placeId } = ownProps.match.params;
     return {
         event: events.byId[eventId],
-        place: places.toJS()[placeId]
+        place: places.byId[placeId]
     }
 }
 

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { mapKeys, map } from 'lodash';
 import {
   GET_TAGS_SUCCESS,
   GET_TAGS_FAILURE,
@@ -16,8 +16,8 @@ export default function (state = defaultState, action) {
       const { tags } = action.payload;
       return {
         ...state,
-        byId: _.mapKeys(tags, 'id'),
-        ids: _.map(tags, 'id'),
+        byId: mapKeys(tags, 'id'),
+        ids: map(tags, 'id'),
         isLoading: false
       };
     case GET_TAGS_FAILURE:

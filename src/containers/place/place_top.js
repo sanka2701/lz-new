@@ -1,19 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PlaceFilter from '../../components/place/place_filter';
+import PlaceList from '../../components/place/place_list';
 import {
   Row,
   Col,
   Input} from 'reactstrap';
-import BorderCol from '../../components/ui/content/bordered_content';
 import { loadPlaces } from '../../actions';
 
-class UserTop extends React.Component {
-  componentDidMount() {
+class PlaceTop extends React.Component {
+  constructor(props){
+    super(props);
+    this.onFilterChanged = this.onFilterChanged.bind(this);
+    this.state = {
+      filter: {
+        center: {
+          lat: 49.0811,
+          lon: 19.6192,
+        },
+        radius: 1700,
+      }
+    }
   }
 
-  onFilterChanged = (filterAttributes) => {
+  componentDidMount() {
+    this.props.loadPlaces();
+  }
+
+  onFilterChanged = (filter) => {
     debugger;
+    this.setState(prevState => ({
+      filter: {
+        ...prevState.filter,
+        ...filter
+      }
+    }))
   };
 
   /**
@@ -23,22 +44,22 @@ class UserTop extends React.Component {
    **/
 
   render = () => {
+    const { places } = this.props;
+
     return (
       <Row>
-        <BorderCol sm={12}>
-          <PlaceFilter onPlaceFilterChanged={this.onFilterChanged} />
-          ahoj
-        </BorderCol>
+        <PlaceFilter filter={this.state.filter} onPlaceFilterChanged={this.onFilterChanged} />
+        {/*<PlaceList places ={places} />*/}
       </Row>
     )
   }
 }
 
-const mapStateToProps = ({ tags }) => {
+const mapStateToProps = ({ places }) => {
   return {
-    isLoading: tags.isLoading,
-    tags : tags.byId
+    isLoading: places.isLoading,
+    places : places.byId
   }
 };
 
-export default connect( mapStateToProps, { loadPlaces }) (UserTop);
+export default connect( mapStateToProps, { loadPlaces }) (PlaceTop);
