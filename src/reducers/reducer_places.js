@@ -2,13 +2,25 @@ import {
   GET_PLACES_SUCCESS,
   GET_PLACES_FAILURE,
   GET_PLACES_REQUEST,
-  POST_PLACE_SUCCESS} from "../actions/types";
+  POST_PLACE_SUCCESS,
+  SET_PLACE_FILTER,
+  RESET_PLACE_FILTER } from "../actions/types";
 import { mapKeys, map } from 'lodash';
+import { LM_GPS_COORDS } from "../utils/constant";
+
+const defaultFilter = {
+  center: {
+    lat: LM_GPS_COORDS.lat,
+    lon: LM_GPS_COORDS.lng
+  },
+  radius: 2000,
+};
 
 const defaultState = {
   byId: {},
   ids: [],
-  isLoading: false
+  isLoading: false,
+  filter: defaultFilter
 };
 
 export default function (state = defaultState, action) {
@@ -17,7 +29,7 @@ export default function (state = defaultState, action) {
       case POST_PLACE_SUCCESS:
         //todo: test if newly added place is added to the list
         debugger;
-        var newState = {
+        const newState = {
           ...state,
           byId: Object.assign(state.byId, mapKeys(places, 'id')),
           ids: state.ids.concat(map(places, 'id')),
@@ -35,6 +47,16 @@ export default function (state = defaultState, action) {
         return {...state, isLoading: false};
       case GET_PLACES_REQUEST:
         return {...state, isLoading: true};
+      case SET_PLACE_FILTER:
+        const { filter } = action.payload;
+        return {...state,
+          filter: {
+            ...state.filter,
+            ...filter
+          }
+        };
+      case RESET_PLACE_FILTER:
+        return {...state, filter: defaultFilter };
       default:
         return state;
     }

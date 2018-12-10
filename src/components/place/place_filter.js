@@ -4,31 +4,56 @@ import {
   Row,
   Col,
   Label,
-  Input,
-Button} from 'reactstrap';
-import BorderCol from '../../components/ui/content/bordered_content';
+  Input} from 'reactstrap';
+import Slider from 'rc-slider';
 import { FormattedMessage } from 'react-intl';
 import MapFilter from '../../components/map/map_filter';
 
+import 'rc-slider/assets/index.css';
+import styles from './place_filter.module.css';
+
 const PlaceFilter = ({ onPlaceFilterChanged, filter })  => (
-  <BorderCol sm={12}>
+  <React.Fragment>
     <Row>
       <Col sm={12}>
-        {/*<Label>*/}
-          {/*<FormattedMessage id={'place.label'} defaultMessage={'Test input'}/>*/}
-        {/*</Label>*/}
-        {/*<Input onChange={onPlaceFilterChanged} />*/}
-
+        <Label>
+          <FormattedMessage id={'place.choosePlace'} defaultMessage={'Choose a place on a map'}/>
+        </Label>
         <MapFilter
           selectedCircle={filter}
           onCircleSet={(circle) => {
             onPlaceFilterChanged(circle)
           }}
+          disableDefaultUI
         />
-        <Button color="danger" onClick={() => onPlaceFilterChanged({radius: 3000})}>Change radius</Button>
       </Col>
     </Row>
-  </BorderCol>
+    <Row>
+      <Col sm={12}>
+        <Label>
+          <FormattedMessage id={'place.distance'} defaultMessage={'Distance'}/>
+        </Label>
+        <Row>
+          <Col sm={3}>
+            <Input
+              value={filter.radius / 1000}
+              onChange={value => onPlaceFilterChanged({ radius: value* 1000 })}
+              disabled
+            />
+          </Col>
+          <Col sm={9} className={styles.center}>
+            <Slider
+              min={1}
+              max={20}
+              step={0.1}
+              value={filter.radius / 1000}
+              onChange={value => onPlaceFilterChanged({ radius: value* 1000 })}
+            />
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+  </React.Fragment>
 );
 
 PlaceFilter.propTypes = {

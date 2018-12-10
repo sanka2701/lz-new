@@ -5,21 +5,18 @@ import PlaceList from '../../components/place/place_list';
 import {
   Row,
   Col,
-  Input} from 'reactstrap';
-import { loadPlaces } from '../../actions';
+  Input,
+  Button,
+  Collapse} from 'reactstrap';
+import BorderCol from '../../components/ui/content/bordered_content';
+import { loadPlaces, setPlaceFilter, resetPlaceFilter } from '../../actions';
+import { makeGetPlacesByFilter } from '../../filters/places_filter';
 
 class PlaceTop extends React.Component {
   constructor(props){
     super(props);
-    this.onFilterChanged = this.onFilterChanged.bind(this);
     this.state = {
-      filter: {
-        center: {
-          lat: 49.0811,
-          lon: 19.6192,
-        },
-        radius: 1700,
-      }
+      mapShown: true
     }
   }
 
@@ -27,39 +24,42 @@ class PlaceTop extends React.Component {
     this.props.loadPlaces();
   }
 
-  onFilterChanged = (filter) => {
-    debugger;
-    this.setState(prevState => ({
-      filter: {
-        ...prevState.filter,
-        ...filter
-      }
-    }))
-  };
-
-  /**
-   * for drawing
-   * https://developers.google.com/maps/documentation/javascript/examples/drawing-tools
-   * https://developers.google.com/maps/documentation/javascript/examples/circle-simple
-   **/
-
   render = () => {
-    const { places } = this.props;
+    const { places, filter, setPlaceFilter } = this.props;
+    const { mapShown } = this.state;
 
     return (
-      <Row>
-        <PlaceFilter filter={this.state.filter} onPlaceFilterChanged={this.onFilterChanged} />
-        {/*<PlaceList places ={places} />*/}
-      </Row>
+      <React.Fragment>
+        <BorderCol sm={12}>
+          <Button color="primary" onClick={() => this.setState({ mapShown: !mapShown })}>
+            Show/Hide
+          </Button>
+          <Collapse isOpen={mapShown}>
+            <PlaceFilter
+              filter={filter}
+              onPlaceFilterChanged={setPlaceFilter}
+            />
+          </Collapse>
+        </BorderCol>
+        <PlaceList places ={places} />
+      </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = ({ places }) => {
+  const getPlacesByFilter = makeGetPlacesByFilter();
   return {
     isLoading: places.isLoading,
-    places : places.byId
+    places : getPlacesByFilter(places),
+    filter : places.filter
   }
 };
 
-export default connect( mapStateToProps, { loadPlaces }) (PlaceTop);
+export default connect(
+  mapStateToProps, {
+    loadPlaces,
+    setPlaceFilter,
+    resetPlaceFilter
+  }
+) (PlaceTop);

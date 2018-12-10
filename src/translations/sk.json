@@ -41,5 +41,7 @@
 
   "place.map": "Mapa",
   "place.address": "Adresa",
-  "place.label": "Názov"
+  "place.label": "Názov",
+  "place.distance": "Vzdialenosť (km)",
+  "place.choosePlace" : "Zvoľte miesto na mape"
 }

@@ -5,9 +5,9 @@ import { areCoordinatesValid } from '../../utils/helpers';
 import { LM_GPS_COORDS } from '../../utils/constant';
 
 //todo: due to lot of shared code with map_display.js merge to single file
-const MapFilter = ({onCircleSet, selectedCircle}) => {
+const MapFilter = ({onCircleSet, selectedCircle, ...mapProps}) => {
   const getCircle = (circleProp) => {
-    var tmp = areCoordinatesValid(circleProp.center) ? [{
+    return areCoordinatesValid(circleProp.center) ? [{
       center: {lng: circleProp.center.lon, lat: circleProp.center.lat},
       radius: circleProp.radius,
       strokeColor: '#FF0000',
@@ -25,7 +25,6 @@ const MapFilter = ({onCircleSet, selectedCircle}) => {
         });
       }
     }] : [] ;
-    return tmp;
   };
 
   return (
@@ -37,8 +36,7 @@ const MapFilter = ({onCircleSet, selectedCircle}) => {
                  circles={getCircle(selectedCircle)}
                  onLoaded={(googleMaps, map, callback) => {
                    googleMaps.event.addListener(map, 'click', (event) => {
-                     // map.panTo(event.latLng);
-                     debugger;
+                     map.panTo(event.latLng);
                      const center = {
                        lat: event.latLng.lat(),
                        lon: event.latLng.lng()
@@ -47,23 +45,34 @@ const MapFilter = ({onCircleSet, selectedCircle}) => {
                      onCircleSet({center});
                    });
                  }}
+                 {...mapProps}
       />
     </div>
   )
 };
 
 MapFilter.propTypes = {
-  onMarkerSet: PropTypes.func,
-  onCircleSet: PropTypes.func,
-  selectedPlace : PropTypes.object,
-  selectedCircle : PropTypes.object
+  onCircleSet: PropTypes.func.isRequired,
+  selectedCircle : PropTypes.object,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  zoom: PropTypes.number,
+  animation: PropTypes.string,
+  disableDefaultUI: PropTypes.bool,
 };
 
 MapFilter.defaultProps = {
-  selectedPlace: {
-    label: '',
-    lat: '',
-    lon: ''
+  height: '300px',
+  width: '100%',
+  zoom: 12,
+  animation: 'BOUNCE', // other options : 'NONE', DROP
+  disableDefaultUI: false,
+  selectedCircle: {
+    radius: 0,
+    center: {
+      lat: '',
+      lon: ''
+    }
   }
 };
 

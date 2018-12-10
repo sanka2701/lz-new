@@ -1,5 +1,13 @@
 import { get, post } from './index';
-import {GET_PLACES_FAILURE, GET_PLACES_SUCCESS, POST_PLACE_FAILURE, POST_PLACE_SUCCESS, GET_PLACES_REQUEST} from "./types";
+import {
+  GET_PLACES_FAILURE,
+  GET_PLACES_SUCCESS,
+  POST_PLACE_FAILURE,
+  POST_PLACE_SUCCESS,
+  GET_PLACES_REQUEST,
+  SET_PLACE_FILTER,
+  RESET_PLACE_FILTER, SET_USERS_FILTER
+} from "./types";
 import {change} from "redux-form";
 
 export const loadPlaceById = id => dispatch => {
@@ -12,7 +20,7 @@ export const loadPlaceById = id => dispatch => {
     dispatch(get(request));
 };
 
-export const loadPlaces = () => dispatch =>{
+export const loadPlaces = () => dispatch => {
   dispatch(requestPlaces());
   const request = {
     endpoint: 'places/list',
@@ -30,6 +38,19 @@ export const postPlace = place => async dispatch => {
         failureAction: POST_PLACE_FAILURE
     };
     await dispatch(post(request));
+};
+
+export const setPlaceFilter = filter => dispatch => {
+  dispatch({
+    type: SET_PLACE_FILTER,
+    payload: { filter }
+  })
+};
+
+export const resetPlaceFilter = dispatch => {
+  dispatch({
+    type: RESET_PLACE_FILTER
+  })
 };
 
 export const selectPlace = place => dispatch => {
