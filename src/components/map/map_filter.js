@@ -7,7 +7,7 @@ import { LM_GPS_COORDS } from '../../utils/constant';
 //todo: due to lot of shared code with map_display.js merge to single file
 const MapFilter = ({onCircleSet, selectedCircle}) => {
   const getCircle = (circleProp) => {
-    var tmp = areCoordinatesValid(circleProp.center) ? {
+    var tmp = areCoordinatesValid(circleProp.center) ? [{
       center: {lng: circleProp.center.lon, lat: circleProp.center.lat},
       radius: circleProp.radius,
       strokeColor: '#FF0000',
@@ -24,7 +24,7 @@ const MapFilter = ({onCircleSet, selectedCircle}) => {
           });
         });
       }
-    } : null ;
+    }] : [] ;
     return tmp;
   };
 
@@ -34,7 +34,7 @@ const MapFilter = ({onCircleSet, selectedCircle}) => {
                  center={LM_GPS_COORDS}
                  zoom={12}
                  gestureHandling={'cooperative'}
-                 circle={getCircle(selectedCircle)}
+                 circles={getCircle(selectedCircle)}
                  onLoaded={(googleMaps, map, callback) => {
                    googleMaps.event.addListener(map, 'click', (event) => {
                      // map.panTo(event.latLng);

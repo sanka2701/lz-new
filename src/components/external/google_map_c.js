@@ -13,63 +13,83 @@ class GoogleMap extends React.Component {
     super();
     this.state = {
       map: null,
-      markers: new Map(),
-      circleCache: new Map()
+      areaCache: new Map()
     }
   }
 
   componentDidMount() {
-    const {coordinates, circle, googleMaps, onLoaded, callback, ...props} = this.props
+    const {circles, googleMaps, onLoaded, ...mapProps} = this.props
 
     const map = new googleMaps.Map(this.ref_map, {
-      ...props,
+      ...mapProps,
     });
 
     this.setState({map}, () => {
-      this.addNewMarkers(coordinates);
-      if(circle && circle.center) {
-        this.addCircle(circle);
-      }
+      this.update(circles);
     });
 
     if (onLoaded) {
-      onLoaded(googleMaps, map, callback)
+      onLoaded(googleMaps, map)
     }
   }
 
-  manageCircle(circle) {
-    //todo: not working
-    const {circleCache} = this.state;
-    const circleId = this.getCircleId(circle.center);
-
-    if(circleCache.has(circleId)) {
-      const oldCircle = circleCache.get(circleId);
-
-      // circles are identical
-      if(oldCircle.radius === circle.radius) {
-        debugger;
-        return
-      }
+  componentDidUpdate(prevProps) {
+    if (this.props.circles !== prevProps.circles) {
+      this.update(this.props.circles);
     }
+  }
 
-    if (!circleCache.size && !circleCache.has(circleId)) {
-      // pridaj novy kruh
-      circleCache.set(circleId, this.addCircle(circle));
-    } else if (circleCache.has(circleId)) {
-      // zmen priemer
-      const oldCircle = circleCache.get(circleId);
-      oldCircle.setRadius(circle.radius);
-      circleCache.set(circleId, oldCircle);
-    } else {
-      // zmen priemer, polohu a Id
-      const oldCircle = circleCache.values().next().value;
-      oldCircle.setCenter(circle.center);
-      oldCircle.setRadius(circle.radius);
-      circleCache.clear();
-      circleCache.set(circleId, oldCircle);
-    }
+  update(circles) {
+    const diff = this.getDiffs(this.props.circles);
+    this.updateMapItems(diff);
+  }
 
-    this.setState({circleCache}, () => {console.log(this.state.circleCache)});
+  getDiffs(circles) {
+    const { areaCache } = this.state;
+    const diff = {
+      newCircles: [],
+      updatedCircles: [],
+      removedCircleIds: []
+    };
+    const IDedCircles = circles.map(
+      circle => this.desctructureParamCircle(circle)
+    );
+
+    diff.newCircles = IDedCircles.filter(
+      circle => !areaCache.has(circle.id)
+    );
+
+    diff.updatedCircles = IDedCircles.filter(
+      circle => areaCache.has(circle.id) && areaCache.get(circle.id).radius !== circle.radius
+    );
+
+    diff.removedCircleIds = !IDedCircles.length
+      ? [...areaCache.keys()]
+      : [...areaCache.keys()].filter(
+        circleId => {
+          return !IDedCircles.some(circle => circle.id === circleId);
+        }
+      );
+
+    return diff;
+  }
+
+  updateMapItems(diff) {
+    const { areaCache } = this.state;
+
+    diff.newCircles.forEach(
+      circle => areaCache.set(circle.id, this.addCircle(circle))
+    );
+
+    diff.updatedCircles.forEach(
+      circle => this.updateCircle(areaCache, circle)
+    );
+
+    diff.removedCircleIds.forEach(
+      circleId => this.removeCircle(areaCache, circleId)
+    );
+
+    this.setState({ areaCache });
   }
 
   addCircle(circle) {
@@ -89,145 +109,30 @@ class GoogleMap extends React.Component {
     return added;
   }
 
-  removeCircle() {
-    const {circleCache} = this.state;
-
-    circleCache.forEach((circle, circleId) => {
-      circle.setMap(null);
-      circleCache.delete(circleId)
-    });
-
-    this.setState({circleCache});
+  updateCircle(areaCache, circleUpdate) {
+    const circle = areaCache.get(circleUpdate.id);
+    circle.setRadius(circleUpdate.radius);
+    circle.setCenter(circleUpdate.center);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const newMarkers = nextProps.coordinates.some(
-      coordinate => !this.state.markers.has(this.getMarkerId(coordinate))
-    );
-    const oldMarkers = [...this.state.markers.keys()].some(
-      markerId =>
-        !nextProps.coordinates.some(
-          coordinate => markerId === this.getMarkerId(coordinate)
-        )
-    );
+  removeCircle(areaCache, circleId) {
+    const circle = areaCache.get(circleId);
+    circle.setMap(null);
+    areaCache.delete(circleId)
+  }
 
-    if (oldMarkers) {
-      this.removeOldMarkers(nextProps.coordinates)
+  desctructureParamCircle(circle) {
+    const { center, radius, ...circleProps } = circle;
+    return {
+      id: this.getCircleId(center),
+      center,
+      radius,
+      ...circleProps
     }
-
-    if (newMarkers) {
-      var a= 5;
-      this.addNewMarkers(nextProps.coordinates)
-    }
-
-    // if(nextProps.circle) {
-    //   debugger;
-    //   this.manageCircle(nextProps.circle)
-    // } else if (this.state.circleCache.size) {
-    //   this.removeCircle();
-    // }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return JSON.stringify(this.props.coordinates) !== JSON.stringify(nextProps.coordinates)
-  }
-
-  getMarkerId(coordinate) {
-    return coordinate.position.lat + "_" + coordinate.position.lng
   }
 
   getCircleId(center) {
     return center.lat + "_" + center.lng
-  }
-
-  removeOldMarkers(coordinates) {
-    const {markers} = this.state;
-    const {autoFitBounds} = this.props;
-
-    markers.forEach((marker, markerId) => {
-      const isMarkerUsed = coordinates.some(
-        coordinate => this.getMarkerId(coordinate) === markerId
-      );
-
-      if (!isMarkerUsed) {
-        marker.setMap(null);
-        markers.delete(markerId)
-      }
-    });
-
-    this.setState({markers});
-
-    if (autoFitBounds) {
-      this.fitBounds()
-    }
-  }
-
-  addNewMarkers(coordinates) {
-    const {markers} = this.state;
-    const {autoFitBounds} = this.props;
-
-    coordinates.forEach(coordinate => {
-      const markerId = this.getMarkerId(coordinate);
-      if (!markers.has(markerId)) {
-        markers.set(markerId, this.addMarker(markerId, coordinate))
-      }
-    });
-
-    this.setState({markers});
-
-    if (autoFitBounds) {
-      this.fitBounds()
-    }
-  }
-
-  addMarker(markerId, coordinate) {
-    const {map} = this.state;
-    const {googleMaps} = this.props;
-    const {callback} = this.props;
-    const {onLoaded, ...markerProps} = coordinate;
-
-    const marker = new googleMaps.Marker({
-      map: map,
-      ...markerProps,
-    });
-
-    if (onLoaded) {
-      onLoaded(googleMaps, map, marker, callback)
-    }
-
-    return marker
-  }
-
-  fitBounds() {
-    const {map, markers} = this.state;
-    const {boundsOffset, googleMaps} = this.props;
-
-    if (!map || markers.size === 0) {
-      return
-    }
-
-    const bounds = Array.from(markers.values()).reduce(
-      (bound, marker) => bound.extend(marker.getPosition()),
-      new googleMaps.LatLngBounds()
-    );
-    const center = bounds.getCenter();
-
-    bounds
-      .extend(
-        new googleMaps.LatLng(
-          center.lat() + boundsOffset,
-          center.lng() + boundsOffset
-        )
-      )
-      .extend(
-        new googleMaps.LatLng(
-          center.lat() - boundsOffset,
-          center.lng() - boundsOffset
-        )
-      );
-
-    map.setCenter(center);
-    map.fitBounds(bounds)
   }
 
   render() {
