@@ -3,33 +3,36 @@ import PropTypes from "prop-types";
 import { Table } from 'reactstrap';
 import { map } from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import BorderCol from '../ui/content/bordered_content';
 import MapDisplay from '../../components/map/map_display';
 
 const getTableRows = (places) => map(places, (place, index) => {
   return (
-    <tr key={'tag-mng-' + place.id}>
-      <th scope="row">
-        {parseInt(index) + 1}
-      </th>
-      <td>
-        <MapDisplay
-          height={'150px'}
-          width={'150px'}
-          zoom={14}
-          selectedPlace={place}
-          animation={'NONE'}
-          disableDefaultUI
-        />
-      </td>
-      <td>
-        {place.address}
-      </td>
-      <td>
-        {place.label || '-' }
-      </td>
-    </tr>
+    <Link to={`/places/${place.id}`}>
+      <tr  key={'tag-mng-' + place.id}>
+        <th scope="row">
+          {parseInt(index) + 1}
+        </th>
+        <td>
+          <MapDisplay
+            height={'150px'}
+            width={'150px'}
+            zoom={14}
+            selectedPlace={place}
+            animation={'NONE'}
+            disableDefaultUI
+          />
+        </td>
+        <td>
+          {place.address}
+        </td>
+        <td>
+          {place.label || '-' }
+        </td>
+      </tr>
+    </Link>
   )
 });
 

@@ -12,7 +12,7 @@ import MapFilter from '../../components/map/map_filter';
 import 'rc-slider/assets/index.css';
 import styles from './place_filter.module.css';
 
-const PlaceFilter = ({ onPlaceFilterChanged, filter })  => (
+const PlaceFilter = ({ onPlaceFilterChanged, filter, markers })  => (
   <React.Fragment>
     <Row>
       <Col sm={12}>
@@ -20,7 +20,8 @@ const PlaceFilter = ({ onPlaceFilterChanged, filter })  => (
           <FormattedMessage id={'place.choosePlace'} defaultMessage={'Choose a place on a map'}/>
         </Label>
         <MapFilter
-          selectedCircle={filter}
+          circles={[filter]}
+          markers={markers}
           onCircleSet={(circle) => {
             onPlaceFilterChanged(circle)
           }}
@@ -37,7 +38,7 @@ const PlaceFilter = ({ onPlaceFilterChanged, filter })  => (
           <Col sm={3}>
             <Input
               value={filter.radius / 1000}
-              onChange={value => onPlaceFilterChanged({ radius: value* 1000 })}
+              onChange={value => onPlaceFilterChanged({ radius: value * 1000 })}
               disabled
             />
           </Col>
@@ -47,7 +48,7 @@ const PlaceFilter = ({ onPlaceFilterChanged, filter })  => (
               max={20}
               step={0.1}
               value={filter.radius / 1000}
-              onChange={value => onPlaceFilterChanged({ radius: value* 1000 })}
+              onChange={value => onPlaceFilterChanged({ radius: value * 1000 })}
             />
           </Col>
         </Row>

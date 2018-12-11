@@ -1,9 +1,9 @@
 {
-  "general.submit" : "Odoslať",
+  "general.submit" : "Uložiť",
   "general.reset" : "Reset",
-  "general.edit" : "Reset",
+  "general.edit" : "Upraviť",
   "general.approve" : "Schváliť",
-  "general.cancel" : "Zrušiť",
+  "general.cancel" : "Storno",
 
   "nav.home" : "Domov",
   "nav.events" : "Udalosti",

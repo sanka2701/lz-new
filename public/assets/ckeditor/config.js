@@ -25,6 +25,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.format_tags = 'p;h1;h2;h3;pre';
 	// config.removeDialogTabs = 'image:advanced;link:advanced';
 
+    config.defaultLanguage = 'en';
+    config.language = 'sk';
     config.extraPlugins = 'autogrow';
     config.autoGrow_minHeight = 500;
     config.autoGrow_maxHeight = 1000;

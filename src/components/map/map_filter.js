@@ -4,28 +4,44 @@ import GoogleMap from '../external/google_map_c';
 import { areCoordinatesValid } from '../../utils/helpers';
 import { LM_GPS_COORDS } from '../../utils/constant';
 
-//todo: due to lot of shared code with map_display.js merge to single file
-const MapFilter = ({onCircleSet, selectedCircle, ...mapProps}) => {
-  const getCircle = (circleProp) => {
-    return areCoordinatesValid(circleProp.center) ? [{
-      center: {lng: circleProp.center.lon, lat: circleProp.center.lat},
-      radius: circleProp.radius,
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      onLoaded: (googleMaps, map, circle) => {
-        // map.panTo({lng: circleProp.lon, lat: circleProp.lat});
-        googleMaps.event.addListener(circle, 'click', function(event) {
-          // circle.setMap(null);
-          onCircleSet({
-            center: null
+const MapFilter = ({onCircleSet, circles, onMarkerSet, markers, ...mapProps}) => {
+  const getCircles = circleProps =>
+    circleProps.filter(
+      ({center}) => areCoordinatesValid(center)
+    ).map( circleProp => {
+      return {
+        center: {lng: circleProp.center.lon, lat: circleProp.center.lat},
+        radius: circleProp.radius,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        onLoaded: (googleMaps, map, circle) => {
+          googleMaps.event.addListener(circle, 'click', function (event) {
+            onCircleSet({
+              center: null
+            });
           });
-        });
+        }
       }
-    }] : [] ;
-  };
+  });
+
+  const getMarkers = markerProps =>
+    markerProps.filter(
+      (marker => areCoordinatesValid(marker))
+    ).map( markerProp => {
+      return {
+        title: markerProp.title,
+        position: {lng: markerProp.lon, lat: markerProp.lat},
+        onLoaded: (googleMaps, map, marker) => {
+          googleMaps.event.addListener(marker, 'click', function (event) {
+            console.log('Marker klicked:', marker)
+            debugger;
+          });
+        }
+      }
+    });
 
   return (
     <div style={{height: '300px'}}>
@@ -33,7 +49,8 @@ const MapFilter = ({onCircleSet, selectedCircle, ...mapProps}) => {
                  center={LM_GPS_COORDS}
                  zoom={12}
                  gestureHandling={'cooperative'}
-                 circles={getCircle(selectedCircle)}
+                 circles={getCircles(circles)}
+                 markers={getMarkers(markers)}
                  onLoaded={(googleMaps, map, callback) => {
                    googleMaps.event.addListener(map, 'click', (event) => {
                      map.panTo(event.latLng);
@@ -52,8 +69,10 @@ const MapFilter = ({onCircleSet, selectedCircle, ...mapProps}) => {
 };
 
 MapFilter.propTypes = {
-  onCircleSet: PropTypes.func.isRequired,
-  selectedCircle : PropTypes.object,
+  onMarkerSet: PropTypes.func,
+  markers : PropTypes.object,
+  onCircleSet: PropTypes.func,
+  circles : PropTypes.object,
   height: PropTypes.string,
   width: PropTypes.string,
   zoom: PropTypes.number,
@@ -67,13 +86,20 @@ MapFilter.defaultProps = {
   zoom: 12,
   animation: 'BOUNCE', // other options : 'NONE', DROP
   disableDefaultUI: false,
-  selectedCircle: {
-    radius: 0,
-    center: {
-      lat: '',
-      lon: ''
-    }
-  }
+  markers: [],
+  circles: []
+  // selectedCircle: {
+  //   radius: 0,
+  //   center: {
+  //     lat: '',
+  //     lon: ''
+  //   }
+  // },
+  // selectedPlace: {
+  //   label: '',
+  //   lat: '',
+  //   lon: ''
+  // }
 };
 
 export default MapFilter;

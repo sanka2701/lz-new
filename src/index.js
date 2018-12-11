@@ -27,6 +27,7 @@ import EventManageTop from './containers/event/event_manage_top';
 import EventDetail from './containers/event/event_detail';
 import UserTop from './containers/user/user_top';
 import PlacesTop from './containers/place/place_top';
+import PlaceDetail from './containers/place/place_detail';
 import PhotoManage from './containers/photo/photo_manage';
 
 import moment from 'moment';
@@ -55,6 +56,7 @@ ReactDOM.render(
                             <Route path="/events/:eventId/:placeId" component={EventDetail} />
                             <Route path="/articles/edit/:articleId?" component={ArticleEditor} />
                             <Route path="/articles/:articleId" component={ArticleDetail} />
+                            <Route path="/places/:placeId" component={PlaceDetail} />
                             {/*<Route path="/" component={Home} />*/}
                             <Route path="/" component={EventTop} />
                         </Switch>

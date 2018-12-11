@@ -37,6 +37,7 @@ class PlaceTop extends React.Component {
           <Collapse isOpen={mapShown}>
             <PlaceFilter
               filter={filter}
+              markers={places}
               onPlaceFilterChanged={setPlaceFilter}
             />
           </Collapse>
