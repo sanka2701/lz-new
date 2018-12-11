@@ -25,7 +25,7 @@ class CKEditor extends Component {
     }
 
     initInstance() {
-        this.editorInstance = window.CKEDITOR.replace(this.refs.ckEditorAnchor, {language:"en"});
+        this.editorInstance = window.CKEDITOR.replace(this.refs.ckEditorAnchor, {language:"sk"});
         for (const event in this.props.events) {
             const eventHandler = this.props.events[event];
             this.editorInstance.on(event, eventHandler);
