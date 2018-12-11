@@ -4,24 +4,24 @@ import { Table } from 'reactstrap';
 import { map } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom';
 import BorderCol from '../ui/content/bordered_content';
 import MapDisplay from '../../components/map/map_display';
 
-const getTableRows = (places) => map(places, (place, index) => {
-  return (
-    <Link to={`/places/${place.id}`}>
-      <tr  key={'tag-mng-' + place.id}>
+const PlaceList = ({ places, history }) => {
+  const getTableRows = (places) => map(places, (place, index) => {
+    return (
+      <tr  key={'tag-mng-' + place.id} onClick={() => redirectToPlaceDetail(place.id)}>
         <th scope="row">
           {parseInt(index) + 1}
         </th>
         <td>
           <MapDisplay
+            selectedPlace={place}
+            animation={'NONE'}
             height={'150px'}
             width={'150px'}
             zoom={14}
-            selectedPlace={place}
-            animation={'NONE'}
             disableDefaultUI
           />
         </td>
@@ -32,33 +32,35 @@ const getTableRows = (places) => map(places, (place, index) => {
           {place.label || '-' }
         </td>
       </tr>
-    </Link>
-  )
-});
+    )
+  });
 
-const PlaceList = ({ places }) => (
-  <BorderCol>
-    <Table responsive hover striped>
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>
-          <FormattedMessage id={'place.map'} defaultMessage={'Map'}/>
-        </th>
-        <th>
-          <FormattedMessage id={'place.address'} defaultMessage={'Address'}/>
-        </th>
-        <th>
-          <FormattedMessage id={'place.label'} defaultMessage={'Label'}/>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      { getTableRows(places) }
-      </tbody>
-    </Table>
-  </BorderCol>
-);
+  const redirectToPlaceDetail = (placeId) => history.push(`/places/${placeId}`);
+
+  return (
+    <BorderCol>
+      <Table responsive hover striped>
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>
+            <FormattedMessage id={'place.map'} defaultMessage={'Map'}/>
+          </th>
+          <th>
+            <FormattedMessage id={'place.address'} defaultMessage={'Address'}/>
+          </th>
+          <th>
+            <FormattedMessage id={'place.label'} defaultMessage={'Label'}/>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        { getTableRows(places) }
+        </tbody>
+      </Table>
+    </BorderCol>
+  );
+}
 
 PlaceList.propTypes = {
   places: PropTypes.array.isRequired
@@ -68,4 +70,4 @@ PlaceList.defaultProps = {
   places: []
 };
 
-export default PlaceList;
+export default withRouter(PlaceList);

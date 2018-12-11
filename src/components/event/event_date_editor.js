@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { required } from '../../utils/valdiators';
 import { timeToMilliseconds } from '../../utils/helpers';
-import FormDateTimePicker from '../ui/fields/form_date_time_picker';
-import FormDropdownList from '../ui/fields/form_dropdown_list';
+import FormDateTimePicker from '../ui/fields/form/form_date_time_picker';
+import FormDropdownList from '../ui/fields/form/form_dropdown_list';
 
 const getTimeSteps = () => {
     const timeOptions = [];

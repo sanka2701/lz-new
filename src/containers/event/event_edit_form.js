@@ -4,9 +4,9 @@ import { required } from "../../utils/valdiators";
 import { Container, Row, Col } from 'reactstrap';
 import EventDateEditor from '../../components/event/event_date_editor';
 import PlaceHandler from '../place/place_handler';
-import FormInput from '../../components/ui/fields/form_input';
-import FormFileUpload from '../../components/ui/fields/form_file_upload';
-import FormContentEditor from '../../components/ui/fields/form_content_editor';
+import FormInput from '../../components/ui/fields/form/form_input';
+import FormFileUpload from '../../components/ui/fields/form/form_file_upload';
+import FormContentEditor from '../../components/ui/fields/form/form_content_editor';
 import PostContextMenu from '../../components/post/post_context_menu';
 import BorderCol from '../../components/ui/content/bordered_content';
 

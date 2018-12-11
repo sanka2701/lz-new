@@ -1,8 +1,8 @@
 import React from 'react';
-import CKEditor from '../../external/ck_editor';
+import CKEditor from '../../../external/ck_editor';
 import { compose } from 'redux'
-import withField from './decorators/with_field';
-import withErrorSlider from './decorators/with_error_slider';
+import withField from '../decorators/with_field';
+import withErrorSlider from '../decorators/with_error_slider';
 
 const BasicContentEditor = ({ onChange, onBlur, value }) => (
     <CKEditor

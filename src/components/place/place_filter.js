@@ -20,12 +20,11 @@ const PlaceFilter = ({ onPlaceFilterChanged, filter, markers })  => (
           <FormattedMessage id={'place.choosePlace'} defaultMessage={'Choose a place on a map'}/>
         </Label>
         <MapFilter
-          circles={[filter]}
+          circleFilter={filter}
           markers={markers}
           onCircleSet={(circle) => {
             onPlaceFilterChanged(circle)
           }}
-          disableDefaultUI
         />
       </Col>
     </Row>

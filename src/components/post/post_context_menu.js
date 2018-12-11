@@ -14,13 +14,14 @@ const renderButton = ({type, color, message, defaultMessage, callback}) => (
     </Col>
 );
 
-const PostContextMenu = ({onSubmit, onReset, onEdit, onCancel, onApprove}) => (
+const PostContextMenu = ({onSubmit, onReset, onEdit, onCancel, onDelete, onApprove}) => (
     <BorderCol>
         <Row className={styles.wrapper}>
         { onSubmit  && renderButton({type:'submit', color:'success', message:'submit', defaultMessage:'Submit', callback:onSubmit}) }
         { onReset   && renderButton({type:'button', color:'warning', message:'reset', defaultMessage:'Reset', callback:onReset}) }
         { onEdit    && renderButton({type:'button', color:'warning', message:'edit', defaultMessage:'Edit', callback:onEdit}) }
         { onCancel  && renderButton({type:'button', color:'danger', message:'cancel', defaultMessage:'Cancel', callback:onCancel}) }
+        { onDelete  && renderButton({type:'button', color:'danger', message:'delete', defaultMessage:'Delete', callback:onCancel}) }
         { onApprove && renderButton({type:'button', color:'info', message:'approve', defaultMessage:'Approve', callback:onApprove}) }
         </Row>
     </BorderCol>
@@ -31,6 +32,7 @@ PostContextMenu.defaultProps = {
     onReset  : null,
     onEdit   : null,
     onCancel : null,
+    onDelete : null,
     onApprove: null
 };
 
@@ -39,6 +41,7 @@ PostContextMenu.propTypes = {
     onReset: PropTypes.func,
     onEdit: PropTypes.func,
     onCancel: PropTypes.func,
+    onDelete: PropTypes.func,
     onApprove: PropTypes.func
 };
 

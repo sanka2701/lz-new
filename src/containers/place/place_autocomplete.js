@@ -1,5 +1,5 @@
 import React from 'react';
-import FormAutocomplete from '../../components/ui/fields/form_autocomplete';
+import FormAutocomplete from '../../components/ui/fields/form/form_autocomplete';
 import { formValueSelector } from 'redux-form';
 import { loadPlaces, selectPlace } from '../../actions/index';
 import { connect } from 'react-redux';

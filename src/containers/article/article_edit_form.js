@@ -2,9 +2,9 @@ import React from 'react';
 import { reduxForm } from "redux-form";
 import { required } from "../../utils/valdiators";
 import { Row, Col } from 'reactstrap';
-import FormInput from '../../components/ui/fields/form_input';
-import FormFileUpload from '../../components/ui/fields/form_file_upload';
-import FormContentEditor from '../../components/ui/fields/form_content_editor';
+import FormInput from '../../components/ui/fields/form/form_input';
+import FormFileUpload from '../../components/ui/fields/form/form_file_upload';
+import FormContentEditor from '../../components/ui/fields/form/form_content_editor';
 import PostContextMenu from '../../components/post/post_context_menu';
 import BorderCol from '../../components/ui/content/bordered_content';
 

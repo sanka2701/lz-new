@@ -4,6 +4,7 @@
   "general.edit" : "Upraviť",
   "general.approve" : "Schváliť",
   "general.cancel" : "Storno",
+  "general.delete" : "Odstrániť",
 
   "nav.home" : "Domov",
   "nav.events" : "Udalosti",
@@ -42,6 +43,8 @@
   "place.map": "Mapa",
   "place.address": "Adresa",
   "place.label": "Názov",
+  "place.lat": "Zemepisná šírka",
+  "place.lon": "Zemepisná dĺžka",
   "place.distance": "Vzdialenosť (km)",
   "place.choosePlace" : "Zvoľte miesto na mape"
 }

@@ -1,51 +1,41 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import GoogleMap from '../external/google_map';
-import { areCoordinatesValid } from '../../utils/helpers';
-import { LM_GPS_COORDS } from '../../utils/constant';
+import MapWrapper from './map_wrapper';
 
-const MapDisplay = ({onMarkerSet, selectedPlace, height, width, zoom, animation, disableDefaultUI}) => {
-    const getCoordinates = () => {
-        return areCoordinatesValid(selectedPlace) ? [
-            {
-              title: selectedPlace.title,
-              position: {lng: selectedPlace.lon, lat: selectedPlace.lat},
-              onLoaded: (googleMaps, map, circle) => {
-                map.panTo({lng: selectedPlace.lon, lat: selectedPlace.lat});
-              }
-            }
-        ] : [];
+const MapDisplay = ({onMarkerSet, selectedPlace, animation, ...mapProps}) => {
+    const onItemLoad = (googleMaps, map, marker) => {
+      marker.setAnimation(googleMaps.Animation[animation]);
+    };
+
+    const onMapLoad = (googleMaps, map) => {
+      googleMaps.event.addListener(map, 'click', (event) => {
+        const coordinates = {
+          lat: event.latLng.lat(),
+          lon: event.latLng.lng()
+        };
+
+        if (event.placeId) {
+          event.stop();
+        }
+        onMarkerSet(coordinates, event.placeId);
+      });
     };
 
     return (
-      <div style={{height, width}}>
-        <GoogleMap
-          googleMaps={window.google.maps}
-          center={areCoordinatesValid(selectedPlace) ? {lng: selectedPlace.lon, lat: selectedPlace.lat} : LM_GPS_COORDS}
-          zoom={zoom}
-          gestureHandling={'cooperative'}
-          coordinates={getCoordinates()}
-          disableDefaultUI={disableDefaultUI}
-          onLoaded={(googleMaps, map) => {
-            googleMaps.event.addListener(map, 'click', (event) => {
-              const coordinates = {
-                lat: event.latLng.lat(),
-                lon: event.latLng.lng()
-              };
-
-              if (event.placeId) {
-                event.stop();
-              }
-              onMarkerSet(coordinates, event.placeId);
-            });
-          }}
+      <React.Fragment>
+        <MapWrapper
+          center={selectedPlace}
+          markers={[selectedPlace]}
+          onMapLoad={onMapLoad}
+          onItemLoad={onItemLoad}
+          {...mapProps}
         />
-      </div>
+      </React.Fragment>
     )
 };
 
 MapDisplay.propTypes = {
-  onMarkerSet: PropTypes.func.isRequired,
+  onMarkerSet: PropTypes.func,
   selectedPlace : PropTypes.object,
   height: PropTypes.string,
   width: PropTypes.string,
@@ -58,7 +48,7 @@ MapDisplay.defaultProps = {
   height: '300px',
   width: '100%',
   zoom: 12,
-  animation: 'BOUNCE', // other options : 'NONE', DROP
+  animation: 'BOUNCE', // other options : '' // none, DROP
   disableDefaultUI: false,
   selectedPlace: {
     label: '',
