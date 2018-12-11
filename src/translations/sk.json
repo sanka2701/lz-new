@@ -46,5 +46,9 @@
   "place.lat": "Zemepisná šírka",
   "place.lon": "Zemepisná dĺžka",
   "place.distance": "Vzdialenosť (km)",
-  "place.choosePlace" : "Zvoľte miesto na mape"
+  "place.choosePlace" : "Zvoľte miesto na mape",
+
+  "icon.tooltip.showHide": "Zobraziť/Skryť mapu",
+  "icon.tooltip.resetPlaceFilter": "Vymazať filter",
+  "icon.tooltip.createPlace": "Vztvoriť nové miesto"
 }

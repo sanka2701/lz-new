@@ -9,6 +9,7 @@ import Slider from 'rc-slider';
 import { FormattedMessage } from 'react-intl';
 import MapFilter from '../../components/map/map_filter';
 
+
 import 'rc-slider/assets/index.css';
 import styles from './place_filter.module.css';
 

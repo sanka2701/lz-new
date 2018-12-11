@@ -12,6 +12,8 @@ import BorderCol from '../../components/ui/content/bordered_content';
 import { loadPlaces, setPlaceFilter, resetPlaceFilter } from '../../actions';
 import { makeGetPlacesByFilter } from '../../filters/places_filter';
 
+import { ShowHide, Add, Reset } from '../../components/ui/icons';
+
 class PlaceTop extends React.Component {
   constructor(props){
     super(props);
@@ -31,9 +33,21 @@ class PlaceTop extends React.Component {
     return (
       <React.Fragment>
         <BorderCol sm={12}>
-          <Button color="primary" onClick={() => this.setState({ mapShown: !mapShown })}>
-            Show/Hide
-          </Button>
+          <Row>
+            <Col>
+              <ShowHide
+                isCrossed={this.state.mapShown}
+                onClick={() => this.setState({ mapShown: !mapShown })}
+              />{' '}
+              <Add
+                messageId={'icon.tooltip.createPlace'}
+                onClick={() => {}}
+              />{' '}
+              <Reset
+                onClick={() => {}}
+              />{' '}
+            </Col>
+          </Row>
           <Collapse isOpen={mapShown}>
             <PlaceFilter
               filter={filter}
