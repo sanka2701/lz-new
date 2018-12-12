@@ -1,5 +1,7 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PlaceFilter from '../../components/place/place_filter';
 import PlaceList from '../../components/place/place_list';
 import {
@@ -27,7 +29,7 @@ class PlaceTop extends React.Component {
   }
 
   render = () => {
-    const { places, filter, setPlaceFilter } = this.props;
+    const { places, filter, setPlaceFilter, resetPlaceFilter, history } = this.props;
     const { mapShown } = this.state;
 
     return (
@@ -36,15 +38,15 @@ class PlaceTop extends React.Component {
           <Row>
             <Col>
               <ShowHide
-                isCrossed={this.state.mapShown}
+                isCrossed={mapShown}
                 onClick={() => this.setState({ mapShown: !mapShown })}
               />{' '}
               <Add
                 messageId={'icon.tooltip.createPlace'}
-                onClick={() => {}}
+                onClick={() => {history.push(`/places/edit`);}}
               />{' '}
               <Reset
-                onClick={() => {}}
+                onClick={() => {resetPlaceFilter()}}
               />{' '}
             </Col>
           </Row>
@@ -71,10 +73,12 @@ const mapStateToProps = ({ places }) => {
   }
 };
 
-export default connect(
-  mapStateToProps, {
-    loadPlaces,
-    setPlaceFilter,
-    resetPlaceFilter
-  }
+export default compose(
+  withRouter,
+  connect(
+    mapStateToProps, {
+      loadPlaces,
+      setPlaceFilter,
+      resetPlaceFilter,
+    }),
 ) (PlaceTop);

@@ -8,6 +8,7 @@ import MapEditor from '../map/map_editor';
 import FormInput from '../../components/ui/fields/form/form_input';
 import PlaceAutocomplete from './place_autocomplete';
 
+//todo: switch from container to component
 class PlaceHandler extends Component{
     constructor(props){
         super(props);
@@ -30,6 +31,8 @@ class PlaceHandler extends Component{
     }
 
     render() {
+        const {formName} = this.props;
+
         return (
             <div>
                 <Row style={{textAlign: 'center'}}>
@@ -47,7 +50,7 @@ class PlaceHandler extends Component{
 
                 <Row style={{marginTop: '20px', marginBottom: '10px'}}>
                     <Col sm="12">
-                        <PlaceAutocomplete />
+                        <PlaceAutocomplete formName={formName}/>
                     </Col>
                 </Row>
 
@@ -57,7 +60,7 @@ class PlaceHandler extends Component{
                             <FormInput
                                 messageId={'places.address'}
                                 defaultMessage={'Address'}
-                                name={'place.address'}
+                                name={'address'}
                                 validate={[required]}
                                 disabled={!this.state.createNewPlace}
                             />
@@ -69,7 +72,7 @@ class PlaceHandler extends Component{
                             <FormInput
                                 messageId={'places.lat'}
                                 defaultMessage={'Latitude'}
-                                name={'place.lat'}
+                                name={'lat'}
                                 validate={[required]}
                                 disabled={true}
                             />
@@ -78,7 +81,7 @@ class PlaceHandler extends Component{
                             <FormInput
                                 messageId={'places.lon'}
                                 defaultMessage={'Longitude'}
-                                name={'place.lon'}
+                                name={'lon'}
                                 validate={[required]}
                                 disabled={true}
                             />
@@ -86,7 +89,7 @@ class PlaceHandler extends Component{
                     </Row>
 
                     {this.state.createNewPlace ? (
-                        <MapEditor  selectedPlace={this.props.currentPlace} />
+                        <MapEditor formName={formName} selectedPlace={this.props.currentPlace} />
                     ) : (
                         <MapDisplay selectedPlace={this.props.currentPlace} />
                     )}
@@ -96,12 +99,4 @@ class PlaceHandler extends Component{
     }
 }
 
-const selector = formValueSelector('create_event');
-
-function mapStateToProps(state) {
-    return {
-        currentPlace : selector(state, 'place')
-    }
-}
-
-export default connect(mapStateToProps)(PlaceHandler);
+export default PlaceHandler;

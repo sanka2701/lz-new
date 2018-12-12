@@ -1,5 +1,5 @@
 import React from 'react';
-import { reduxForm } from 'redux-form';
+import { reduxForm, FormSection } from 'redux-form';
 import {required, requiredArray} from "../../utils/valdiators";
 import { Container, Row, Col } from 'reactstrap';
 import EventDateEditor from '../../components/event/event_date_editor';
@@ -70,7 +70,9 @@ const EventEditForm = ({
                         </Col>
                     </Row>
 
-                    <PlaceHandler change={change} />
+                    <FormSection name='place'>
+                      <PlaceHandler formName='create_event'/>
+                    </FormSection>
 
                     <Row>
                         <Col>

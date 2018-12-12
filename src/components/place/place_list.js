@@ -60,7 +60,7 @@ const PlaceList = ({ places, history }) => {
       </Table>
     </BorderCol>
   );
-}
+};
 
 PlaceList.propTypes = {
   places: PropTypes.array.isRequired

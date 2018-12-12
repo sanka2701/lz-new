@@ -53,9 +53,8 @@ export const resetPlaceFilter = dispatch => {
   })
 };
 
-export const selectPlace = place => dispatch => {
-  //todo: this method may set valueto multiple forms -> parametrize to which form
-  dispatch(change('create_event', 'place', place))
+export const selectPlace = (place, formName) => dispatch => {
+  dispatch(change(formName, 'place', place))
 };
 
 export const requestPlaces = () => {
