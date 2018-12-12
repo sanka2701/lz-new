@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadPlaceById } from '../../actions';
+import { loadPlaceById, deletePlace } from '../../actions';
 import PostContextMenu from '../../components/post/post_context_menu';
 import PlaceDetailView from "../../components/place/place_detail_view";
 
@@ -14,16 +14,19 @@ class PlaceDetail extends React.Component {
     this.onDelete = this.onDelete.bind(this);
   }
 
-  onEdit = () => {
+  onEdit() {
     // todo: redirect
+		debugger;
   };
 
-  onDelete = () => {
-    // todo: confirm message and delete
+  onDelete() {
+		// todo: confirm message and delete
+  	const { deletePlace, place: { id } } = this.props;
+		deletePlace(id);
   };
 
   //todo: loading animation
-  render = () => {
+  render() {
     const { place } = this.props;
 
     if (!place) {
@@ -50,4 +53,4 @@ const mapStateToProps = ({ places, auth }, ownProps) => {
   }
 };
 
-export default connect(mapStateToProps, { loadPlaceById })(PlaceDetail);
+export default connect(mapStateToProps, { loadPlaceById, deletePlace })(PlaceDetail);

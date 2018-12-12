@@ -19,7 +19,7 @@ export const makeGetPlacesByFilter = () => createSelector(
   ( byId, filter ) => {
     return Object.values(byId).filter(( place ) => {
       const {lat, lon} = place;
-      return filter.center && filter.radius
+      return filter.isSet && filter.center && filter.radius
         ? isPointWithinCircle(filter.center, filter.radius, {lat, lon})
         : true;
     });

@@ -21,7 +21,7 @@ const PostContextMenu = ({onSubmit, onReset, onEdit, onCancel, onDelete, onAppro
         { onReset   && renderButton({type:'button', color:'warning', message:'reset', defaultMessage:'Reset', callback:onReset}) }
         { onEdit    && renderButton({type:'button', color:'warning', message:'edit', defaultMessage:'Edit', callback:onEdit}) }
         { onCancel  && renderButton({type:'button', color:'danger', message:'cancel', defaultMessage:'Cancel', callback:onCancel}) }
-        { onDelete  && renderButton({type:'button', color:'danger', message:'delete', defaultMessage:'Delete', callback:onCancel}) }
+        { onDelete  && renderButton({type:'button', color:'danger', message:'delete', defaultMessage:'Delete', callback:onDelete}) }
         { onApprove && renderButton({type:'button', color:'info', message:'approve', defaultMessage:'Approve', callback:onApprove}) }
         </Row>
     </BorderCol>

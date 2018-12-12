@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { loadTags, loadPlaceById, loadEventById, postEvent, updateEvent } from '../../actions';
 import Spinner from '../../components/ui/spinner';
-import EventEditForm from './event_edit_form';
+import EventEditForm from '../../components/place/event_edit_form';
 import PropTypes from "prop-types";
 import { values } from 'lodash';
 
@@ -25,7 +25,8 @@ class EventEditor extends React.Component{
         const apiObject = {
             ...event,
             startTime: event.startTime.millis,
-            endTime  : event.endTime.millis
+            endTime  : event.endTime.millis,
+            tags: event.tags.map(tag => tag.id),
         };
         event.id
             ? this.props.updateEvent(apiObject)

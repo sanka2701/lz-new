@@ -9,9 +9,10 @@ import { mapKeys, map } from 'lodash';
 import { LM_GPS_COORDS } from "../utils/constant";
 
 const defaultFilter = {
+	isSet: false,
   center: {
-    lat: LM_GPS_COORDS.lat,
-    lon: LM_GPS_COORDS.lng
+    lat: null,
+    lon: null,
   },
   radius: 2000,
 };
@@ -52,7 +53,8 @@ export default function (state = defaultState, action) {
         return {...state,
           filter: {
             ...state.filter,
-            ...filter
+            ...filter,
+						isSet: true,
           }
         };
       case RESET_PLACE_FILTER:

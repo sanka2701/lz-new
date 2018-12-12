@@ -36,7 +36,7 @@ class PlaceAutocomplete extends React.Component {
 
 const mapStateToProps = ({ places }) => {
   return{
-      suggestions: places.byId
+		suggestions: places.byId
   }
 };
 

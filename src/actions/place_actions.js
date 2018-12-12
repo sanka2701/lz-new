@@ -1,4 +1,4 @@
-import { get, post } from './index';
+import { get, post, remove } from './index';
 import {
   GET_PLACES_FAILURE,
   GET_PLACES_SUCCESS,
@@ -6,7 +6,9 @@ import {
   POST_PLACE_SUCCESS,
   GET_PLACES_REQUEST,
   SET_PLACE_FILTER,
-  RESET_PLACE_FILTER, SET_USERS_FILTER
+  RESET_PLACE_FILTER,
+	DELETE_PLACES_SUCCESS,
+	DELETE_PLACES_FIALURE,
 } from "./types";
 import {change} from "redux-form";
 
@@ -18,6 +20,16 @@ export const loadPlaceById = id => dispatch => {
         failureAction: GET_PLACES_FAILURE
     };
     dispatch(get(request));
+};
+
+export const deletePlace = id => dispatch => {
+	const request = {
+		endpoint: 'places',
+		successAction: DELETE_PLACES_SUCCESS,
+		failureAction: DELETE_PLACES_FIALURE,
+		id
+	};
+	dispatch(remove(request));
 };
 
 export const loadPlaces = () => dispatch => {
@@ -47,7 +59,7 @@ export const setPlaceFilter = filter => dispatch => {
   })
 };
 
-export const resetPlaceFilter = dispatch => {
+export const resetPlaceFilter = () => dispatch => {
   dispatch({
     type: RESET_PLACE_FILTER
   })

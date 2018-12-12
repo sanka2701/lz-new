@@ -46,7 +46,7 @@ class PlaceTop extends React.Component {
                 onClick={() => {history.push(`/places/edit`);}}
               />{' '}
               <Reset
-                onClick={() => {resetPlaceFilter()}}
+                onClick={resetPlaceFilter}
               />{' '}
             </Col>
           </Row>

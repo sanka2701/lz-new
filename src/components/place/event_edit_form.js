@@ -2,14 +2,14 @@ import React from 'react';
 import { reduxForm, FormSection } from 'redux-form';
 import {required, requiredArray} from "../../utils/valdiators";
 import { Container, Row, Col } from 'reactstrap';
-import EventDateEditor from '../../components/event/event_date_editor';
-import PlaceHandler from '../place/place_handler';
-import FormInput from '../../components/ui/fields/form/form_input';
-import FormMulstiselect from '../../components/ui/fields/form/form_multiselect';
-import FormFileUpload from '../../components/ui/fields/form/form_file_upload';
-import FormContentEditor from '../../components/ui/fields/form/form_content_editor';
-import PostContextMenu from '../../components/post/post_context_menu';
-import BorderCol from '../../components/ui/content/bordered_content';
+import EventDateEditor from '../event/event_date_editor';
+import PlaceEditForm from '../../containers/place/place_edit_form';
+import FormInput from '../ui/fields/form/form_input';
+import FormMulstiselect from '../ui/fields/form/form_multiselect';
+import FormFileUpload from '../ui/fields/form/form_file_upload';
+import FormContentEditor from '../ui/fields/form/form_content_editor';
+import PostContextMenu from '../post/post_context_menu';
+import BorderCol from '../ui/content/bordered_content';
 
 const EventEditForm = ({
     tags,
@@ -71,7 +71,7 @@ const EventEditForm = ({
                     </Row>
 
                     <FormSection name='place'>
-                      <PlaceHandler formName='create_event'/>
+                      <PlaceEditForm formName='create_event'/>
                     </FormSection>
 
                     <Row>
