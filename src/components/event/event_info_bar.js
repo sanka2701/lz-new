@@ -2,7 +2,7 @@ import React from 'react';
 import MapDisplay from '../map/map_display';
 import { Row, Col, Label, Button, Collapse } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
-import * as FontAwesome from 'react-icons/lib/fa'
+import { FaClock, FaCalendar } from 'react-icons/fa'
 
 import './event_info_bar_styles.css';
 
@@ -24,7 +24,7 @@ export default class EventInfoBar extends React.Component {
                 <Row>
                     <Col sm='4'>
                         <Label>
-                            <FontAwesome.FaClockO size={32}/>
+                            <FaClock size={32}/>
                         </Label>
                         <Label>
                             12.06.2018
@@ -32,7 +32,7 @@ export default class EventInfoBar extends React.Component {
                     </Col>
                     <Col sm='4'>
                         <Label>
-                            <FontAwesome.FaCalendarO size={32}/>
+                            <FaCalendar size={32}/>
                         </Label>
                         <Label className={'info-data'}>
                             12:30 - 16:00

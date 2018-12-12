@@ -13,7 +13,6 @@ import {
     DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import * as FontAwesome from 'react-icons/lib/fa'
 import { ROLE_ADMIN } from "../../utils/constant";
 
 export default ({ onLogOut, userName, role }) => {
@@ -22,7 +21,6 @@ export default ({ onLogOut, userName, role }) => {
             <NavItem>
                 <NavLink onClick={onLogOut} tag={Link} to='/'>
                     <span>
-                        {/*<FontAwesome.FaSignOut size={32}/>{' '}*/}
                         <FormattedMessage id='nav.logout' defaultMessage='Log Out' />
                     </span>
                 </NavLink>
@@ -30,7 +28,6 @@ export default ({ onLogOut, userName, role }) => {
             <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                     <span>
-                        {/*<FontAwesome.FaUser size={32}/>{' '}*/}
                         { userName }
                     </span>
                 </DropdownToggle>

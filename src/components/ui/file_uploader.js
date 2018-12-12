@@ -1,5 +1,5 @@
 import React from 'react';
-import * as FontAwesome from 'react-icons/lib/fa'
+import {FaCloudUploadAlt} from 'react-icons/fa'
 
 import './file_uploader_styles.css';
 
@@ -81,7 +81,7 @@ class FileUploader extends React.Component {
 
                     <img src={state.imageSrc} className={state.loaded ? 'loaded' : ''}/>
                     <i className={`icon ${state.loaded ? 'loaded' : ''}`} >
-                        <FontAwesome.FaCloudUpload />
+                        <FaCloudUploadAlt />
                     </i>
                     <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" hidden/>
                 </label>

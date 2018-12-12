@@ -1,16 +1,18 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { required } from "../../utils/valdiators";
+import {required, requiredArray} from "../../utils/valdiators";
 import { Container, Row, Col } from 'reactstrap';
 import EventDateEditor from '../../components/event/event_date_editor';
 import PlaceHandler from '../place/place_handler';
 import FormInput from '../../components/ui/fields/form/form_input';
+import FormMulstiselect from '../../components/ui/fields/form/form_multiselect';
 import FormFileUpload from '../../components/ui/fields/form/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form/form_content_editor';
 import PostContextMenu from '../../components/post/post_context_menu';
 import BorderCol from '../../components/ui/content/bordered_content';
 
 const EventEditForm = ({
+    tags,
     handleSubmit,
     editMode,
     change,
@@ -37,6 +39,21 @@ const EventEditForm = ({
                                 defaultMessage={'Event title'}
                                 name={'title'}
                                 validate={[required]}
+                            />
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <FormMulstiselect
+                                messageId={'event.tags'}
+                                defaultMessage={'Tags'}
+                                name={'tags'}
+                                validate={[requiredArray]}
+
+                                data={tags}
+                                valueField='id'
+                                textField='label'
                             />
                         </Col>
                     </Row>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadPlaceById, loadEventById, postEvent, updateEvent } from '../../actions';
+import { loadTags, loadPlaceById, loadEventById, postEvent, updateEvent } from '../../actions';
 import Spinner from '../../components/ui/spinner';
 import EventEditForm from './event_edit_form';
 import PropTypes from "prop-types";
+import { values } from 'lodash';
 
 class EventEditor extends React.Component{
     constructor(props) {
@@ -17,6 +18,7 @@ class EventEditor extends React.Component{
         const { eventId, placeId } = this.props.match.params;
         (eventId && !this.props.event) && this.props.loadEventById(eventId);
         (placeId && !this.props.place) && this.props.loadPlaceById(placeId);
+        (!this.props.tags || !this.props.tags.length) && this.props.loadTags();
     }
 
     async onSubmit(event) {
@@ -42,9 +44,10 @@ class EventEditor extends React.Component{
     }
 
     render() {
-        const { match: {params: { eventId, placeId }}, event, place } = this.props;
+        const { match: {params: { eventId, placeId }}, event, place, tags } = this.props;
         const editMode  = !!eventId && !!placeId;
 
+        // todo: fix spinner
         if(editMode && (!event || !place)) {
             return (
                 <div>
@@ -57,6 +60,7 @@ class EventEditor extends React.Component{
             <div>
                 <EventEditForm
                     editMode={editMode}
+                    tags={tags}
                     initialValues={editMode ? { ...event, place } : null}
                     onSubmit={this.onSubmit}
                     onCancel={this.onCancel}
@@ -77,12 +81,14 @@ EventEditor.defaultProps = {
     place: null
 };
 
-function mapStateToProps({ events, places }, ownProps) {
+function mapStateToProps({ events, places, tags }, ownProps) {
     const { eventId, placeId } = ownProps.match.params;
+    console.log(values(tags.byId));
     return {
         event: events.byId[eventId],
-        place: places.byId[placeId]
+        place: places.byId[placeId],
+        tags: values(tags.byId)
     }
 }
 
-export default connect(mapStateToProps, { loadPlaceById, loadEventById, updateEvent, postEvent })(EventEditor);
+export default connect(mapStateToProps, { loadTags, loadPlaceById, loadEventById, updateEvent, postEvent })(EventEditor);
