@@ -76,6 +76,7 @@ export const get = (request) => async dispatch => {
             })
         })
         .catch(err => {
+          debugger;
             dispatch({
                 type: failureAction,
                 payload: err.response.data

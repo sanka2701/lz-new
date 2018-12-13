@@ -26,7 +26,7 @@ class EventEditor extends React.Component{
             ...event,
             startTime: event.startTime.millis,
             endTime  : event.endTime.millis,
-            tags: event.tags.map(tag => tag.id),
+            // tags: event.tags.map(tag => tag.id),
         };
         event.id
             ? this.props.updateEvent(apiObject)
