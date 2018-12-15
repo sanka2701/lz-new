@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { loadEventById, loadPlaceById, updateEvent } from '../../actions';
 import { Row, Col, Button } from 'reactstrap';
 import PostImage from '../../components/post/post_image';
-import PostContextMenu from '../../components/post/post_context_menu';
+import PostContextMenu from '../../components/ui/menu/post_context_menu';
 import PostContent from '../../components/post/post_content';
 import Spinner from '../../components/ui/spinner';
 import { isOwner, hasRole } from '../../utils/helpers';

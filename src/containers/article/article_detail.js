@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { loadArticleById } from '../../actions';
 import { Row, Col } from 'reactstrap';
 import PostImage from '../../components/post/post_image';
-import PostContextMenu from '../../components/post/post_context_menu';
+import PostContextMenu from '../../components/ui/menu/post_context_menu';
 import PostContent from '../../components/post/post_content';
 import Spinner from '../../components/ui/spinner';
 

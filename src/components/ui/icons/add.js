@@ -5,16 +5,16 @@ import { FormattedMessage } from 'react-intl';
 
 import style from './icon.module.css';
 
-const Add =({ onClick, messageId }) => (
+const Add =({ onClick }) => (
   <React.Fragment>
     <span id='addIcon' onClick={onClick}>
       <FaPlusCircle className={style.icon} />
-    </span>
+    </span>{' '}
     <UncontrolledTooltip target='addIcon'>
       <FormattedMessage
         placement={'bottom'}
-        id={messageId}
-        defaultMessage='Create New' />
+        id={'icon.tooltip.createNewItem'}
+        defaultMessage='Create New Item' />
     </UncontrolledTooltip >
   </React.Fragment>
 );

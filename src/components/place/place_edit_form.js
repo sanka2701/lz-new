@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {Row, Col, Button, Collapse} from 'reactstrap';
 import {required} from '../../utils/valdiators';
-import MapEditor from '../map/map_editor';
-import FormInput from '../../components/ui/fields/form/form_input';
-import PlaceAutocomplete from './place_autocomplete';
+import MapEditor from '../../containers/map/map_editor';
+import FormInput from '../ui/fields/form/form_input';
+import PlaceAutocomplete from '../../containers/place/place_autocomplete';
 
-const PlaceEditForm = ({formName, currentPlace}) => (
+
+//todo: move to components
+const PlaceEditForm = ({formName, currentPlace}) => {debugger; return(
 	<React.Fragment>
 		<Row style={{marginTop: '20px', marginBottom: '10px'}}>
 			<Col sm="12">
@@ -50,6 +52,6 @@ const PlaceEditForm = ({formName, currentPlace}) => (
 			selectedPlace={currentPlace}
 		/>
 	</React.Fragment>
-);
+)};
 
 export default PlaceEditForm;

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Table } from 'reactstrap';
 import { map } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import BorderCol from '../ui/content/bordered_content';
 import MapDisplay from '../../components/map/map_display';

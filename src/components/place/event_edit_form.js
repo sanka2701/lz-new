@@ -3,12 +3,12 @@ import { reduxForm, FormSection } from 'redux-form';
 import {required, requiredArray} from "../../utils/valdiators";
 import { Container, Row, Col } from 'reactstrap';
 import EventDateEditor from '../event/event_date_editor';
-import PlaceEditForm from '../../containers/place/place_edit_form';
+import PlaceEditForm from './place_edit_form';
 import FormInput from '../ui/fields/form/form_input';
 import FormMulstiselect from '../ui/fields/form/form_multiselect';
 import FormFileUpload from '../ui/fields/form/form_file_upload';
 import FormContentEditor from '../ui/fields/form/form_content_editor';
-import PostContextMenu from '../post/post_context_menu';
+import PostContextMenu from '../ui/menu/post_context_menu';
 import BorderCol from '../ui/content/bordered_content';
 
 const EventEditForm = ({

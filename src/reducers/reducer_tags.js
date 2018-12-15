@@ -1,13 +1,22 @@
 import { mapKeys, map } from 'lodash';
 import {
-  GET_TAGS_SUCCESS,
-  GET_TAGS_FAILURE,
-  GET_TAGS_REQUEST } from "../actions/types";
+	GET_TAGS_SUCCESS,
+	GET_TAGS_FAILURE,
+	GET_TAGS_REQUEST,
+	RESET_TAG_FILTER,
+	SET_TAG_FILTER,
+} from "../actions/types";
+
+const defaultFilter =  {
+	isSet: false,
+	searchString: ''
+};
 
 const defaultState = {
   byId: {},
   ids: [],
-  isLoading: false
+  isLoading: false,
+	filter: defaultFilter
 };
 
 export default function (state = defaultState, action) {
@@ -24,6 +33,19 @@ export default function (state = defaultState, action) {
       return {...state, isLoading: false};
     case GET_TAGS_REQUEST:
       return {...state, isLoading: true};
+      //todo: handle delete
+			//todo: handle set isLoading
+		case SET_TAG_FILTER:
+			const { filter } = action.payload;
+			return {...state,
+				filter: {
+					...state.filter,
+					...filter,
+					isSet: true,
+				}
+			};
+		case RESET_TAG_FILTER:
+			return {...state, filter: defaultFilter };
     default:
       return state;
   }

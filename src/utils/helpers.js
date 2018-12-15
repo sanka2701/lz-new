@@ -9,6 +9,19 @@ export const isOwner = (user, event) => {
     return user && event && user.id === event.ownerId;
 };
 
+export const stripDiacritics = sting => sting.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+export const radiusToDegreeDistance = (radius) => radius / 78.71 * 0.001;
+
+export const isPointWithinCircle = (center, radius, point) => {
+	const centerXY = {x: center.lon, y: center.lat };
+	const pointXY  = {x: point.lon, y: point.lat };
+	const radiusDeg= radiusToDegreeDistance(radius);
+
+	const calc = Math.sqrt((pointXY.x-centerXY.x)*(pointXY.x-centerXY.x) + (pointXY.y-centerXY.y)*(pointXY.y-centerXY.y));
+	return calc < radiusDeg;
+};
+
 export const areCoordinatesValid = (coords) => {
     return coords
         && coords.lat

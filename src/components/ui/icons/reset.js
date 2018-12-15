@@ -9,7 +9,7 @@ const Add =({ onClick, messageId }) => (
   <React.Fragment>
     <span id='resetIcon' onClick={onClick}>
       <FaRedo className={style.icon} />
-    </span>
+    </span>{' '}
     <UncontrolledTooltip target='resetIcon'>
       <FormattedMessage
         placement={'bottom'}

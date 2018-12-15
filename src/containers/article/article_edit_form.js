@@ -5,7 +5,7 @@ import { Row, Col } from 'reactstrap';
 import FormInput from '../../components/ui/fields/form/form_input';
 import FormFileUpload from '../../components/ui/fields/form/form_file_upload';
 import FormContentEditor from '../../components/ui/fields/form/form_content_editor';
-import PostContextMenu from '../../components/post/post_context_menu';
+import PostContextMenu from '../../components/ui/menu/post_context_menu';
 import BorderCol from '../../components/ui/content/bordered_content';
 
 const ArticleEditForm = ({ onCancel, reset, onSubmit, handleSubmit }) => (

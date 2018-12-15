@@ -22,13 +22,14 @@ import ArticleTop from './containers/article/article_top';
 import ArticleEditor from './containers/article/article_editor';
 import EventEditor from './containers/event/event_editor';
 import EventTop from './containers/event/event_top';
-import EventTagTop from './containers/eventTag/event_tag_top';
+import TagTop from './containers/eventTag/tag_top';
 import EventManageTop from './containers/event/event_manage_top';
 import EventDetail from './containers/event/event_detail';
 import UserTop from './containers/user/user_top';
 import PlacesTop from './containers/place/place_top';
 import PlaceDetail from './containers/place/place_detail';
 import PlaceEditor from './containers/place/place_editor';
+import TagEditor from './containers/eventTag/tag_editor';
 import PhotoManage from './containers/photo/photo_manage';
 
 import moment from 'moment';
@@ -50,7 +51,7 @@ ReactDOM.render(
                             <Route exact path="/users" component={UserTop} />
                             <Route exact path="/places" component={PlacesTop} />
                             <Route exact path="/events" component={EventTop} />
-                            <Route exact path="/tags" component={EventTagTop} />
+                            <Route exact path="/tags" component={TagTop} />
                             <Route exact path="/articles" component={ArticleTop} />
                             <Route exact path="/events/manage" component={EventManageTop} />
                             <Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />
@@ -59,6 +60,8 @@ ReactDOM.render(
                             <Route path="/articles/:articleId" component={ArticleDetail} />
                             <Route path="/places/edit/:placeId?" component={PlaceEditor} />
                             <Route path="/places/:placeId" component={PlaceDetail} />
+														<Route path="/tags/edit/:tagId?" component={TagEditor} />
+														<Route path="/tags/:tagId" component={PlaceDetail} />
                             {/*<Route path="/" component={Home} />*/}
                             <Route path="/" component={EventTop} />
                         </Switch>

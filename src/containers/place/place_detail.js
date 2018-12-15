@@ -1,7 +1,9 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { loadPlaceById, deletePlace } from '../../actions';
-import PostContextMenu from '../../components/post/post_context_menu';
+import PostContextMenu from '../../components/ui/menu/post_context_menu';
 import PlaceDetailView from "../../components/place/place_detail_view";
 
 class PlaceDetail extends React.Component {
@@ -14,13 +16,13 @@ class PlaceDetail extends React.Component {
     this.onDelete = this.onDelete.bind(this);
   }
 
-  onEdit() {
-    // todo: redirect
-		debugger;
+  onEdit = () => {
+  	const { place, history } = this.props;
+		history.push(`/places/edit/${place.id}`)
   };
 
-  onDelete() {
-		// todo: confirm message and delete
+  onDelete = () => {
+		// todo: confirm message
   	const { deletePlace, place: { id } } = this.props;
 		deletePlace(id);
   };
@@ -53,4 +55,11 @@ const mapStateToProps = ({ places, auth }, ownProps) => {
   }
 };
 
-export default connect(mapStateToProps, { loadPlaceById, deletePlace })(PlaceDetail);
+export default compose(
+	withRouter,
+	connect(
+		mapStateToProps, {
+			loadPlaceById,
+			deletePlace
+		})
+)(PlaceDetail);

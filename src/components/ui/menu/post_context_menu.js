@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { FormattedMessage } from 'react-intl'
 import PropTypes from "prop-types";
-import BorderCol from '../ui/content/bordered_content';
+import BorderCol from '../content/bordered_content';
 
 import styles from './post_context_menu.module.css';
 

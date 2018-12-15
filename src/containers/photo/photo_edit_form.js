@@ -3,7 +3,7 @@ import BorderCol from '../../components/ui/content/bordered_content';
 import { Row, Col } from 'reactstrap';
 import FormInput from '../../components/ui/fields/form/form_input';
 import FormFileUpload from '../../components/ui/fields/form/form_file_upload';
-import PostContextMenu from '../../components/post/post_context_menu';
+import PostContextMenu from '../../components/ui/menu/post_context_menu';
 import { reduxForm } from 'redux-form';
 import { required } from "../../utils/valdiators";
 

@@ -7,20 +7,21 @@ import PlaceList from '../../components/place/place_list';
 import {
   Row,
   Col,
-  Input,
-  Button,
   Collapse} from 'reactstrap';
 import BorderCol from '../../components/ui/content/bordered_content';
 import { loadPlaces, setPlaceFilter, resetPlaceFilter } from '../../actions';
 import { makeGetPlacesByFilter } from '../../filters/places_filter';
 
-import { ShowHide, Add, Reset } from '../../components/ui/icons';
+import FilterMenu from "../../components/ui/menu/filter_menu";
 
 class PlaceTop extends React.Component {
   constructor(props){
     super(props);
+		this.onChangeFilterVisibility = this.onChangeFilterVisibility.bind(this);
+		this.onFilterReset = this.onFilterReset.bind(this);
+		this.onAddTag = this.onAddTag.bind(this);
     this.state = {
-      mapShown: true
+      isFilterShown: true
     }
   }
 
@@ -28,29 +29,29 @@ class PlaceTop extends React.Component {
     this.props.loadPlaces();
   }
 
+	onChangeFilterVisibility = () => this.setState({ isFilterShown: !this.state.isFilterShown });
+
+	onFilterReset = () => this.props.resetPlaceFilter();
+
+	onAddTag = () => this.props.history.push(`/places/edit`);
+
   render = () => {
-    const { places, filter, setPlaceFilter, resetPlaceFilter, history } = this.props;
-    const { mapShown } = this.state;
+    const { places, filter, setPlaceFilter } = this.props;
+    const { isFilterShown } = this.state;
 
     return (
       <React.Fragment>
         <BorderCol sm={12}>
           <Row>
             <Col>
-              <ShowHide
-                isCrossed={mapShown}
-                onClick={() => this.setState({ mapShown: !mapShown })}
-              />{' '}
-              <Add
-                messageId={'icon.tooltip.createPlace'}
-                onClick={() => {history.push(`/places/edit`);}}
-              />{' '}
-              <Reset
-                onClick={resetPlaceFilter}
-              />{' '}
+							<FilterMenu
+								onShow={this.onChangeFilterVisibility}
+								onReset={this.onFilterReset}
+								onAdd={this.onAddTag}
+							/>
             </Col>
           </Row>
-          <Collapse isOpen={mapShown}>
+          <Collapse isOpen={isFilterShown}>
             <PlaceFilter
               filter={filter}
               markers={places}

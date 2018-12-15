@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import PlaceEditForm from './place_edit_form';
+import PlaceEditForm from '../../components/place/place_edit_form';
 import BorderCol from '../../components/ui/content/bordered_content';
 import { reduxForm, FormSection } from 'redux-form';
 import {Button} from 'reactstrap';
@@ -9,12 +9,13 @@ import {postPlace} from "../../actions";
 
 //todo: finish submiting
 class PlaceEditor extends React.Component{
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
+  	//todo: load place by id of not existent
     console.log('Ahoj')
   }
 
@@ -25,7 +26,7 @@ class PlaceEditor extends React.Component{
 
   render() {
 		const {place} = this.props;
-
+		//todo: not showing the place details in edit mode
     return (
       <React.Fragment>
         <BorderCol>
@@ -55,5 +56,5 @@ const mapStateToProps = ({places}, ownProps) => {
 
 export default compose(
   reduxForm({form: 'create_place'}),
-  connect(mapStateToProps, {postPlace})
+  connect(mapStateToProps, { postPlace })
 )(PlaceEditor);
