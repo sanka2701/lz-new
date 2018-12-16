@@ -40,6 +40,14 @@
 
   "tag.category": "Kategória",
 
+  "event.title" : "Názov podujatia",
+  "event.thumbnail": "Titulný obrázok",
+  "event.startDate" : "Dátum začiatku",
+  "event.endDate" : "Dátum konca",
+  "event.startTime" : "Čas začiatku",
+  "event.endTime" : "Čas konca",
+  "event.author" : "Pridal",
+
   "place.map": "Mapa",
   "place.address": "Adresa",
   "place.label": "Názov",

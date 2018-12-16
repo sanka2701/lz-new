@@ -35,7 +35,7 @@ const PlaceDateEditor = () => {
                     <FormDateTimePicker
                         name="endDate"
                         validate={[required]}
-                        messageId={'event.endate'}
+                        messageId={'event.endDate'}
                         defaultMessage='Select end day'
                     />
                 </Col>

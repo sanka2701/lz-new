@@ -7,14 +7,14 @@ import {
 	Input} from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
-const TagFilter = ({ onPlaceFilterChanged, filter })  => (
+const TagFilter = ({ onPlaceFilterChanged: onFilterChanged, filter })  => (
 	<React.Fragment>
 		<Row>
 			<Col sm={12}>
 				<Label>
 					<FormattedMessage id={'tag.label'} defaultMessage={'Label'}/>
 				</Label>
-				<Input value={filter.searchString} onChange={(event) => onPlaceFilterChanged({searchString: event.target.value})}/>
+				<Input value={filter.searchString} onChange={(event) => onFilterChanged({searchString: event.target.value})}/>
 			</Col>
 		</Row>
 	</React.Fragment>

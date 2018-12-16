@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { loadTags, loadPlaceById, loadEventById, postEvent, updateEvent } from '../../actions';
 import Spinner from '../../components/ui/spinner';
-import EventEditForm from '../../components/place/event_edit_form';
+import EventEditForm from '../../components/event/event_edit_form';
 import PropTypes from "prop-types";
 import { values } from 'lodash';
 

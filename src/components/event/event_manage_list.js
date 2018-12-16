@@ -1,25 +1,69 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import EventRow from './event_row';
-import { Row, Col } from 'reactstrap';
-import _ from 'lodash';
+import {Row, Col} from 'reactstrap';
+import {map} from 'lodash';
+import {withRouter} from "react-router-dom";
 
-const getRows = (events) => _.map(events, event => {
-    return (
-        <Col sm={12} key={'event-mng-' + event.id}>
-            <EventRow event={event}/>
-        </Col>
-    )
-});
+import styles from './event_manage_list.module.js.css';
+import BorderCol from "../ui/content/bordered_content";
+import {Table} from "reactstrap";
+import {FormattedMessage} from "react-intl";
 
-const EventManageList = ({ events }) => (
-    <Row>
-        { getRows(events) }
-    </Row>
-);
+const EventManageList = ({events, history}) => {
 
-EventManageList.propTypes = {
-    events: PropTypes.array.isRequired
+	const getTableRows = (events) => map(events, (event, index) => {
+		// todo: resolve dynamic translations of the tag labels
+		return (
+			<tr
+				className={styles.row}
+				key={'event-mng-' + event.id}
+				onClick={() => redirectToDetail(event.id, event.placeId)}>
+				<th scope="row">
+					{parseInt(index)}
+				</th>
+				<td>
+					<img width="90px" height="90px" src={event.thumbnail} className={styles.img} />
+				</td>
+				<td>
+					{event.title}
+				</td>
+				<td>
+					{event.startDate}
+				</td>
+			</tr>
+		)
+	});
+
+	const redirectToDetail = (eventId, placeId) => history.push(`/events/${eventId}/${placeId}`);
+
+	return(
+		<BorderCol>
+			<Table responsive hover striped>
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>
+						<FormattedMessage id={'event.thumbnail'} defaultMessage={'Thumbnail'}/>
+					</th>
+					<th>
+						<FormattedMessage id={'event.title'} defaultMessage={'Title'}/>
+					</th>
+					<th>
+						<FormattedMessage id={'event.startDate'} defaultMessage={'Start Date'}/>
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+				{getTableRows(events)}
+				</tbody>
+			</Table>
+		</BorderCol>
+	);
 };
 
-export default EventManageList;
+EventManageList.propTypes = {
+	events: PropTypes.array.isRequired
+};
+
+export default withRouter(EventManageList);

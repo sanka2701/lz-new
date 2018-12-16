@@ -25,16 +25,15 @@ class PlaceEditor extends React.Component{
   }
 
   render() {
-		const {place} = this.props;
+		const {handleSubmit} = this.props;
 		//todo: not showing the place details in edit mode
     return (
       <React.Fragment>
         <BorderCol>
-          <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+          <form onSubmit={handleSubmit(this.onSubmit)}>
             <FormSection name='place'>
               <PlaceEditForm
                 formName='create_place'
-                initialValues={place}
               />
               <Button>
                 submit
@@ -49,12 +48,13 @@ class PlaceEditor extends React.Component{
 
 const mapStateToProps = ({places}, ownProps) => {
   const { placeId } = ownProps.match.params;
+	const editedPlace = places.byId[placeId];
   return {
-    place: places.byId[placeId]
+		initialValues: {place: editedPlace}
   }
 };
 
 export default compose(
-  reduxForm({form: 'create_place'}),
-  connect(mapStateToProps, { postPlace })
+	connect(mapStateToProps, { postPlace }),
+  reduxForm({form: 'create_place'})
 )(PlaceEditor);

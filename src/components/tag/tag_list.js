@@ -21,7 +21,7 @@ const TagList = ({ tags, history }) => {
 		)
 	});
 
-	const redirectToTagDetail = (tagId) => history.push(`/tags/edit/${tagId}`);
+	const redirectToTagDetail = (tagId) => history.push(`/tags/${tagId}`);
 
 	return (
 		<BorderCol>

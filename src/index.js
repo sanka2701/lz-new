@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PrivateRoute from './containers/app/private_route';
 
 import store from './services/store';
 import ConnectedIntlProvider from './containers/connected_intl_provider';
@@ -30,6 +31,7 @@ import PlacesTop from './containers/place/place_top';
 import PlaceDetail from './containers/place/place_detail';
 import PlaceEditor from './containers/place/place_editor';
 import TagEditor from './containers/eventTag/tag_editor';
+import TagDetail from './containers/eventTag/tag_detail';
 import PhotoManage from './containers/photo/photo_manage';
 
 import moment from 'moment';
@@ -51,7 +53,7 @@ ReactDOM.render(
                             <Route exact path="/users" component={UserTop} />
                             <Route exact path="/places" component={PlacesTop} />
                             <Route exact path="/events" component={EventTop} />
-                            <Route exact path="/tags" component={TagTop} />
+                            <PrivateRoute exact path="/tags" component={TagTop} />
                             <Route exact path="/articles" component={ArticleTop} />
                             <Route exact path="/events/manage" component={EventManageTop} />
                             <Route path="/events/edit/:eventId?/:placeId?" component={EventEditor} />
@@ -61,7 +63,7 @@ ReactDOM.render(
                             <Route path="/places/edit/:placeId?" component={PlaceEditor} />
                             <Route path="/places/:placeId" component={PlaceDetail} />
 														<Route path="/tags/edit/:tagId?" component={TagEditor} />
-														<Route path="/tags/:tagId" component={PlaceDetail} />
+														<Route path="/tags/:tagId" component={TagDetail} />
                             {/*<Route path="/" component={Home} />*/}
                             <Route path="/" component={EventTop} />
                         </Switch>

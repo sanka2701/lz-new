@@ -53,7 +53,7 @@ class TagTop extends React.Component {
 						onAdd={this.onAddTag}
 					/>
 					<Collapse isOpen={isFilterShown}>
-						<TagFilter filter={filter} onPlaceFilterChanged={this.onFilterChange} />
+						<TagFilter filter={filter} onFilterChanged={this.onFilterChange} />
 					</Collapse>
 				</BorderCol>
         <TagList tags={tags} />

@@ -27,7 +27,7 @@ export const deletePlace = id => dispatch => {
 		endpoint: 'places',
 		successAction: DELETE_PLACES_SUCCESS,
 		failureAction: DELETE_PLACES_FIALURE,
-		id
+		params: {id}
 	};
 	dispatch(remove(request));
 };

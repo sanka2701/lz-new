@@ -4,7 +4,7 @@ import {
 	GET_TAGS_FAILURE,
 	GET_TAGS_REQUEST,
 	RESET_TAG_FILTER,
-	SET_TAG_FILTER,
+	SET_TAG_FILTER, POST_TAG_SUCCESS,
 } from "../actions/types";
 
 const defaultFilter =  {
@@ -20,9 +20,16 @@ const defaultState = {
 };
 
 export default function (state = defaultState, action) {
+	const { tags } = action.payload ? action.payload : {tags: []};
   switch(action.type) {
+		case POST_TAG_SUCCESS:
+			return {
+				...state,
+				byId: Object.assign(state.byId, mapKeys(tags, 'id')),
+				ids: state.ids.concat(map(tags, 'id')),
+				isLoading: false
+			};
     case GET_TAGS_SUCCESS:
-      const { tags } = action.payload;
       return {
         ...state,
         byId: mapKeys(tags, 'id'),

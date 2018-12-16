@@ -16,9 +16,19 @@ export const deleteTag = ( id ) => async dispatch => {
 		endpoint: 'eventtag',
 		successAction: DELETE_TAG_SUCCESS,
 		failureAction: DELETE_TAG_FIALURE,
-		id
+		params: {id}
 	};
 	dispatch(remove(request));
+};
+
+export const loadTagById = id => dispatch => {
+	const request = {
+		endpoint: 'eventtag/id',
+		params: { id },
+		successAction: GET_TAGS_SUCCESS,
+		failureAction: GET_TAGS_FAILURE
+	};
+	dispatch(get(request));
 };
 
 export const postTag = ( eventTag ) => async (dispatch) => {
@@ -30,6 +40,16 @@ export const postTag = ( eventTag ) => async (dispatch) => {
     failureAction: POST_TAG_FAILURE
   };
   dispatch(post(request));
+};
+
+export const updateTag = (tag) => async dispatch => {
+	const request = {
+		endpoint: 'eventtag/update',
+		payload: tag,
+		successAction: POST_TAG_SUCCESS,
+		failureAction: POST_TAG_FAILURE
+	};
+	dispatch(post(request));
 };
 
 export const loadTags = () => dispatch => {

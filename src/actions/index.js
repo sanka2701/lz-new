@@ -104,10 +104,8 @@ export const post = (request) => async dispatch => {
 };
 
 export const remove = (request) => async dispatch => {
-	const {endpoint, successAction, failureAction, id} = request;
-	let tmp = `${ROOT_URL}/${endpoint}/${id}`;
-	debugger;
-	axios.delete(`${ROOT_URL}/${endpoint}/${id}`)
+	const {endpoint, successAction, failureAction, params} = request;
+	axios.delete(`${ROOT_URL}/${endpoint}`, {params})
 		.then( response => {
 			dispatch({
 				type: successAction,

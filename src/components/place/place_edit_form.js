@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
-import {Row, Col, Button, Collapse} from 'reactstrap';
+import React from 'react';
+import {Row, Col} from 'reactstrap';
 import {required} from '../../utils/valdiators';
 import MapEditor from '../../containers/map/map_editor';
 import FormInput from '../ui/fields/form/form_input';
 import PlaceAutocomplete from '../../containers/place/place_autocomplete';
-
+import {connect} from "react-redux";
+import {formValueSelector} from "redux-form";
 
 //todo: move to components
-const PlaceEditForm = ({formName, currentPlace}) => {debugger; return(
+const PlaceEditForm = ({formName, currentPlace}) => (
 	<React.Fragment>
 		<Row style={{marginTop: '20px', marginBottom: '10px'}}>
 			<Col sm="12">
@@ -52,6 +53,13 @@ const PlaceEditForm = ({formName, currentPlace}) => {debugger; return(
 			selectedPlace={currentPlace}
 		/>
 	</React.Fragment>
-)};
+);
 
-export default PlaceEditForm;
+const mapStateToProps = (state, ownProps) => {
+	const selector = formValueSelector(ownProps.formName);
+	return {
+		currentPlace: selector(state, 'place')
+	}
+};
+
+export default connect(mapStateToProps)(PlaceEditForm);

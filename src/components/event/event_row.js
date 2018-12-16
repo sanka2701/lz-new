@@ -6,6 +6,7 @@ import BorderCol from '../ui/content/bordered_content';
 
 import styles from './event_row.module.css';
 
+//todo: remove
 export default ({event}) => {
     return (
         <BorderCol>
