@@ -2,24 +2,32 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Col} from 'reactstrap';
 import BorderCol from '../../components/ui/content/bordered_content';
+import {resetEventFilter, setEventFilter} from "../../actions";
+import PlaceFilter from "../../components/place/place_filter";
 
-const EventFilter = ({test}) => {
+const EventFilter = ({filter, setEventFilter}) => {
+
+	const placeFilterChanged = (place) => {
+		setEventFilter({
+			place: {
+				...filter.place,
+				...place
+			}
+		});
+	};
+
 	return (
-		<Row>
-			<Col>
-				<BorderCol>
-					{test}
-				</BorderCol>
-			</Col>
-		</Row>
+		<BorderCol sm={12}>
+			<PlaceFilter onPlaceFilterChanged={placeFilterChanged} filter={filter.place}/>
+		</BorderCol>
 	)
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ events: { filter } }) => {
 	return {
-		test: 'this will be an event filter'
+		filter
 	}
 };
 
-export default connect(mapStateToProps)(EventFilter);
+export default connect(mapStateToProps, {setEventFilter, resetEventFilter})(EventFilter);
 

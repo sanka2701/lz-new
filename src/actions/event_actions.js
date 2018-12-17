@@ -1,11 +1,14 @@
 import { post, get } from './index';
 import {
-  GET_EVENTS_REQUEST,
-  CHANGE_EVENT_PAGE,
-  GET_EVENTS_FAILURE,
-  GET_EVENTS_SUCCESS,
-  POST_EVENT_SUCCESS,
-  POST_EVENT_FAILURE} from "./types";
+	GET_EVENTS_REQUEST,
+	CHANGE_EVENT_PAGE,
+	GET_EVENTS_FAILURE,
+	GET_EVENTS_SUCCESS,
+	POST_EVENT_SUCCESS,
+	POST_EVENT_FAILURE,
+	SET_EVENT_FILTER,
+	RESET_EVENT_FILTER
+} from "./types";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
 import _ from 'lodash';
 
@@ -82,4 +85,17 @@ export const loadEventsByFilter = filter => dispatch => {
         failureAction: GET_EVENTS_FAILURE
     };
     dispatch(post(request));
+};
+
+export const setEventFilter = filter => dispatch => {
+	dispatch({
+		type: SET_EVENT_FILTER,
+		payload: {filter}
+	})
+};
+
+export const resetEventFilter = filter => dispatch => {
+	dispatch({
+		type: RESET_EVENT_FILTER,
+	})
 };
