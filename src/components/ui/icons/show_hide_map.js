@@ -1,16 +1,17 @@
 import React from 'react';
-import { FaEyeSlash, FaEye } from 'react-icons/fa';
+import { FaMapMarked, FaMapMarkedAlt } from 'react-icons/fa';
 import { UncontrolledTooltip  } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
 import style from './icon.module.css';
 
-class ShowHide extends React.Component {
+class ShowHideMap extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onIconClick = this.onIconClick.bind(this);
+		//todo: enable state initializing from outside props
 		this.state = {
-			isShown: false
+			isShown: true
 		}
 	}
 
@@ -29,8 +30,8 @@ class ShowHide extends React.Component {
 			<span id='toogleIcon' onClick={this.onIconClick}>
 				{
 					isShown
-						? (<FaEye className={`${style.icon} ${style.dark}`}/>)
-						: (<FaEyeSlash className={`${style.icon} ${style.light}`}/>)
+						? (<FaMapMarkedAlt className={`${style.icon} ${style.dark}`}/>)
+						: (<FaMapMarked className={`${style.icon} ${style.light}`}/>)
 				}
 			</span>{' '}
 				<UncontrolledTooltip target='toogleIcon'>
@@ -44,4 +45,4 @@ class ShowHide extends React.Component {
 	}
 }
 
-export default ShowHide;
+export default ShowHideMap;

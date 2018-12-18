@@ -8,7 +8,7 @@ import style from './icon.module.css';
 const Add =({ onClick }) => (
   <React.Fragment>
     <span id='addIcon' onClick={onClick}>
-      <FaPlusCircle className={style.icon} />
+      <FaPlusCircle className={`${style.icon} ${style.light}`} />
     </span>{' '}
     <UncontrolledTooltip target='addIcon'>
       <FormattedMessage

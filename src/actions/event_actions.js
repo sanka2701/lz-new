@@ -94,7 +94,7 @@ export const setEventFilter = filter => dispatch => {
 	})
 };
 
-export const resetEventFilter = filter => dispatch => {
+export const resetEventFilter = () => dispatch => {
 	dispatch({
 		type: RESET_EVENT_FILTER,
 	})

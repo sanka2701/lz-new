@@ -44,6 +44,8 @@
   "event.thumbnail": "Titulný obrázok",
   "event.startDate" : "Dátum začiatku",
   "event.endDate" : "Dátum konca",
+  "event.from" : "Od",
+  "event.to" : "Do",
   "event.startTime" : "Čas začiatku",
   "event.endTime" : "Čas konca",
   "event.author" : "Pridal",

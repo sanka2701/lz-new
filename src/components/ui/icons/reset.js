@@ -8,7 +8,7 @@ import style from './icon.module.css';
 const Add =({ onClick, messageId }) => (
   <React.Fragment>
     <span id='resetIcon' onClick={onClick}>
-      <FaRedo className={style.icon} />
+      <FaRedo className={`${style.icon} ${style.light}`} />
     </span>{' '}
     <UncontrolledTooltip target='resetIcon'>
       <FormattedMessage
