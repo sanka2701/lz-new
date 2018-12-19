@@ -59,6 +59,7 @@
   "place.choosePlace" : "Zvoľte miesto na mape",
 
   "icon.tooltip.showHide": "Zobraziť/Skryť filter",
+  "icon.tooltip.showHideMap": "Zobraziť/Skryť mapu",
   "icon.tooltip.resetPlaceFilter": "Vymazať filter",
   "icon.tooltip.createNewItem": "Vytvoriť novú položku",
 

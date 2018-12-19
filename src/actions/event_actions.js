@@ -75,6 +75,7 @@ export const loadEventById = id => dispatch => {
     dispatch(get(request));
 };
 
+//todo: rename to loadEvents, remove unused filtering
 export const loadEventsByFilter = filter => dispatch => {
     dispatch(requestEvents());
     const request = {

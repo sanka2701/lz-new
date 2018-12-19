@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {loadEventsByFilter, setEventPagination} from '../../actions';
+import {loadEventsByFilter, setEventPagination, loadPlaces} from '../../actions';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import withSideBar from '../../components/ui/content/with_sidebar';
 import Pagination from '../../components/ui/pagination';
@@ -9,8 +9,9 @@ import EventFilter from './event_filter';
 import EventList from '../../components/event/event_list';
 import _ from 'lodash';
 
-import {makeGetEventsByApproval} from '../../filters/event_view_filter';
+import {makeGetEventsByApproval} from '../../filters/event_approval_filter';
 import {Row} from "reactstrap";
+import {filteredEventsSelector} from "../../filters/tmp/approved_events_selector";
 
 const EventListWithSpinner = withLoadingAnimation(EventList);
 
@@ -20,8 +21,10 @@ class EventTop extends React.Component {
 		this.onPaginationChange = this.onPaginationChange.bind(this);
 	}
 
+	//todo: load events and places here, get event card rendering to seperate file and load filtered data in filter and card renderer
 	componentDidMount() {
 		this.props.loadEventsByFilter({});
+		this.props.loadPlaces();
 	}
 
 	onPaginationChange(pageIndex) {
@@ -29,8 +32,9 @@ class EventTop extends React.Component {
 	}
 
 	render() {
-		const {isLoading, events: {pageCount, currentPage, byId, pages}} = this.props;
-		const events = _.map(pages[currentPage - 1], (id) => byId[id]);
+		// const {isLoading, events: {pageCount, currentPage, byId, pages}} = this.props;
+		// const events = _.map(pages[currentPage - 1], (id) => byId[id]);
+		const {isLoading, events} = this.props;
 
 		//todo refactor rendering
 		return (
@@ -40,23 +44,25 @@ class EventTop extends React.Component {
 				</Row>
 				<div>
 					<EventListWithSpinner isLoading={isLoading} events={events}/>
-					<Pagination activePage={currentPage} pageCount={pageCount}
-											onPageSelect={this.onPaginationChange}/>
+					{/*<Pagination activePage={currentPage} pageCount={pageCount}*/}
+											{/*onPageSelect={this.onPaginationChange}/>*/}
 				</div>
 			</React.Fragment>
 		)
 	}
 }
 
-const mapStateToProps = ({events}) => {
+const mapStateToProps = (state) => {
 	const getEventsByApproval = makeGetEventsByApproval();
 	return {
-		events: getEventsByApproval(events, {approved: true}),
-		isLoading: events.isLoading
+		// events: getEventsByApproval(events, {approved: true}),
+		events: filteredEventsSelector(state),
+		places: state.places.byId,
+		isLoading: state.events.isLoading
 	}
 };
 
 export default compose(
-	connect(mapStateToProps, {loadEventsByFilter, setEventPagination}),
+	connect(mapStateToProps, {loadEventsByFilter, setEventPagination, loadPlaces}),
 	withSideBar
 )(EventTop);

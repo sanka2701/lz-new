@@ -35,7 +35,6 @@ class ShowHide extends React.Component {
 			</span>{' '}
 				<UncontrolledTooltip target='toogleIcon'>
 					<FormattedMessage
-						placement={'bottom'}
 						id='icon.tooltip.showHide'
 						defaultMessage='Show/hide' />
 				</UncontrolledTooltip>

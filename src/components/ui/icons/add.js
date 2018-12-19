@@ -12,7 +12,6 @@ const Add =({ onClick }) => (
     </span>{' '}
     <UncontrolledTooltip target='addIcon'>
       <FormattedMessage
-        placement={'bottom'}
         id={'icon.tooltip.createNewItem'}
         defaultMessage='Create New Item' />
     </UncontrolledTooltip >

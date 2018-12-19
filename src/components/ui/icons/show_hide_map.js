@@ -27,18 +27,17 @@ class ShowHideMap extends React.Component {
 
 		return (
 			<React.Fragment>
-			<span id='toogleIcon' onClick={this.onIconClick}>
+			<span id='toogleMapIcon' onClick={this.onIconClick}>
 				{
 					isShown
 						? (<FaMapMarkedAlt className={`${style.icon} ${style.dark}`}/>)
 						: (<FaMapMarked className={`${style.icon} ${style.light}`}/>)
 				}
 			</span>{' '}
-				<UncontrolledTooltip target='toogleIcon'>
+				<UncontrolledTooltip target='toogleMapIcon'>
 					<FormattedMessage
-						placement={'bottom'}
-						id='icon.tooltip.showHide'
-						defaultMessage='Show/hide' />
+						id='icon.tooltip.showHideMap'
+						defaultMessage='Show/hide map' />
 				</UncontrolledTooltip>
 			</React.Fragment>
 		)

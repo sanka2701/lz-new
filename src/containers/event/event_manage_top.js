@@ -7,7 +7,7 @@ import Pagination from '../../components/ui/pagination';
 import EventManageList from '../../components/event/event_manage_list';
 import _ from 'lodash';
 
-import {makeGetEventsByApproval} from '../../filters/event_view_filter';
+import {makeGetEventsByApproval} from '../../filters/event_approval_filter';
 
 const EventListWithSpinner = withLoadingAnimation(EventManageList);
 

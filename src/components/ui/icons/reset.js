@@ -12,7 +12,6 @@ const Add =({ onClick, messageId }) => (
     </span>{' '}
     <UncontrolledTooltip target='resetIcon'>
       <FormattedMessage
-        placement={'bottom'}
         id={'icon.tooltip.resetPlaceFilter'}
         defaultMessage='Create New' />
     </UncontrolledTooltip >

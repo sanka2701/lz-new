@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, Label, Collapse} from 'reactstrap';
 import BorderCol from '../../components/ui/content/bordered_content';
-import {resetEventFilter, setEventFilter} from "../../actions";
+import {resetEventFilter, setEventFilter, loadTags } from "../../actions";
 import PlaceFilter from "../../components/place/place_filter";
 import {DateTimePicker, Multiselect} from "react-widgets";
 import {FormattedMessage} from "react-intl";
@@ -22,6 +22,10 @@ class EventFilter extends React.Component {
 			isMapShown: false,
 		}
 	}
+
+	componentDidMount = () => {
+		this.props.loadTags();
+	};
 
 	placeFilterChanged = (place) => {
 		const {filter} = this.props;
@@ -71,9 +75,8 @@ class EventFilter extends React.Component {
 								<FormattedMessage id={'event.tags'} defaultMessage={'Tags'}/>
 							</Label>
 							<Multiselect
-								// value={_.map(filter.tags, 'id')}
-								defaultValue={!filter.tags ? [] : filter.tags}
-								onBlur={() => this.filterChanged(filter.tags)}
+								value={filter.tags}
+								onChange={(value) => this.filterChanged({tags: value})}
 								data={tags}
 								valueField='id'
 								textField='label'
@@ -124,9 +127,14 @@ class EventFilter extends React.Component {
 const mapStateToProps = ({events: {filter}, tags}) => {
 	return {
 		filter,
-		tags: _.values(tags.byId)
+		tags: _.values(tags.byId),
 	}
 };
 
-export default connect(mapStateToProps, {setEventFilter, resetEventFilter})(EventFilter);
+export default connect(
+	mapStateToProps, {
+		setEventFilter,
+		resetEventFilter,
+		loadTags,
+	})(EventFilter);
 
