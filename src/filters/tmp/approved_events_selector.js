@@ -30,13 +30,13 @@ export const currentPageEventsSelector = createSelector(
 	}
 );
 
-// export const getApprovedEventPlaces = createSelector(
-// 	[ approvedEventsSelector, getPlaces ],
-// 	( events, places ) => {
-// 		const requiredPlaceIds = map(events, 'placeId');
-// 		return Object.values(places).filter( place => requiredPlaceIds.includes(place.id));
-// 	}
-// );
+export const getApprovedEventsPlaces = createSelector(
+	[ approvedEventsSelector, getPlaces ],
+	( events, places ) => {
+		const requiredPlaceIds = map(events, 'placeId');
+		return Object.values(places).filter( place => requiredPlaceIds.includes(place.id));
+	}
+);
 
 export const filteredEventsSelector = createSelector(
 	[currentPageEventsSelector, getFilter, getPlaces,  ],

@@ -75,17 +75,15 @@ export const loadEventById = id => dispatch => {
     dispatch(get(request));
 };
 
-//todo: rename to loadEvents, remove unused filtering
-export const loadEventsByFilter = filter => dispatch => {
+export const loadEvents = () => dispatch => {
     dispatch(requestEvents());
     const request = {
-        endpoint: 'events/filter',
+        endpoint: 'events/all',
         params: {},
-        payload: {...filter},
         successAction: GET_EVENTS_SUCCESS,
         failureAction: GET_EVENTS_FAILURE
     };
-    dispatch(post(request));
+    dispatch(get(request));
 };
 
 export const setEventFilter = filter => dispatch => {

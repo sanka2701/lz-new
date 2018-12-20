@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
-import { loadArticlesByFilter, loadEventsByFilter } from '../actions';
+import { loadArticlesByFilter, loadEvents } from '../actions';
 import PostCard from '../components/post/post_card';
 import _ from 'lodash';
 
 //todo: this needs to be polished .... like a lot
+//todo: probably remove
 class Home extends React.Component{
     componentDidMount(){
         this.props.loadArticlesByFilter({});
-        this.props.loadEventsByFilter({approved : true});
+        this.props.loadEvents();
     }
 
     renderCards(row) {
@@ -64,4 +65,4 @@ const mapStateToProps = ({events, articles}) => {
     return { events, articles }
 };
 
-export default connect(mapStateToProps, { loadArticlesByFilter, loadEventsByFilter })(Home);
+export default connect(mapStateToProps, { loadArticlesByFilter, loadEvents })(Home);

@@ -56,7 +56,8 @@ class Login extends Component {
 	onSubmit = formProps => {
 		const { location } = this.props;
 		const { from } = location.state || { from: { pathname: '/' } };
-		debugger;
+
+		//todo: move to actions
 		const request = {
 			endpoint: 'users/login',
 			payload: formProps,

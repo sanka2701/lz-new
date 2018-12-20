@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { loadEventsByFilter, setEventPagination } from '../../actions';
+import { loadEvents, setEventPagination } from '../../actions';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import Pagination from '../../components/ui/pagination';
 import EventManageList from '../../components/event/event_manage_list';
@@ -18,7 +18,7 @@ class EventManageTop extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadEventsByFilter({});
+        this.props.loadEvents();
     }
 
     onPaginationChange(pageIndex) {
@@ -47,5 +47,5 @@ const mapStateToProps = ({ events }) => {
 };
 
 export default compose(
-    connect(mapStateToProps, { loadEventsByFilter, setEventPagination })
+    connect(mapStateToProps, { loadEvents, setEventPagination })
 )(EventManageTop);

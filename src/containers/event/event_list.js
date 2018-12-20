@@ -2,11 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 import BorderCol from '../../components/ui/content/bordered_content';
-import PostCard from '../post/post_card';
+import PostCard from '../../components/post/post_card';
 import PropTypes from "prop-types";
 import _ from 'lodash';
 
-import styles from '../../containers/event/event_list.module.css';
+import styles from './event_list.module.css';
+import {filteredEventsSelector} from '../../filters/tmp/approved_events_selector';
+import {connect} from 'react-redux';
 
 const getRows = (events) => _.map(events, event => (
     <BorderCol md={6} grow={true} key={'event-' + event.id} >
@@ -23,8 +25,11 @@ const EventList = ({events}) => (
     </Row>
 );
 
-EventList.propTypes = {
-    events: PropTypes.array.isRequired
+
+const mapStateToProps = (state) => {
+  return {
+    events: filteredEventsSelector(state)
+  }
 };
 
-export default EventList;
+export default connect(mapStateToProps)(EventList);
