@@ -13,6 +13,24 @@ export const stripDiacritics = sting => sting.normalize('NFD').replace(/[\u0300-
 
 export const radiusToDegreeDistance = (radius) => radius / 78.71 * 0.001;
 
+export const dateRangeOverlap = (eventStart, eventEnd, filterStart, filterEnd) => {
+	debugger;
+	if(!filterStart) {
+		return (eventStart <= filterEnd)
+	}
+
+	if(!filterEnd) {
+		return (eventEnd >= filterStart)
+	}
+
+	// todo: handle on filter ui
+	if(filterStart > filterEnd) {
+		return true;
+	}
+
+	return (eventStart <= filterEnd) && (eventEnd >= filterStart)
+};
+
 export const isPointWithinCircle = (center, radius, point) => {
 	const centerXY = {x: center.lon, y: center.lat };
 	const pointXY  = {x: point.lon, y: point.lat };

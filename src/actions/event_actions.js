@@ -7,7 +7,8 @@ import {
 	POST_EVENT_SUCCESS,
 	POST_EVENT_FAILURE,
 	SET_EVENT_FILTER,
-	RESET_EVENT_FILTER
+	RESET_EVENT_FILTER,
+	SET_NOTIFICATION
 } from "./types";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
 import _ from 'lodash';
@@ -39,8 +40,19 @@ const buildRequest = async ( event, endpoint ) => {
     }
 };
 
-export const postEvent = ( event ) => async (dispatch) => {
+export const postEvent = ( event, successCallback ) => async (dispatch) => {
     const request = await buildRequest(event, 'events');
+    request.successCallback = () => {
+			dispatch({
+				type: SET_NOTIFICATION,
+				payload: {
+					messageId: 'not.event.createSuccess',
+					type: 'success'
+				}
+			});
+			successCallback && successCallback();
+		};
+
     dispatch(post(request));
 };
 

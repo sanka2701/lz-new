@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { change } from 'redux-form'
-import { ERROR_DISMISSED, ERROR_SAVING_PLACE } from './types';
+import {DISMISS_NOTIFICATION, ERROR_DISMISSED, ERROR_SAVING_PLACE} from './types';
 import { AUTH_USER_OUT} from './types';
 import { PLACES_CLEARED } from './types';
 
@@ -14,6 +14,13 @@ export * from './locale_actions';
 export * from './potw_actions';
 export * from './tags_actions';
 
+export const dismissNotification = () => {
+	return {
+		type: DISMISS_NOTIFICATION
+	}
+};
+
+// todo: remove
 export const dismissModalError = () => {
     return {
         type: ERROR_DISMISSED,

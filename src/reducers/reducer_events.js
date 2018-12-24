@@ -14,10 +14,7 @@ const defaultFilter = {
 	startDate: null,
 	endDate: null,
 	place: {
-		center: {
-			lat: null,
-			lon: null,
-		},
+		center: null,
 		radius: 2000,
 	},
 };

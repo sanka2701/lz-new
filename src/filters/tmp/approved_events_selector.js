@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 import {POSTS_PER_PAGE} from '../../utils/constant';
 import {chunk, map} from 'lodash';
-import {isPointWithinCircle} from "../../utils/helpers";
+import {dateRangeOverlap, isPointWithinCircle} from "../../utils/helpers";
 import _ from "lodash";
 
 const getCurrentPage = ({events}) => events.currentPage;
@@ -19,7 +19,7 @@ export const approvedEventsSelector = createSelector(
 
 export const pageCountSelector = createSelector(
 	[approvedEventsSelector],
-	(approvedEvents) => Math.ceil(approvedEvents / POSTS_PER_PAGE)
+	(approvedEvents) => Math.ceil(approvedEvents.length / POSTS_PER_PAGE)
 );
 
 export const currentPageEventsSelector = createSelector(
@@ -47,14 +47,23 @@ export const filteredEventsSelector = createSelector(
 				const {lat, lon} = places[event.placeId];
 
 				let fits = true;
-				// fits = fits && filter.startDate
-				// 	? event.startDate >= filter.startDate
-				// 	: true;
-				fits = fits && place.center && place.radius
-					? isPointWithinCircle(place.center, place.radius, {lat, lon})
-					: true;
+				fits = fits && (
+					filter.tags.length > 0
+						? event.tags.some(tag => map(filter.tags, 'id').includes(tag.id))
+						: true
+				);
+				fits = fits && (
+					filter.startDate || filter.endDate
+						? dateRangeOverlap(event.startDate, event.endDate, filter.startDate, filter.endDate)
+						: true
+				);
+				fits = fits && (
+					place.center && place.radius
+						? isPointWithinCircle(place.center, place.radius, {lat, lon})
+						: true
+				);
 
-				return fits
+				return !filter.isSet || fits;
 			})
 			: {};
 	}

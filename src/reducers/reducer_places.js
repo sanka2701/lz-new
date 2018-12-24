@@ -10,10 +10,7 @@ import { LM_GPS_COORDS } from "../utils/constant";
 
 const defaultFilter = {
 	isSet: false,
-  center: {
-    lat: null,
-    lon: null,
-  },
+  center: null,
   radius: 2000,
 };
 
