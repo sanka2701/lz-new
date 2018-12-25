@@ -40,6 +40,7 @@ const buildRequest = async ( event, endpoint ) => {
     }
 };
 
+//todo: broken content files extraction
 export const postEvent = ( event, successCallback ) => async (dispatch) => {
     const request = await buildRequest(event, 'events');
     request.successCallback = () => {
