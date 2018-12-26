@@ -22,7 +22,7 @@ const toFormData = async ({ place, thumbnail, ...event }) => {
     formData.append('place', JSON.stringify(place));
     _.forEach(files, ( file, url ) => {
         formData.append('fileUrls', url);
-        formData.append('file', file);
+        formData.append('files', file);
     });
     thumbnail instanceof File
         ? formData.append('thumbnail', thumbnail)

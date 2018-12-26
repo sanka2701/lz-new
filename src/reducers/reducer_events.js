@@ -7,6 +7,7 @@ import {
 	SET_EVENT_FILTER
 } from '../actions/types';
 import _ from 'lodash';
+import {ROOT_URL, SERVER_URL_PLACEHOLDER} from "../utils/constant";
 
 const defaultFilter = {
 	isSet: false,
@@ -31,6 +32,14 @@ export default function (state = defaultState, action) {
 	switch (action.type) {
 		case GET_EVENTS_SUCCESS:
 			const {events} = action.payload;
+
+			//todo: move to helpers
+			const regex = new RegExp(SERVER_URL_PLACEHOLDER, 'g');
+			_.map(events, (event) => {
+				event.thumbnail = event.thumbnail.replace(regex, ROOT_URL);
+				event.content = event.content.replace(regex, ROOT_URL);
+			});
+
 			return {
 				...state,
 				byId: _.mapKeys(events, 'id'),
@@ -44,8 +53,9 @@ export default function (state = defaultState, action) {
 		case CHANGE_EVENT_PAGE:
 			return {...state, currentPage: action.payload.pageIndex};
 		case SET_EVENT_FILTER:
-			const { filter } = action.payload;
-			return {...state,
+			const {filter} = action.payload;
+			return {
+				...state,
 				filter: {
 					...state.filter,
 					...filter,
@@ -53,7 +63,7 @@ export default function (state = defaultState, action) {
 				}
 			};
 		case RESET_EVENT_FILTER:
-			return {...state, filter: defaultFilter };
+			return {...state, filter: defaultFilter};
 		default:
 			return state;
 	}
