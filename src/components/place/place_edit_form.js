@@ -19,7 +19,7 @@ const PlaceEditForm = ({formName, currentPlace}) => (
 		<Row style={{marginTop: '10px', marginBottom: '10px'}}>
 			<Col sm="12">
 				<FormInput
-					messageId={'places.address'}
+					messageId={'place.address'}
 					defaultMessage={'Address'}
 					name={'address'}
 					validate={[required]}
@@ -30,7 +30,7 @@ const PlaceEditForm = ({formName, currentPlace}) => (
 		<Row style={{marginTop: '10px', marginBottom: '10px'}}>
 			<Col sm="6">
 				<FormInput
-					messageId={'places.lat'}
+					messageId={'place.lat'}
 					defaultMessage={'Latitude'}
 					name={'lat'}
 					validate={[required]}
@@ -39,7 +39,7 @@ const PlaceEditForm = ({formName, currentPlace}) => (
 			</Col>
 			<Col sm="6">
 				<FormInput
-					messageId={'places.lon'}
+					messageId={'place.lon'}
 					defaultMessage={'Longitude'}
 					name={'lon'}
 					validate={[required]}

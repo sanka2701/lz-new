@@ -17,7 +17,7 @@ const Notification = ({ messageId, type, dismissNotification }) => {
 				toggle={onDismiss}
 				style={{margin: '20px', /*backgroundColor: '#9dc183'*/}}
 			>
-				<FormattedMessage id={messageId ? messageId : 'aa'} defaultMessage='Something happend'/>
+				<FormattedMessage id={messageId ? messageId : 'empty'} defaultMessage='Something happend'/>
 			</Alert>
 		</Collapse>
 	)

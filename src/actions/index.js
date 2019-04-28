@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { change } from 'redux-form'
-import {DISMISS_NOTIFICATION, ERROR_DISMISSED, ERROR_SAVING_PLACE} from './types';
+import {DISMISS_NOTIFICATION, ERROR_DISMISSED} from './types';
 import { AUTH_USER_OUT} from './types';
 import { PLACES_CLEARED } from './types';
 
@@ -20,18 +20,9 @@ export const dismissNotification = () => {
 	}
 };
 
-// todo: remove
 export const dismissModalError = () => {
     return {
         type: ERROR_DISMISSED,
-        payload: null
-    }
-};
-
-//todo: remove, just testing purposes
-export const testAction = () => {
-    return {
-        type: ERROR_SAVING_PLACE,
         payload: null
     }
 };

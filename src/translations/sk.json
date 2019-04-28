@@ -6,13 +6,20 @@
   "general.cancel" : "Storno",
   "general.delete" : "Odstrániť",
 
+  "nav.createEvent": "Vytvoriť Udalosť",
+  "nav.createArticle": "Vytvoriť Článok",
   "nav.home" : "Domov",
   "nav.events" : "Udalosti",
   "nav.articles" : "Články",
   "nav.login" : "Prihlásiť",
   "nav.logout" : "Odhlásiť",
   "nav.register" : "Registorvať",
-
+  "nav.photoOfTheWeek": "Fotka Týždňa",
+  "nav.manageEvents": "Správa Udalostí",
+  "nav.managePlaces": "Správa Miest",
+  "nav.manageUsers": "Správa Užívateľov",
+  "nav.manageTags": "Správa Kategórií",
+  
   "auth.register" : "Registrácia",
   "auth.login" : "Prihlásenie",
   "auth.email" : "Email",
@@ -27,6 +34,8 @@
   "places.showMap": "Zobratiť mapu",
   "places.hideMap": "Skryť mapu",
   "places.address": "Adresa",
+  "places.lan": "Zemepisná Dĺžka",
+  "places.lon": "Zemepisná Šírka",
 
   "user.username": "Uživateľské meno",
   "user.firstName": "Meno",
@@ -38,6 +47,7 @@
   "user.role.ROLE_USER": "Užívateľ",
   "user.role.ROLE_TRUSTED_USER": "Partner",
 
+  "event.upcomingEvents": "Nadchádzjúce udalosti",
   "event.title" : "Názov podujatia",
   "event.thumbnail": "Titulný obrázok",
   "event.startDate" : "Dátum začiatku",
@@ -47,6 +57,9 @@
   "event.startTime" : "Čas začiatku",
   "event.endTime" : "Čas konca",
   "event.author" : "Pridal",
+  "event.tags": "Kategórie",
+
+  "article.title": "Názov článku",
 
   "place.map": "Mapa",
   "place.address": "Adresa",
@@ -55,6 +68,7 @@
   "place.lon": "Zemepisná dĺžka",
   "place.distance": "Vzdialenosť (km)",
   "place.choosePlace" : "Zvoľte miesto na mape",
+  "place.searchLabel": "Názov miesta poduajtia",
 
   "icon.tooltip.showHide": "Zobraziť/Skryť filter",
   "icon.tooltip.showHideMap": "Zobraziť/Skryť mapu",
@@ -63,5 +77,16 @@
 
   "tag.label": "Názov kategórie",
 
-  "not.event.createSuccess": "Udalosť bola úspešné vytvorená, čaká na schválenie adminom"
+  "not.event.createSuccess": "Udalosť bola úspešné vytvorená, čaká na schválenie adminom",
+  "not.event.approved": "Udalosť úspšne zverejnená",
+
+  "err.invalidCredentials": "Nesprávne meno alebo heslo",
+  "error.field.required": "Povinný údaj",
+  "error.field.requiredAtLeastOne": "Zadajte aspoň jeden z údajov",
+  "error.backend.saving": "Vyskytla sa chyba pri komunikácii s backend-ovou časťou aplikácie. Chybu sme zaznamenali a budeme sa jej venovať",
+  "error.unexpected": "Vyskytla sa neočakávaná chyba",
+  "error.modalHeader": "Sakra práca ...",
+  "err.duplicatedUsername": "Užívateľ s týmto menom už existuje",
+
+  "empty": " "
 }

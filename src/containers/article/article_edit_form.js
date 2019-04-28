@@ -21,8 +21,8 @@ const ArticleEditForm = ({ onCancel, reset, onSubmit, handleSubmit }) => (
                 <Row>
                     <Col>
                         <FormInput
-                            messageId={'Article.title'}
-                            defaultMessage={'Event title'}
+                            messageId={'article.title'}
+                            defaultMessage={'Article title'}
                             name={'title'}
                             validate={[required]}
                         />

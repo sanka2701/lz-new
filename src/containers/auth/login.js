@@ -70,11 +70,18 @@ class Login extends Component {
 		this.props.post(request);
 	};
 
+	renderError = errorCode =>
+		 <Alert color="danger">
+			<FormattedMessage id={errorCode} defaultMessage= {`Unexpected Error. Error code: ${errorCode}`} />
+		</Alert>
+
 	render() {
-		const {handleSubmit} = this.props;
+		const {handleSubmit, apiErrors} = this.props;
 
 		return (
 			<BorderCol>
+				{_.map(apiErrors, this.renderError.bind(this))}
+
 				<form onSubmit={handleSubmit(this.onSubmit)}>
 					<h3>
 						<FormattedMessage id='auth.login' defaultMessage='Login'/>
@@ -104,7 +111,11 @@ function validate(values) {
 	return errors;
 }
 
+function mapStateToProps(state) {
+	return {apiErrors: state.auth.errorMessage.errors}
+}
+
 export default compose(
-	connect(null, {post}),
+	connect(mapStateToProps, {post}),
 	reduxForm({form: 'login', validate})
 )(Login);

@@ -27,7 +27,7 @@ class PlaceAutocomplete extends React.Component {
           name={'label'}
           onSuggestionSelect={this.onSuggestionSelect}
           suggestions={values(suggestions)}
-          messageId={'places.searchLabel'}
+          messageId={'place.searchLabel'}
           defaultMessage={'Search for place'}
         />
       )

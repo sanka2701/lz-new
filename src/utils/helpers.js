@@ -1,12 +1,19 @@
 import axios from 'axios';
-import { ROOT_URL } from './constant';
+import {ROOT_URL, SERVER_URL_PLACEHOLDER} from './constant';
+import _ from "lodash";
 
 export const hasRole = (user, roles) => {
-    return user && roles.includes(user.role) !== -1
+    return user && roles.includes(user.role);
 };
 
 export const isOwner = (user, event) => {
     return user && event && user.id === event.ownerId;
+};
+
+export const replaceServerUrlPlaceholder = event => {
+	const regex = new RegExp(SERVER_URL_PLACEHOLDER, 'g');
+	event.thumbnail = event.thumbnail.replace(regex, ROOT_URL);
+	event.content = event.content.replace(regex, ROOT_URL);
 };
 
 export const stripDiacritics = sting => sting.normalize('NFD').replace(/[\u0300-\u036f]/g, "");

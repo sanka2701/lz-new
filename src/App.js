@@ -47,7 +47,7 @@ class App extends Component {
 				<Notification/>
 				<Container>
 					{/*<Spinner />*/}
-					{/*<ModalExample />*/}
+					<ModalExample />
 					{this.props.children}
 				</Container>
 			</div>

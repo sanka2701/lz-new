@@ -72,6 +72,7 @@ class Register extends Component {
 	}
 
 	onSubmit = formProps => {
+		// todo: create action for this
 		const request = {
 			endpoint: 'users',
 			payload: formProps,
@@ -84,11 +85,18 @@ class Register extends Component {
 		this.props.post(request);
 	};
 
+	renderError = errorCode =>
+		<Alert color="danger">
+			<FormattedMessage id={errorCode} defaultMessage= {`Unexpected Error. Error code: ${errorCode}`} />
+		</Alert>
+
 	render() {
-		const {handleSubmit} = this.props;
+		const {handleSubmit, apiErrors} = this.props;
 
 		return (
 			<BorderCol>
+				{_.map(apiErrors, this.renderError.bind(this))}
+
 				<form onSubmit={handleSubmit(this.onSubmit)}>
 					<h3>
 						<FormattedMessage id='auth.register' defaultMessage='Register'/>
@@ -123,7 +131,7 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-	return {errorMessage: state.auth.errorMessage}
+	return {apiErrors: state.auth.errorMessage.errors}
 }
 
 export default compose(

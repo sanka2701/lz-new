@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux';
-import { dismissModalError, testAction } from '../../actions/index';
+import { dismissModalError } from '../../actions/index';
 import { FormattedMessage } from 'react-intl';
 
 class ModalExample extends React.Component {
@@ -25,30 +25,33 @@ class ModalExample extends React.Component {
     }
 
     render() {
-        // todo: 'nonexistent' in formatted message is hacky
-        return (
-            <div>
-                <Button color="danger" onClick={() => this.props.testAction()}>Test error modal</Button>
+        const {errorMessage, errorDetail} = this.props;
 
+        return (
+            <React.Fragment>
                 <Modal isOpen={this.state.isOpened} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>
                         <FormattedMessage id={'error.modalHeader'} defaultMessage='Ooops wild error has appeared'/>
                     </ModalHeader>
                     <ModalBody>
-                        <FormattedMessage id={this.props.errorMessage || 'nonexistent'} defaultMessage='Unknown error has occured'/>
+                        <FormattedMessage id={errorMessage || 'error.unexpected'} defaultMessage='Unknown error has occured'/>
+                        <br/>
+                        <br/>
+                        {JSON.stringify(errorDetail)}
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>okay</Button>
                     </ModalFooter>
                 </Modal>
-            </div>
+            </React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.error.messageId
+        errorMessage: state.error.messageId,
+        errorDetail: state.error.detail
     }
 };
 
@@ -56,4 +59,4 @@ ModalExample.defaultProps = {
     errorMessage: ""
 };
 
-export default connect(mapStateToProps, { dismissModalError, testAction })(ModalExample);
+export default connect(mapStateToProps, { dismissModalError })(ModalExample);

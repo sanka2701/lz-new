@@ -33,6 +33,7 @@ class EventDetail extends React.Component {
 
     onApprove() {
         const { event } = this.props;
+        event.approved = true;
         this.props.updateEvent(event);
     }
 

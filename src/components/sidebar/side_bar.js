@@ -10,13 +10,13 @@ export default (props) => (
     <div>
         <BorderCol type={BORDER_SIDEBAR} >
             <h4>
-                <FormattedMessage  id='side.photoOfTheWeek' defaultMessage='Photo Of The Week' />
+                <FormattedMessage  id='nav.photoOfTheWeek' defaultMessage='Photo Of The Week' />
             </h4>
             <PhotoSidebar />
         </BorderCol>
         <BorderCol type={BORDER_SIDEBAR} >
             <h4>
-                <FormattedMessage  id='side.upcomingEvents' defaultMessage='Upcoming Events' />
+                <FormattedMessage  id='event.upcomingEvents' defaultMessage='Upcoming Events' />
             </h4>
             <UpcomingEvents />
         </BorderCol>

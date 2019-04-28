@@ -19,7 +19,7 @@ const toFormData = async ({ place, thumbnail, ...event }) => {
 
     const formData = new FormData();
     formData.append('event', JSON.stringify(event));
-    formData.append('place', JSON.stringify(place));
+    place && formData.append('place', JSON.stringify(place));
     _.forEach(files, ( file, url ) => {
         formData.append('fileUrls', url);
         formData.append('files', file);
@@ -60,6 +60,16 @@ export const postEvent = ( event, successCallback ) => async (dispatch) => {
 //todo: fire UPDATE EVENT action to update just one event in store
 export const updateEvent = (event) => async dispatch => {
     const request = await buildRequest(event, 'events/update');
+    request.successCallback = () => {
+        dispatch({
+            type: SET_NOTIFICATION,
+            payload: {
+                messageId: 'not.event.approved',
+                type: 'success'
+            }
+        });
+    };
+
     dispatch(post(request));
 };
 
