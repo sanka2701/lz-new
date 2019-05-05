@@ -27,7 +27,6 @@ class PlaceDetail extends React.Component {
 		deletePlace(id);
   };
 
-  //todo: loading animation
   render() {
     const { place } = this.props;
 

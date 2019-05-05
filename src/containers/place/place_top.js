@@ -42,11 +42,11 @@ class PlaceTop extends React.Component {
     return (
       <React.Fragment>
         <BorderCol sm={12}>
-					<FilterMenu
-						onShow={this.onChangeFilterVisibility}
-						onReset={this.onFilterReset}
-						onAdd={this.onAddTag}
-					/>
+          <FilterMenu
+              onShow={this.onChangeFilterVisibility}
+              onReset={this.onFilterReset}
+              onAdd={this.onAddTag}
+          />
           <Collapse isOpen={isFilterShown}>
             <PlaceFilter
               filter={filter}

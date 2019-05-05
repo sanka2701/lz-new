@@ -7,7 +7,7 @@ import { reduxForm, FormSection } from 'redux-form';
 import {Button} from 'reactstrap';
 import {postPlace} from "../../actions";
 
-//todo: finish submiting
+//todo: finish submitting
 class PlaceEditor extends React.Component{
   constructor(props) {
     super(props);
@@ -16,7 +16,6 @@ class PlaceEditor extends React.Component{
 
   componentDidMount() {
   	//todo: load place by id of not existent
-    console.log('Ahoj')
   }
 
   onSubmit({place}) {
@@ -48,9 +47,9 @@ class PlaceEditor extends React.Component{
 
 const mapStateToProps = ({places}, ownProps) => {
   const { placeId } = ownProps.match.params;
-	const editedPlace = places.byId[placeId];
+  const editedPlace = places.byId[placeId];
   return {
-		initialValues: {place: editedPlace}
+    initialValues: {place: editedPlace}
   }
 };
 

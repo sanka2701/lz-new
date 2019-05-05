@@ -1,68 +1,60 @@
 import React from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { loadTagById, deleteTag } from '../../actions';
-import PostContextMenu from '../../components/ui/menu/post_context_menu';
-import TagDetailView from "../../components/tag/tag_detail_view";
+import {compose} from "redux";
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {loadUserById} from "../../actions";
+import PostContextMenu from "../../components/ui/menu/post_context_menu";
+import UserDetailView from "../../components/user/user_detail_view";
 
 class UserDetail extends React.Component {
+    componentDidMount() {
+        const { userId } = this.props.match.params;
+        !this.props.user && this.props.loadUserById(userId);
 
-	constructor(props) {
-		super(props);
-		this.onEdit = this.onEdit.bind(this);
-		this.onDelete = this.onDelete.bind(this);
-	}
+        this.onEdit = this.onEdit.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+    }
 
-	componentDidMount() {
-		const { tagId } = this.props.match.params;
-		!this.props.tag && this.props.loadTagById(tagId);
-	}
+    onEdit = () => {
+        const { user, history } = this.props;
+        history.push(`/users/edit/${user.id}`)
+    };
 
-	onEdit = () => {
-		const { tag, history } = this.props;
-		history.push(`/tags/edit/${tag.id}`)
-	};
+    onDelete = () => {
+        // todo: confirm message
+        alert('Not yet implemented')
+    };
 
-	onDelete = () => {
-		// todo: confirm message
-		const { deleteTag, tag: { id } } = this.props;
-		deleteTag(id);
-	};
+    render() {
+        const { user } = this.props;
 
-	//todo: loading animation
-	render() {
-		const { tag } = this.props;
+        if (!user) {
+            return (<div/>)
+        }
 
-		if (!tag) {
-			return (<div/>)
-		}
-
-		return (
-			<React.Fragment>
-				<PostContextMenu
-					onEdit={this.onEdit}
-					onDelete={this.onDelete}
-				/>
-				<TagDetailView tag={tag} />
-			</React.Fragment>
-		)
-	}
+        return (
+            <React.Fragment>
+                <PostContextMenu
+                    onEdit={this.onEdit}
+                    onDelete={this.onDelete}
+                />
+                <UserDetailView user={user} />
+            </React.Fragment>
+        )
+    }
 }
 
-const mapStateToProps = ({ tags, auth }, ownProps) => {
-	const { tagId } = ownProps.match.params;
-	return {
-		tag: tags.byId[tagId],
-		currentUser: auth.user
-	}
+const mapStateToProps = ({ users }, ownProps) => {
+    const { userId } = ownProps.match.params;
+    return {
+        user: users.byId[userId]
+    }
 };
 
 export default compose(
-	withRouter,
-	connect(
-		mapStateToProps, {
-			loadTagById,
-			deleteTag
-		})
-)(UserDetail);
+    withRouter,
+    connect(
+        mapStateToProps, {
+            loadUserById
+        })
+)(UserDetail)

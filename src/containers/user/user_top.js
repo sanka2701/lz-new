@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {loadUsersByFilter, setUserFilter} from '../../actions';
+import {loadUsers, setUserFilter} from '../../actions';
 import UserFilter from '../../components/user/user_filter';
 import UserList from '../../components/user/user_list';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
@@ -17,14 +17,14 @@ class UserTop extends React.Component {
 		this.onFilterChange = this.onFilterChange.bind(this);
 		this.onChangeFilterVisibility = this.onChangeFilterVisibility.bind(this);
 		// this.onFilterReset = this.onFilterReset.bind(this);
-		this.onAddEvent = this.onAddEvent.bind(this);
+		this.onAddUser = this.onAddUser.bind(this);
 		this.state = {
 			isFilterShown: true
 		}
 	}
 
 	componentDidMount() {
-		this.props.loadUsersByFilter({});
+		this.props.loadUsers();
 	}
 
 	onFilterChange = (filter) => {
@@ -36,25 +36,25 @@ class UserTop extends React.Component {
 
 	// onFilterReset = () => this.props.resetEventFilter();
 
-	onAddEvent = () => this.props.history.push(`/events/edit`);
+	onAddUser = () => this.props.history.push(`/users/edit`);
 
 	render = () => {
 		const {isLoading, users, filter} = this.props;
 
 		return (
-			<div>
+			<React.Fragment>
 				<BorderCol sm={12}>
 					<FilterMenu
 						onShow={this.onChangeFilterVisibility}
 						onReset={this.onFilterReset}
-						onAdd={this.onAddEvent}
+						onAdd={this.onAddUser}
 					/>
 					<Collapse isOpen={this.state.isFilterShown}>
 						<UserFilter filter={filter} onFilterChanged={this.onFilterChange}/>
 					</Collapse>
 				</BorderCol>
 				<UserListWithSpinner users={users} isLoading={isLoading}/>
-			</div>
+			</React.Fragment>
 		)
 	}
 }
@@ -68,4 +68,4 @@ const mapStateToProps = ({users}) => {
 	}
 };
 
-export default connect(mapStateToProps, {loadUsersByFilter, setUserFilter})(UserTop);
+export default connect(mapStateToProps, {loadUsers, setUserFilter})(UserTop);

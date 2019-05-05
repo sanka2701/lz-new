@@ -30,6 +30,8 @@ import UserTop from './containers/user/user_top';
 import PlacesTop from './containers/place/place_top';
 import PlaceDetail from './containers/place/place_detail';
 import PlaceEditor from './containers/place/place_editor';
+import UserDetail from './containers/user/user_detail';
+import UserEditor from './containers/user/user_editor';
 import TagEditor from './containers/eventTag/tag_editor';
 import TagDetail from './containers/eventTag/tag_detail';
 import PhotoManage from './containers/photo/photo_manage';
@@ -62,8 +64,10 @@ ReactDOM.render(
                             <Route path="/articles/:articleId" component={ArticleDetail} />
                             <Route path="/places/edit/:placeId?" component={PlaceEditor} />
                             <Route path="/places/:placeId" component={PlaceDetail} />
-														<Route path="/tags/edit/:tagId?" component={TagEditor} />
-														<Route path="/tags/:tagId" component={TagDetail} />
+                            <Route path="/users/edit/:userId?" component={UserEditor} />
+                            <Route path="/users/:userId" component={UserDetail} />
+                            <Route path="/tags/edit/:tagId?" component={TagEditor} />
+                            <Route path="/tags/:tagId" component={TagDetail} />
                             {/*<Route path="/" component={Home} />*/}
                             <Route path="/" component={EventTop} />
                         </Switch>
