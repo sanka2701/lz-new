@@ -80,6 +80,8 @@
   "not.event.createSuccess": "Udalosť bola úspešné vytvorená, čaká na schválenie adminom",
   "not.event.approved": "Udalosť úspšne zverejnená",
   "not.user.updateSuccess": "Uživateľ bol upravený",
+  "not.place.createSuccess": "Miesto bolo úspešne vytvorené",
+  "not.place.updateSuccess": "Miesto bolo úspešne upravené",
 
   "err.invalidCredentials": "Nesprávne meno alebo heslo",
   "error.field.required": "Povinný údaj",

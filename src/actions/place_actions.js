@@ -7,8 +7,8 @@ import {
   GET_PLACES_REQUEST,
   SET_PLACE_FILTER,
   RESET_PLACE_FILTER,
-	DELETE_PLACES_SUCCESS,
-	DELETE_PLACES_FIALURE,
+  DELETE_PLACES_SUCCESS,
+  DELETE_PLACES_FAILURE, UPDATE_PLACE_SUCCESS, UPDATE_PLACE_FAILURE, SET_NOTIFICATION,
 } from "./types";
 import {change} from "redux-form";
 
@@ -26,7 +26,7 @@ export const deletePlace = id => dispatch => {
 	const request = {
 		endpoint: 'places',
 		successAction: DELETE_PLACES_SUCCESS,
-		failureAction: DELETE_PLACES_FIALURE,
+		failureAction: DELETE_PLACES_FAILURE,
 		params: {id}
 	};
 	dispatch(remove(request));
@@ -42,14 +42,48 @@ export const loadPlaces = () => dispatch => {
   dispatch(get(request));
 };
 
-export const postPlace = place => async dispatch => {
+export const postPlace = (place, successCallback) => async dispatch => {
+  dispatch(requestPlaces());
     const request = {
         endpoint: 'places',
         payload: place,
         successAction: POST_PLACE_SUCCESS,
         failureAction: POST_PLACE_FAILURE
     };
+    request.successCallback = () => {
+      dispatch({
+        type: SET_NOTIFICATION,
+        payload: {
+          messageId: 'not.place.createSuccess',
+          type: 'success'
+        }
+      });
+      successCallback && successCallback();
+    };
     await dispatch(post(request));
+};
+
+export const updatePlace = (place, successCallback) => async dispatch => {
+  // todo: update actions are emitted but not processed in reducer
+  dispatch(requestPlaces());
+  const request = {
+    endpoint: 'places/update',
+    payload: place,
+    successAction: UPDATE_PLACE_SUCCESS,
+    failureAction: UPDATE_PLACE_FAILURE
+  };
+  request.successCallback = () => {
+    dispatch({
+      type: SET_NOTIFICATION,
+      payload: {
+        messageId: 'not.place.updateSuccess',
+        type: 'success'
+      }
+    });
+    successCallback && successCallback();
+  };
+
+  await dispatch(post(request));
 };
 
 export const setPlaceFilter = filter => dispatch => {

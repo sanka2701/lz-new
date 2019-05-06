@@ -17,7 +17,7 @@ export const approvedEventsSelector = createSelector(
 	}
 );
 
-export const pageCountSelector = createSelector(
+export const eventsPageCountSelector = createSelector(
 	[approvedEventsSelector],
 	(approvedEvents) => Math.ceil(approvedEvents.length / POSTS_PER_PAGE)
 );
@@ -38,6 +38,7 @@ export const getApprovedEventsPlaces = createSelector(
 	}
 );
 
+//todo: optimize selecting. Should not filter just events per page but all approved
 export const filteredEventsSelector = createSelector(
 	[currentPageEventsSelector, getFilter, getPlaces,  ],
 	(events, filter, places ) => {

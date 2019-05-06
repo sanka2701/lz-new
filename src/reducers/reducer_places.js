@@ -4,7 +4,8 @@ import {
   GET_PLACES_REQUEST,
   POST_PLACE_SUCCESS,
   SET_PLACE_FILTER,
-  RESET_PLACE_FILTER } from "../actions/types";
+  RESET_PLACE_FILTER, POST_PLACE_FAILURE, UPDATE_PLACE_FAILURE, UPDATE_PLACE_SUCCESS
+} from "../actions/types";
 import { mapKeys, map } from 'lodash';
 import { LM_GPS_COORDS } from "../utils/constant";
 
@@ -34,6 +35,16 @@ export default function (state = defaultState, action) {
           isLoading: false
         };
         return newState;
+
+      case UPDATE_PLACE_SUCCESS:
+        const newStateU = {
+          ...state,
+          byId: Object.assign(state.byId, mapKeys(places, 'id')),
+          ids: state.ids,
+          isLoading: false
+        };
+        debugger;
+        return newStateU;
       case GET_PLACES_SUCCESS:
         return {
           ...state,
@@ -41,6 +52,8 @@ export default function (state = defaultState, action) {
           ids: map(places, 'id'),
           isLoading: false
         };
+      case POST_PLACE_FAILURE:
+      case UPDATE_PLACE_FAILURE:
       case GET_PLACES_FAILURE:
         return {...state, isLoading: false};
       case GET_PLACES_REQUEST:

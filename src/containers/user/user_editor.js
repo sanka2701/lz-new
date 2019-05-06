@@ -22,7 +22,7 @@ class UserEditor extends React.Component {
 
     componentDidMount = () => {
         const { userId } = this.props.match.params;
-        !this.props.user && this.props.loadUserById(userId);
+        userId && !this.props.user && this.props.loadUserById(userId);
     };
 
     onSubmit = (user) => {

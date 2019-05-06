@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { GET_PHOTOS_SUCCESS, GET_PHOTOS_FAILURE, GET_PHOTOS_REQUEST } from "../actions/types";
+import {replaceServerUrlPlaceholder} from "../utils/helpers";
 
 const defaultState = {
     byId: {},
@@ -11,6 +12,10 @@ export default function (state = defaultState, action) {
     switch(action.type) {
         case GET_PHOTOS_SUCCESS:
             const { photos } = action.payload;
+            photos.map(photo => {
+                photo.photoUrl = replaceServerUrlPlaceholder(photo.photoUrl);
+                return photo;
+            });
             return {
                 ...state,
                 byId: _.mapKeys(photos, 'id'),

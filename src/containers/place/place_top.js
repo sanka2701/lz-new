@@ -19,7 +19,7 @@ class PlaceTop extends React.Component {
     super(props);
 		this.onChangeFilterVisibility = this.onChangeFilterVisibility.bind(this);
 		this.onFilterReset = this.onFilterReset.bind(this);
-		this.onAddTag = this.onAddTag.bind(this);
+		this.addPlace = this.addPlace.bind(this);
     this.state = {
       isFilterShown: true
     }
@@ -33,7 +33,7 @@ class PlaceTop extends React.Component {
 
 	onFilterReset = () => this.props.resetPlaceFilter();
 
-	onAddTag = () => this.props.history.push(`/places/edit`);
+	addPlace = () => this.props.history.push(`/places/edit`);
 
   render = () => {
     const { places, filter, setPlaceFilter } = this.props;
@@ -45,7 +45,7 @@ class PlaceTop extends React.Component {
           <FilterMenu
               onShow={this.onChangeFilterVisibility}
               onReset={this.onFilterReset}
-              onAdd={this.onAddTag}
+              onAdd={this.addPlace}
           />
           <Collapse isOpen={isFilterShown}>
             <PlaceFilter

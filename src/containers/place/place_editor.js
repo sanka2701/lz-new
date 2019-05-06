@@ -5,38 +5,51 @@ import PlaceEditForm from '../../components/place/place_edit_form';
 import BorderCol from '../../components/ui/content/bordered_content';
 import { reduxForm, FormSection } from 'redux-form';
 import {Button} from 'reactstrap';
-import {postPlace} from "../../actions";
+import {loadPlaceById, postPlace, updatePlace} from "../../actions";
+import PostContextMenu from "../../components/ui/menu/post_context_menu";
 
 //todo: finish submitting
 class PlaceEditor extends React.Component{
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   componentDidMount() {
-  	//todo: load place by id of not existent
+    const { placeId } = this.props.match.params;
+    placeId && !this.props.place && this.props.loadPlaceById(placeId);
   }
 
-  onSubmit({place}) {
-    const {postPlace} = this.props;
-		postPlace(place);
-  }
+  onCancel = () => {
+    this.props.history.goBack();
+  };
 
-  render() {
-		const {handleSubmit} = this.props;
-		//todo: not showing the place details in edit mode
+  onSubmit = ({place}) => {
+    const {postPlace, updatePlace} = this.props;
+    const successCallback = () => {
+      this.props.history.push(`/places/`)
+    };
+
+    place.id
+      ? updatePlace(place, successCallback)
+  		: postPlace(place, successCallback);
+  };
+
+  render = () => {
+		const {handleSubmit, reset} = this.props;
+
     return (
       <React.Fragment>
+        <PostContextMenu
+          onSubmit={handleSubmit(this.onSubmit)}
+          onCancel={this.onCancel}
+          onReset={reset}
+        />
         <BorderCol>
-          <form onSubmit={handleSubmit(this.onSubmit)}>
+          <form>
             <FormSection name='place'>
-              <PlaceEditForm
-                formName='create_place'
-              />
-              <Button>
-                submit
-              </Button>
+              <PlaceEditForm formName='create_place'/>
             </FormSection>
           </form>
         </BorderCol>
@@ -54,6 +67,6 @@ const mapStateToProps = ({places}, ownProps) => {
 };
 
 export default compose(
-	connect(mapStateToProps, { postPlace }),
+	connect(mapStateToProps, { postPlace, updatePlace, loadPlaceById }),
   reduxForm({form: 'create_place'})
 )(PlaceEditor);

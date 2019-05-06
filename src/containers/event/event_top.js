@@ -13,8 +13,9 @@ import {makeGetEventsByApproval} from '../../filters/event_approval_filter';
 import {Row} from "reactstrap";
 import {
   filteredEventsSelector,
-  pageCountSelector
+  eventsPageCountSelector
 } from "../../filters/tmp/approved_events_selector";
+import {makeLoadingSelector} from "../../filters/loading_selector";
 
 const EventListWithSpinner = withLoadingAnimation(EventList);
 
@@ -26,8 +27,11 @@ class EventTop extends React.Component {
 
 	componentDidMount() {
 	  // in order to filter places, both places and events need to be pre loaded for children components
-		this.props.loadEvents();
-		this.props.loadPlaces();
+		const {isLoading, loadEvents, loadPlaces} = this.props;
+		if(!isLoading) {
+			loadEvents();
+			loadPlaces();
+		}
 	}
 
 	onPaginationChange(pageIndex) {
@@ -46,7 +50,8 @@ class EventTop extends React.Component {
 					<EventFilter/>
 				</Row>
 				<div>
-					<EventListWithSpinner isLoading={isLoading} />
+					<EventList/>
+					{/*<EventListWithSpinner isLoading={isLoading} />*/}
 					<Pagination activePage={currentPage}
                       pageCount={pageCount}
 											onPageSelect={this.onPaginationChange}/>
@@ -58,12 +63,14 @@ class EventTop extends React.Component {
 
 const mapStateToProps = (state) => {
 	// const getEventsByApproval = makeGetEventsByApproval();
+	const loadingSelector = makeLoadingSelector([state.events, state.places]);
 	return {
 		// events: getEventsByApproval(events, {approved: true}),
 		// events: filteredEventsSelector(state),
 		// places: state.places.byId,
-		isLoading: state.events.isLoading || state.places.isLoading,
-    pageCount: pageCountSelector(state),
+		//todo: use loading selector here
+		isLoading: loadingSelector(state),
+    pageCount: eventsPageCountSelector(state),
     currentPage: state.events.currentPage,
 	}
 };

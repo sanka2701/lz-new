@@ -12,6 +12,7 @@ import Spinner from './components/ui/spinner';
 
 import TopLogo from './components/header/logo/top_logo';
 import Notification from "./containers/app/notification";
+import LoadingOverlay from "./containers/app/loading_overlay";
 
 class App extends Component {
 	componentDidMount() {
@@ -45,11 +46,12 @@ class App extends Component {
 				<TopLogo/>
 				<SiteNavigation/>
 				<Notification/>
-				<Container>
-					{/*<Spinner />*/}
-					<ModalExample />
-					{this.props.children}
-				</Container>
+					<Container>
+						<ModalExample/>
+						<LoadingOverlay>
+							{this.props.children}
+						</LoadingOverlay>
+					</Container>
 			</div>
 		);
 	}

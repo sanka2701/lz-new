@@ -39,7 +39,8 @@ const normalizeTime = millis => {
 const normalizeEventObject = event => {
 	event.startTime = normalizeTime(event.startTime);
 	event.endTime = normalizeTime(event.endTime);
-	replaceServerUrlPlaceholder(event);
+	event.thumbnail = replaceServerUrlPlaceholder(event.thumbnail);
+	event.content = replaceServerUrlPlaceholder(event.content);
 };
 
 export default function (state = defaultState, action) {

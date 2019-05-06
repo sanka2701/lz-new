@@ -10,10 +10,9 @@ export const isOwner = (user, event) => {
     return user && event && user.id === event.ownerId;
 };
 
-export const replaceServerUrlPlaceholder = event => {
+export const replaceServerUrlPlaceholder = serverUrl => {
 	const regex = new RegExp(SERVER_URL_PLACEHOLDER, 'g');
-	event.thumbnail = event.thumbnail.replace(regex, ROOT_URL);
-	event.content = event.content.replace(regex, ROOT_URL);
+	return serverUrl.replace(regex, ROOT_URL);
 };
 
 export const stripDiacritics = sting => sting.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
