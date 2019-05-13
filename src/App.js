@@ -42,8 +42,8 @@ class App extends Component {
 			<div>
 				<TopLogo/>
 				<SiteNavigation/>
-				<Notification/>
 					<Container>
+						<Notification/>
 						<ModalExample/>
 						{this.props.children}
 					</Container>

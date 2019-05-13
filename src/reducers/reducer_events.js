@@ -15,9 +15,8 @@ import {millisecondsToTime, replaceServerUrlPlaceholder} from "../utils/helpers"
 import produce from "immer";
 
 const defaultFilter = {
-	isSet: false,
 	tags: [],
-	startDate: null,
+	startDate: new Date().setHours(0,0,0,0),
 	endDate: null,
 	place: {
 		center: null,
@@ -95,7 +94,6 @@ return a;
 				filter: {
 					...state.filter,
 					...filter,
-					isSet: true,
 				}
 			};
 

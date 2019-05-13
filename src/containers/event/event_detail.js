@@ -1,20 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { compose } from 'redux';
 import { loadEventById, loadPlaceById, updateEvent } from '../../actions';
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import PostImage from '../../components/post/post_image';
 import PostContextMenu from '../../components/ui/menu/post_context_menu';
 import PostContent from '../../components/post/post_content';
 import Spinner from '../../components/ui/spinner';
 import { isOwner, hasRole } from '../../utils/helpers';
 import { ROLE_ADMIN } from '../../utils/constant';
-import { FormattedMessage } from 'react-intl';
 import EventInfo from '../../components/event/event_info_bar';
 
 import styles from './event_detail.module.css';
+import {produce} from "immer";
 
 class EventDetail extends React.Component {
     componentDidMount() {
@@ -22,22 +21,29 @@ class EventDetail extends React.Component {
         !this.props.event && this.props.loadEventById(eventId);
         !this.props.place && this.props.loadPlaceById(placeId);
 
-        // this.onEdit = this.onEdit.bind(this);
-        // this.onApprove = this.onApprove.bind(this);
+        this.onEdit = this.onEdit.bind(this);
+        this.onApprove = this.onApprove.bind(this);
     }
 
-    onEdit() {
+    onEdit = () => {
         const { event, place } = this.props;
         this.props.history.push(`/events/edit/${event.id}/${place.id}`);
-    }
+    };
 
-    onApprove() {
+    onApprove = () => {
         const { event } = this.props;
-        event.approved = true;
-        this.props.updateEvent(event);
-    }
+        const apiEvent = produce(event, draft => {
+            draft.endTime = event.endTime.millis;
+            draft.startTime = event.startTime.millis;
+            draft.approved = true;
+        });
+        const successCallback = () => {
+            this.props.history.push('/events/')
+        };
+        this.props.updateEvent(apiEvent, successCallback);
+    };
 
-    render() {
+    render = () => {
         const { event, place, currentUser } = this.props;
 
         if(!event || !place) {
@@ -52,8 +58,8 @@ class EventDetail extends React.Component {
             <div>
                 {(/*isOwner(currentUser, event) ||*/ hasRole(currentUser, [ROLE_ADMIN])) && (
                     <PostContextMenu
-                        onEdit={this.onEdit.bind(this)}
-                        onApprove={!event.approved ? this.onApprove.bind(this) : null}
+                        onEdit={this.onEdit}
+                        onApprove={!event.approved ? this.onApprove : null}
                     />
                 )}
 

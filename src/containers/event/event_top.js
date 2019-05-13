@@ -11,7 +11,7 @@ import {Row} from "reactstrap";
 import {
 	currentPageEventsSelector,
 	eventsPageCountSelector,
-} from "../../filters/tmp/approved_events_selector";
+} from "../../filters/events_selector";
 import {makeLoadingSelector} from "../../filters/loading_selector";
 
 const EventListWithSpinner = withLoadingAnimation(EventList);

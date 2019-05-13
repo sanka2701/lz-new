@@ -1,27 +1,37 @@
-import {createSelector} from 'reselect';
-import {POSTS_PER_PAGE} from '../../utils/constant';
-import {chunk, map} from 'lodash';
-import {dateRangeOverlap, isPointWithinCircle} from "../../utils/helpers";
+import {createSelector} from 'reselect/lib/index';
+import {POSTS_PER_PAGE, UPCOMING_EVENTS_COUNT} from '../utils/constant';
+import _, {chunk, map, orderBy} from 'lodash';
+import {dateRangeOverlap, isPointWithinCircle} from "../utils/helpers";
 
 const getCurrentPage = ({events}) => events.currentPage;
 const getEvents = ({events}) => events.byId;
 const getFilter = ({events}) => events.filter;
 const getPlaces = ({places}) => places.byId;
 
-export const approvedEventsSelector = createSelector(
+export const makeEventsSelectorByApproval = approved => createSelector(
 	[getEvents],
 	(events) => {
-		return Object.values(events).filter((event) => event.approved);
+		return Object.values(events).filter((event) => event.approved === approved);
 	}
 );
 
 export const eventsPageCountSelector = createSelector(
-	[approvedEventsSelector],
+	[makeEventsSelectorByApproval(true)],
 	(approvedEvents) => Math.ceil(approvedEvents.length / POSTS_PER_PAGE)
 );
 
+export const upcomingEventsSelector = createSelector(
+	[makeEventsSelectorByApproval(true)],
+	(events) => {
+		const futureEvents = events.filter(event =>
+			dateRangeOverlap(event.startDate, event.endDate, new Date().setHours(0,0,0,0))
+		);
+		return orderBy(futureEvents, ['startDate'], ['asc']).slice(0, UPCOMING_EVENTS_COUNT);
+	}
+);
+
 export const filteredEventsSelector = createSelector(
-	[approvedEventsSelector, getFilter, getPlaces,  ],
+	[makeEventsSelectorByApproval(true), getFilter, getPlaces],
 	(events, filter, places ) => {
 		return ( events && Object.keys(places).length )
 			? events.filter(event => {
@@ -45,7 +55,7 @@ export const filteredEventsSelector = createSelector(
 						: true
 				);
 
-				return !filter.isSet || fits;
+				return fits;
 			})
 			: {};
 	}

@@ -4,8 +4,8 @@ import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { makeGetUpcomingEvents } from '../../filters/event_upcoming_filter';
 import _ from 'lodash';
+import {upcomingEventsSelector} from "../../filters/events_selector";
 
 const getEventCards = (events) =>  _.map(events, (event) => {
     return (
@@ -24,10 +24,9 @@ const UpcomingEvents = ({ events }) => (
     </Row>
 );
 
-const mapStateToProps = ({ events }) => {
-    const getUpcomingEvents= makeGetUpcomingEvents();
+const mapStateToProps = ( state ) => {
     return {
-        events: getUpcomingEvents(events)
+        events: upcomingEventsSelector(state)
     }
 };
 

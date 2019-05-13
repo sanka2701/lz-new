@@ -1,19 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-	loadPlaceById,
-	loadEventById,
 	postEvent,
 	updateEvent,
 	updatePlace,
 	postPlace,
-	loadTagsIfNeeded
+	loadTagsIfNeeded, loadEventsIfNeeded, loadPlacesIfNeeded
 } from '../../actions';
 import EventEditForm from '../../components/event/event_edit_form';
 import PropTypes from "prop-types";
 import {values, last} from 'lodash';
 import store from '../../services/store';
 import {produce} from "immer";
+import {makeLoadingSelector} from "../../filters/loading_selector";
+import withLoadingAnimation from "../../components/ui/content/withLodingAnimation";
+
+const EventEditFormWithLoader = withLoadingAnimation(EventEditForm);
 
 class EventEditor extends React.Component {
 	constructor(props) {
@@ -24,10 +26,9 @@ class EventEditor extends React.Component {
 	}
 
 	componentDidMount() {
-		// todo: use loadPlacesIfNeeded and loadEventsIfNeeded
 		const {eventId, placeId} = this.props.match.params;
-		(eventId && !this.props.event) && this.props.loadEventById(eventId);
-		(placeId && !this.props.place) && this.props.loadPlaceById(placeId);
+		this.props.loadEventsIfNeeded(eventId);
+		this.props.loadPlacesIfNeeded(placeId);
 		this.props.loadTagsIfNeeded();
 	}
 
@@ -66,13 +67,13 @@ class EventEditor extends React.Component {
 	}
 
 	render() {
-		const {match: {params: {eventId, placeId}}, event, place, tags} = this.props;
+		const {match: {params: {eventId, placeId}}, event, place, tags, isLoading} = this.props;
 		const editMode = !!eventId && !!placeId;
 
-		//todo: add with loader animatin wrapper
 		return (
 			<React.Fragment>
-				<EventEditForm
+				<EventEditFormWithLoader
+					isLoading={isLoading}
 					editMode={editMode}
 					tags={tags}
 					initialValues={editMode ? {...event, place} : null}
@@ -97,21 +98,23 @@ EventEditor.defaultProps = {
 	tags: []
 };
 
-function mapStateToProps({events, places, tags}, ownProps) {
+function mapStateToProps(state, ownProps) {
 	const {eventId, placeId} = ownProps.match.params;
+	const loadingSelector = makeLoadingSelector(['events', 'places', 'tags']);
 	return {
-		event: events.byId[eventId],
-		place: places.byId[placeId],
-		tags: values(tags.byId)
+		event: state.events.byId[eventId],
+		place: state.places.byId[placeId],
+		tags: values(state.tags.byId),
+		isLoading: loadingSelector(state)
 	}
 }
 
 export default connect(mapStateToProps, {
 	loadTagsIfNeeded,
-	loadEventById,
+	loadEventsIfNeeded,
+	loadPlacesIfNeeded,
 	updateEvent,
-	postEvent,
-	loadPlaceById,
 	updatePlace,
+	postEvent,
 	postPlace
 })(EventEditor);
