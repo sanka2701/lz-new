@@ -60,9 +60,10 @@ class PlaceEditor extends React.Component{
 
 const mapStateToProps = ({places}, ownProps) => {
   const { placeId } = ownProps.match.params;
-  const editedPlace = places.byId[placeId];
+  const place = places.byId[placeId];
   return {
-    initialValues: {place: editedPlace}
+    initialValues: {place},
+    place
   }
 };
 

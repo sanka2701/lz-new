@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-const getState = (state) => {return {events: state.events}};
+const getState = state => state;
 
 const isInLoadingState = stateList => {
 	return stateList.some(( stateFragment ) => {
@@ -11,9 +11,8 @@ const isInLoadingState = stateList => {
 export const makeLoadingSelector = statesOfInterest => createSelector(
 	[ getState ],
 	( state ) => {
-		debugger;
 		return statesOfInterest
-			? isInLoadingState(statesOfInterest)
+			? isInLoadingState(statesOfInterest.map(stateName => state[stateName]))
 			: isInLoadingState(Object.values(state))
 	}
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { loadEvents, setEventPagination } from '../../actions';
+import {loadEventsIfNeeded, setEventPagination} from '../../actions';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import Pagination from '../../components/ui/pagination';
 import EventManageList from '../../components/event/event_manage_list';
@@ -18,7 +18,7 @@ class EventManageTop extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadEvents();
+        this.props.loadEventsIfNeeded();
     }
 
     onPaginationChange(pageIndex) {
@@ -31,8 +31,13 @@ class EventManageTop extends React.Component {
 
         return (
             <div>
-                <EventListWithSpinner isLoading={isLoading} events={events} />
-                <Pagination activePage={currentPage} pageCount={pageCount} onPageSelect={this.onPaginationChange} />
+                <EventListWithSpinner
+                  isLoading={isLoading}
+                  events={events} />
+                <Pagination
+                  activePage={currentPage}
+                  pageCount={pageCount}
+                  onPageSelect={this.onPaginationChange} />
             </div>
         )
     }
@@ -47,5 +52,5 @@ const mapStateToProps = ({ events }) => {
 };
 
 export default compose(
-    connect(mapStateToProps, { loadEvents, setEventPagination })
+    connect(mapStateToProps, { loadEventsIfNeeded, setEventPagination })
 )(EventManageTop);

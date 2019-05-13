@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import EventRow from './event_row';
-import {Row, Col} from 'reactstrap';
 import {map} from 'lodash';
 import {withRouter} from "react-router-dom";
 
@@ -13,7 +11,6 @@ import {FormattedMessage} from "react-intl";
 const EventManageList = ({events, history}) => {
 
 	const getTableRows = (events) => map(events, (event, index) => {
-		// todo: resolve dynamic translations of the tag labels
 		return (
 			<tr
 				className={styles.row}

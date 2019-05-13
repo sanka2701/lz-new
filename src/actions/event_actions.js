@@ -8,10 +8,10 @@ import {
 	POST_EVENT_FAILURE,
 	SET_EVENT_FILTER,
 	RESET_EVENT_FILTER,
-	SET_NOTIFICATION
+	SET_NOTIFICATION, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_FAILURE
 } from "./types";
 import HtmlContentPostprocess from '../utils/html_content_postprocess';
-import _ from 'lodash';
+import {forEach} from 'lodash';
 
 const toFormData = async ({ place, thumbnail, ...event }) => {
     const processor = new HtmlContentPostprocess();
@@ -20,7 +20,7 @@ const toFormData = async ({ place, thumbnail, ...event }) => {
     const formData = new FormData();
     formData.append('event', JSON.stringify(event));
     place && formData.append('place', JSON.stringify(place));
-    _.forEach(files, ( file, url ) => {
+    forEach(files, ( file, url ) => {
         formData.append('fileUrls', url);
         formData.append('files', file);
     });
@@ -31,19 +31,14 @@ const toFormData = async ({ place, thumbnail, ...event }) => {
     return formData;
 };
 
-const buildRequest = async ( event, endpoint ) => {
-    return {
-        endpoint: endpoint,
-        payload: await toFormData(event),
-        successAction: POST_EVENT_SUCCESS,
-        failureAction: POST_EVENT_FAILURE
-    }
-};
-
-//todo: broken content files extraction
 export const postEvent = ( event, successCallback ) => async (dispatch) => {
-    const request = await buildRequest(event, 'events');
-    request.successCallback = () => {
+	dispatch(requestEvents());
+	const request = {
+		endpoint: 'events',
+		payload: await toFormData(event),
+		successAction: POST_EVENT_SUCCESS,
+		failureAction: POST_EVENT_FAILURE,
+		successCallback: () => {
 			dispatch({
 				type: SET_NOTIFICATION,
 				payload: {
@@ -52,25 +47,32 @@ export const postEvent = ( event, successCallback ) => async (dispatch) => {
 				}
 			});
 			successCallback && successCallback();
-		};
+		}
+	};
 
-    dispatch(post(request));
+	dispatch(post(request));
 };
 
-//todo: fire UPDATE EVENT action to update just one event in store
-export const updateEvent = (event) => async dispatch => {
-    const request = await buildRequest(event, 'events/update');
-    request.successCallback = () => {
-        dispatch({
-            type: SET_NOTIFICATION,
-            payload: {
-                messageId: 'not.event.approved',
-                type: 'success'
-            }
-        });
-    };
+export const updateEvent = (event, successCallback) => async dispatch => {
+	dispatch(requestEvents());
+	const request = {
+		endpoint: 'events/update',
+		payload: await toFormData(event),
+		successAction: UPDATE_EVENT_SUCCESS,
+		failureAction: UPDATE_EVENT_FAILURE,
+		successCallback: () => {
+			dispatch({
+				type: SET_NOTIFICATION,
+				payload: {
+					messageId: 'not.event.createSuccess',
+					type: 'success'
+				}
+			});
+			successCallback && successCallback();
+		}
+	};
 
-    dispatch(post(request));
+	dispatch(post(request));
 };
 
 export const setEventPagination = (pageIndex) => {
@@ -107,6 +109,21 @@ export const loadEvents = () => dispatch => {
         failureAction: GET_EVENTS_FAILURE
     };
     dispatch(get(request));
+};
+
+const shouldLoadEvents = (eventId, {events}) => {
+	const event = events.byId[eventId];
+	if(eventId && !event) {
+		return true;
+	} else if(events.isLoading) {
+		return false;
+	} else {
+		return events.didInvalidate;
+	}
+};
+
+export const loadEventsIfNeeded = (eventId) => (dispatch, getState) => {
+	shouldLoadEvents(eventId, getState()) && dispatch(loadEvents())
 };
 
 export const setEventFilter = filter => dispatch => {

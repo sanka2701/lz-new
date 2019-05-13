@@ -21,7 +21,7 @@ class MapEditor extends Component{
     }
 
     setMarker(coordinates, placeid) {
-        const {formName, selectedPlace} = this.props;
+        const {formName, selectedPlace, keepIdOnPick} = this.props;
         this.setState(prevState => ({
             selectedPlace: {
                 ...prevState.selectedPlace,
@@ -29,14 +29,18 @@ class MapEditor extends Component{
             }
         }));
 
+        const place = {
+            ...coordinates,
+            address: '',
+            label: '',
+            id: keepIdOnPick
+              ? selectedPlace.id
+              : null
+        };
+
         placeid ?
             this.props.selectGooglePOI(placeid) :
-            this.props.selectPlace({
-                ...selectedPlace,
-                ...coordinates,
-                address: '',
-                label: ''
-            }, formName);
+            this.props.selectPlace(place, formName);
     }
 
     render() {
@@ -57,10 +61,12 @@ class MapEditor extends Component{
 
 MapEditor.propTypes = {
     formName: PropTypes.string,
-    selectedPlace : PropTypes.object
+    selectedPlace : PropTypes.object,
+    keepIdOnPick: PropTypes.bool
 };
 
 MapEditor.defaultProps = {
+    keepIdOnPick: false,
     selectedPlace: {
         label: '',
         lat: '',

@@ -9,10 +9,13 @@ import {
   Col,
   Collapse} from 'reactstrap';
 import BorderCol from '../../components/ui/content/bordered_content';
-import { loadPlaces, setPlaceFilter, resetPlaceFilter } from '../../actions';
+import { setPlaceFilter, resetPlaceFilter, loadPlacesIfNeeded } from '../../actions';
 import { makeGetPlacesByFilter } from '../../filters/places_filter';
 
 import FilterMenu from "../../components/ui/menu/filter_menu";
+import withLoadingAnimation from "../../components/ui/content/withLodingAnimation";
+
+const PlaceListWithLoader = withLoadingAnimation(PlaceList);
 
 class PlaceTop extends React.Component {
   constructor(props){
@@ -26,7 +29,8 @@ class PlaceTop extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadPlaces();
+    const {loadPlacesIfNeeded} = this.props;
+    loadPlacesIfNeeded();
   }
 
 	onChangeFilterVisibility = () => this.setState({ isFilterShown: !this.state.isFilterShown });
@@ -36,7 +40,7 @@ class PlaceTop extends React.Component {
 	addPlace = () => this.props.history.push(`/places/edit`);
 
   render = () => {
-    const { places, filter, setPlaceFilter } = this.props;
+    const { places, filter, setPlaceFilter, isLoading} = this.props;
     const { isFilterShown } = this.state;
 
     return (
@@ -55,7 +59,10 @@ class PlaceTop extends React.Component {
             />
           </Collapse>
         </BorderCol>
-        <PlaceList places ={places} />
+        <PlaceListWithLoader
+          isLoading={isLoading}
+          places ={places}
+        />
       </React.Fragment>
     )
   }
@@ -74,7 +81,7 @@ export default compose(
   withRouter,
   connect(
     mapStateToProps, {
-      loadPlaces,
+      loadPlacesIfNeeded,
       setPlaceFilter,
       resetPlaceFilter,
     }),

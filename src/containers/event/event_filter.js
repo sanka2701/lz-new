@@ -96,7 +96,7 @@ class EventFilter extends React.Component {
 								onBlur={() => this.filterChanged({startDate: filter.startDate})}
 								format="DD MMM YYYY"
 								time={false}
-								value={filter.startDate ? new Date(filter.startDate) : null}
+								value={filter.startDate ? new Date(filter.startDate) : new Date()}
 							/>
 						</Col>
 

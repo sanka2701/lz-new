@@ -5,7 +5,7 @@ import {makeLoadingSelector} from "../../filters/loading_selector";
 import {withRouter} from "react-router-dom";
 
 const LoadingOverlay = ({ isLoading, children }) => {
-	console.log('Loading', isLoading)
+	console.log('Loading', isLoading);
 	return (
 		<React.Fragment>
 			{
@@ -18,7 +18,7 @@ const LoadingOverlay = ({ isLoading, children }) => {
 };
 
 const mapStateToProps = (state) => {
-	const loadingSelector = makeLoadingSelector();
+	const loadingSelector = makeLoadingSelector(['events', 'places']);
 	return {
 		isLoading: loadingSelector(state)
 	}

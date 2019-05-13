@@ -8,14 +8,14 @@ import {
 	SET_TAG_FILTER,
 	RESET_TAG_FILTER,
 	DELETE_TAG_SUCCESS,
-	DELETE_TAG_FIALURE,
+	DELETE_TAG_FAILURE, UPDATE_TAG_SUCCESS, UPDATE_TAG_FAILURE,
 } from "./types";
 
 export const deleteTag = ( id ) => async dispatch => {
 	const request = {
 		endpoint: 'eventtag',
 		successAction: DELETE_TAG_SUCCESS,
-		failureAction: DELETE_TAG_FIALURE,
+		failureAction: DELETE_TAG_FAILURE,
 		params: {id}
 	};
 	dispatch(remove(request));
@@ -46,8 +46,8 @@ export const updateTag = (tag) => async dispatch => {
 	const request = {
 		endpoint: 'eventtag/update',
 		payload: tag,
-		successAction: POST_TAG_SUCCESS,
-		failureAction: POST_TAG_FAILURE
+		successAction: UPDATE_TAG_SUCCESS,
+		failureAction: UPDATE_TAG_FAILURE
 	};
 	dispatch(post(request));
 };
@@ -60,6 +60,21 @@ export const loadTags = () => dispatch => {
     failureAction: GET_TAGS_FAILURE
   };
   dispatch(get(request));
+};
+
+const shouldLoad = (tagId, {tags}) => {
+	const tag = tags.byId[tagId];
+	if(tagId && !tag) {
+		return true;
+	} else if(tags.isLoading) {
+		return false;
+	} else {
+		return tags.didInvalidate;
+	}
+};
+
+export const loadTagsIfNeeded = (tagId) => (dispatch, getState) => {
+	shouldLoad(tagId, getState()) && dispatch(loadTags())
 };
 
 export const setTagFilter = filter => dispatch => {

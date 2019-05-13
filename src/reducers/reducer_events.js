@@ -4,11 +4,15 @@ import {
 	GET_EVENTS_SUCCESS,
 	GET_EVENTS_FAILURE,
 	RESET_EVENT_FILTER,
-	SET_EVENT_FILTER, POST_EVENT_SUCCESS
+	SET_EVENT_FILTER,
+	POST_EVENT_SUCCESS,
+	POST_EVENT_FAILURE,
+	UPDATE_EVENT_SUCCESS,
+	UPDATE_EVENT_FAILURE, INVALIDATE_EVENTS
 } from '../actions/types';
-import _ from 'lodash';
-import {ROOT_URL, SERVER_URL_PLACEHOLDER} from "../utils/constant";
+import {map, mapKeys, assign, union} from 'lodash';
 import {millisecondsToTime, replaceServerUrlPlaceholder} from "../utils/helpers";
+import produce from "immer";
 
 const defaultFilter = {
 	isSet: false,
@@ -25,6 +29,7 @@ const defaultState = {
 	byId: {},
 	ids: [],
 	isLoading: false,
+	didInvalidate: true,
 	currentPage: 1,
 	filter: defaultFilter
 };
@@ -44,42 +49,45 @@ const normalizeEventObject = event => {
 };
 
 export default function (state = defaultState, action) {
+	const { events } = action.payload ? action.payload : {events: []};
+	map(events, normalizeEventObject);
+
 	switch (action.type) {
 		case GET_EVENTS_SUCCESS:
-			const { events } = action.payload;
-			_.map(events, normalizeEventObject);
+			return produce(state, draftState => {
+				draftState.byId = mapKeys(events, 'id');
+				draftState.ids= map(events, 'id');
+				draftState.isLoading= false;
+			});
 
-			return {
-				...state,
-				byId: _.mapKeys(events, 'id'),
-				ids: _.map(events, 'id'),
-				isLoading: false
-			};
+		case UPDATE_EVENT_SUCCESS:
+			var a = produce(state, draftState => {
+				draftState.byId = assign(draftState.byId, mapKeys(events, 'id'));
+				draftState.isLoading= false;
+			});
+debugger;
+return a;
+		case POST_EVENT_SUCCESS:
+			return produce(state, draftState => {
+				draftState.byId = assign(draftState.byId, mapKeys(events, 'id'));
+				draftState.ids  = union(draftState.ids, map(events, 'id'));
+				draftState.isLoading= false;
+			});
+
 		case GET_EVENTS_FAILURE:
+		case UPDATE_EVENT_FAILURE:
+		case POST_EVENT_FAILURE:
 			return {...state, isLoading: false};
 
-		//todo: does not work for update because backend does not return updated object
-		//	Currenty the application always loads all the events when on home page so this does not make sense as of now.
-		//
-		// case POST_EVENT_SUCCESS:
-		// 	const newState = {...state};
-		// 	const postedEvents = action.payload.events || [];
-		//
-		// 	postedEvents.map(normalizeEventObject);
-		// 	postedEvents.forEach(event => {
-		// 		newState.byId[event.id] = event;
-		// 		!newState.ids.includes(event.id) && newState.ids.push(event.id);
-		// 	});
-		//
-		// 	return {
-		// 		...newState,
-		// 		isLoading: false
-		// 	};
+		case INVALIDATE_EVENTS:
+			return {...state, didInvalidate: true };
 
 		case GET_EVENTS_REQUEST:
-			return {...state, isLoading: true};
+			return {...state, isLoading: true, didInvalidate: false};
+
 		case CHANGE_EVENT_PAGE:
 			return {...state, currentPage: action.payload.pageIndex};
+
 		case SET_EVENT_FILTER:
 			const {filter} = action.payload;
 			return {
@@ -90,8 +98,10 @@ export default function (state = defaultState, action) {
 					isSet: true,
 				}
 			};
+
 		case RESET_EVENT_FILTER:
 			return {...state, filter: defaultFilter};
+
 		default:
 			return state;
 	}

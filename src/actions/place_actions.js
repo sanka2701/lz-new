@@ -1,4 +1,4 @@
-import { get, post, remove } from './index';
+import {get, post, remove} from './index';
 import {
   GET_PLACES_FAILURE,
   GET_PLACES_SUCCESS,
@@ -13,6 +13,7 @@ import {
 import {change} from "redux-form";
 
 export const loadPlaceById = id => dispatch => {
+  dispatch(requestPlaces());
     const request = {
         endpoint: 'places/id',
         params: { id },
@@ -23,6 +24,7 @@ export const loadPlaceById = id => dispatch => {
 };
 
 export const deletePlace = id => dispatch => {
+  dispatch(requestPlaces());
 	const request = {
 		endpoint: 'places',
 		successAction: DELETE_PLACES_SUCCESS,
@@ -63,8 +65,7 @@ export const postPlace = (place, successCallback) => async dispatch => {
     await dispatch(post(request));
 };
 
-export const updatePlace = (place, successCallback) => async dispatch => {
-  // todo: update actions are emitted but not processed in reducer
+export const updatePlace = async (place, successCallback) => async dispatch => {
   dispatch(requestPlaces());
   const request = {
     endpoint: 'places/update',
@@ -84,6 +85,21 @@ export const updatePlace = (place, successCallback) => async dispatch => {
   };
 
   await dispatch(post(request));
+};
+
+const shouldLoadPlaces = (placeId, {places}) => {
+  const place = places.byId[placeId];
+  if(placeId && !place) {
+    return true;
+  } else if(places.isLoading) {
+    return false;
+  } else {
+    return places.didInvalidate;
+  }
+};
+
+export const loadPlacesIfNeeded = (placeId) => (dispatch, getState) => {
+  shouldLoadPlaces(placeId, getState()) && dispatch(loadPlaces())
 };
 
 export const setPlaceFilter = filter => dispatch => {

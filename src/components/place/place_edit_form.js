@@ -7,7 +7,6 @@ import PlaceAutocomplete from '../../containers/place/place_autocomplete';
 import {connect} from "react-redux";
 import {formValueSelector} from "redux-form";
 
-//todo: move to components
 const PlaceEditForm = ({formName, currentPlace}) => (
 	<React.Fragment>
 		<Row style={{marginTop: '20px', marginBottom: '10px'}}>

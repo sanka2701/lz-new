@@ -8,11 +8,8 @@ import {AUTH_USER, AUTH_ERROR} from './actions/types'
 import axios from 'axios';
 import ModalExample from "./containers/error/modal";
 
-import Spinner from './components/ui/spinner';
-
 import TopLogo from './components/header/logo/top_logo';
 import Notification from "./containers/app/notification";
-import LoadingOverlay from "./containers/app/loading_overlay";
 
 class App extends Component {
 	componentDidMount() {
@@ -48,9 +45,7 @@ class App extends Component {
 				<Notification/>
 					<Container>
 						<ModalExample/>
-						<LoadingOverlay>
-							{this.props.children}
-						</LoadingOverlay>
+						{this.props.children}
 					</Container>
 			</div>
 		);

@@ -17,7 +17,6 @@ import App from './App';
 // todo: move to router component
 import Register from './containers/auth/register';
 import Login from './containers/auth/login';
-import Home from './containers/home';
 import ArticleDetail from './containers/article/article_detail';
 import ArticleTop from './containers/article/article_top';
 import ArticleEditor from './containers/article/article_editor';
@@ -68,7 +67,6 @@ ReactDOM.render(
                             <Route path="/users/:userId" component={UserDetail} />
                             <Route path="/tags/edit/:tagId?" component={TagEditor} />
                             <Route path="/tags/:tagId" component={TagDetail} />
-                            {/*<Route path="/" component={Home} />*/}
                             <Route path="/" component={EventTop} />
                         </Switch>
                     </App>
