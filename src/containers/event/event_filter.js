@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, Label, Collapse} from 'reactstrap';
 import BorderCol from '../../components/ui/content/bordered_content';
-import {resetEventFilter, setEventFilter, loadTags } from "../../actions";
+import {resetEventFilter, setEventFilter, loadTags} from "../../actions";
 import PlaceFilter from "../../components/place/place_filter";
 import {DateTimePicker, Multiselect} from "react-widgets";
 import {FormattedMessage} from "react-intl";
@@ -54,7 +54,7 @@ class EventFilter extends React.Component {
 	};
 
 	render() {
-		const {filter, tags} = this.props;
+		const {filter, tags, onInvalidate} = this.props;
 
 		return (
 			<BorderCol sm={12}>
@@ -64,6 +64,7 @@ class EventFilter extends React.Component {
 							onShow={this.onChangeFilterVisibility}
 							onMapShow={this.onChangeMapVisibility}
 							onReset={this.onFilterReset}
+							onInvalidate={onInvalidate}
 						/>
 					</Col>
 				</Row>
@@ -122,7 +123,7 @@ class EventFilter extends React.Component {
 			</BorderCol>
 		)
 	}
-};
+}
 
 const mapStateToProps = ({events: {filter}, tags}) => {
 	return {

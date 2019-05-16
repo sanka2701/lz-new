@@ -1,25 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {setEventPagination, loadEventsIfNeeded, loadPlacesIfNeeded} from '../../actions';
+import {
+	setEventPagination,
+	loadEventsIfNeeded,
+	loadPlacesIfNeeded,
+	invalidateEvents,
+	invalidatePlaces
+} from '../../actions';
 import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import withSideBar from '../../components/ui/content/with_sidebar';
 import Pagination from '../../components/ui/pagination';
 import EventFilter from './event_filter';
-import EventList from './event_list';
+import PostList from '../../components/post/post_list';
 import {Row} from "reactstrap";
 import {
 	currentPageEventsSelector,
 	eventsPageCountSelector,
 } from "../../filters/events_selector";
 import {makeLoadingSelector} from "../../filters/loading_selector";
+import {POST_TYPE_EVENT} from "../../utils/constant";
 
-const EventListWithSpinner = withLoadingAnimation(EventList);
+const EventListWithSpinner = withLoadingAnimation(PostList);
 
 class EventTop extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onPaginationChange = this.onPaginationChange.bind(this);
+		this.onInvalidateEvents = this.onInvalidateEvents.bind(this);
 	}
 
 	componentDidMount() {
@@ -28,9 +36,22 @@ class EventTop extends React.Component {
 		this.props.loadPlacesIfNeeded();
 	}
 
+	componentWillUpdate(nextProps, nextState, nextContext) {
+		//todo: try to leverage from this loop instead of onInvalidateEvents to avoid passing down the function to filter
+		//  add didInvalidate property from places and events reducers and check for its change
+		debugger;
+	}
+
 	onPaginationChange(pageIndex) {
 		this.props.setEventPagination(pageIndex);
 	}
+
+	onInvalidateEvents = () => {
+		this.props.invalidateEvents();
+		this.props.invalidatePlaces();
+		this.props.loadEventsIfNeeded();
+		this.props.loadPlacesIfNeeded();
+	};
 
 	render() {
 		const {pageCount, currentPage, isLoading, events} = this.props;
@@ -38,13 +59,19 @@ class EventTop extends React.Component {
 		return (
 			<React.Fragment>
 				<Row>
-					<EventFilter/>
+					<EventFilter onInvalidate={this.onInvalidateEvents}/>
 				</Row>
 				<div>
-					<EventListWithSpinner isLoading={isLoading} events={events} />
-					<Pagination activePage={currentPage}
-                      pageCount={pageCount}
-											onPageSelect={this.onPaginationChange}/>
+					<EventListWithSpinner
+						isLoading={isLoading}
+						posts={events}
+						type={POST_TYPE_EVENT}
+					/>
+					<Pagination
+						activePage={currentPage}
+						pageCount={pageCount}
+						onPageSelect={this.onPaginationChange}
+					/>
 				</div>
 			</React.Fragment>
 		)
@@ -62,6 +89,12 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-	connect(mapStateToProps, { loadEventsIfNeeded, setEventPagination, loadPlacesIfNeeded}),
+	connect(mapStateToProps, {
+		loadEventsIfNeeded,
+		setEventPagination,
+		loadPlacesIfNeeded,
+		invalidateEvents,
+		invalidatePlaces,
+	}),
 	withSideBar
 )(EventTop);

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { postArticle, loadArticleById } from '../../actions'
-import Spinner from '../../components/ui/spinner';
+import {postArticle, loadArticleById, updateArticle} from '../../actions';
+import withLoadingAnimation from '../../components/ui/content/withLodingAnimation';
 import ArticleEditForm from './article_edit_form';
 import PropTypes from "prop-types";
+
+const EditFormWithSpinner = withLoadingAnimation(ArticleEditForm);
 
 class ArticleEditor extends Component{
     constructor(props) {
@@ -14,38 +16,38 @@ class ArticleEditor extends Component{
 
     componentDidMount() {
         const { articleId } = this.props.match.params;
-        (articleId && !this.props.article) && this.loadArticleById(articleId);
+        (articleId && !this.props.article) && this.props.loadArticleById(articleId);
     }
 
-    async onSubmit(values) {
-        this.props.postArticle(values);
+    onSubmit(article) {
+        const successCallback = () => {
+            this.props.history.push('/articles/')
+        };
+
+        article.id
+          ? this.props.updateArticle(article, successCallback)
+          : this.props.postArticle(article, successCallback);
     }
 
     onCancel() {
-        this.props.history.goBack();
+        const { history, article } = this.props;
+        history.push(`/articles/${article.id}`);
     }
 
     render() {
-        const { match: {params: { articleId }}, article } = this.props;
+        const { match: {params: { articleId }}, article, isLoading } = this.props;
         const editMode  = !!articleId;
 
-        if(editMode && (!articleId || !article)) {
-            return (
-                <div>
-                    <Spinner />
-                </div>
-            )
-        }
-
         return (
-            <div>
-                <ArticleEditForm
+            <React.Fragment>
+                <EditFormWithSpinner
+                    isLoading={isLoading}
                     editMode={editMode}
                     initialValues={{ ...article }}
                     onSubmit={this.onSubmit}
                     onCancel={this.onCancel}
                 />
-            </div>
+            </React.Fragment>
         )
     }
 }
@@ -61,8 +63,9 @@ ArticleEditor.defaultProps = {
 function mapStateToProps({ articles }, ownProps) {
     const { articleId } = ownProps.match.params;
     return {
-        article: articles[articleId]
+        isLoading: articles.isLoading,
+        article: articles.byId[articleId]
     }
 }
 
-export default connect(mapStateToProps, { postArticle, loadArticleById })(ArticleEditor);
+export default connect(mapStateToProps, { postArticle, updateArticle, loadArticleById })(ArticleEditor);

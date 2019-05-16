@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { loadAllPhotos } from '../../actions';
-import { makeGetCurrentPotw } from '../../filters/photo_current_filter';
+import {selectCurrentPotw} from "../../filters/potw_selector";
 
 //todo: style the component and display info
 class PhotoSidebar extends React.Component {
@@ -24,10 +24,9 @@ class PhotoSidebar extends React.Component {
     }
 }
 
-const mapStateToProps = ({ photos }) => {
-    const getCurrentPotw = makeGetCurrentPotw();
+const mapStateToProps = (state) => {
     return {
-        photo: getCurrentPotw(photos)
+        photo: selectCurrentPotw(state)
     }
 };
 

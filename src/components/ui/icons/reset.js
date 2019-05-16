@@ -1,21 +1,21 @@
 import React from 'react';
-import { FaRedo } from 'react-icons/fa';
+import { FaFilter } from 'react-icons/fa';
 import { UncontrolledTooltip  } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
 import style from './icon.module.css';
 
-const Add =({ onClick, messageId }) => (
+const Filter =({ onClick }) => (
   <React.Fragment>
     <span id='resetIcon' onClick={onClick}>
-      <FaRedo className={`${style.icon} ${style.light}`} />
+      <FaFilter className={`${style.icon} ${style.light}`} />
     </span>{' '}
     <UncontrolledTooltip target='resetIcon'>
       <FormattedMessage
         id={'icon.tooltip.resetPlaceFilter'}
-        defaultMessage='Create New' />
+        defaultMessage='Reset Filter' />
     </UncontrolledTooltip >
   </React.Fragment>
 );
 
-export default Add;
+export default Filter;

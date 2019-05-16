@@ -45,7 +45,7 @@ const PhotoEditForm = ({
                 <Row>
                     <Col>
                         <FormFileUpload
-                            name={'photoFile'}
+                            name={'photoUrl'}
                             validate={[required]}
                         />
                     </Col>

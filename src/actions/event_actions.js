@@ -8,34 +8,15 @@ import {
 	POST_EVENT_FAILURE,
 	SET_EVENT_FILTER,
 	RESET_EVENT_FILTER,
-	SET_NOTIFICATION, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_FAILURE
+	SET_NOTIFICATION, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_FAILURE, INVALIDATE_EVENTS
 } from "./types";
-import HtmlContentPostprocess from '../utils/html_content_postprocess';
-import {forEach} from 'lodash';
-
-const toFormData = async ({ place, thumbnail, ...event }) => {
-    const processor = new HtmlContentPostprocess();
-    const files = await processor.getContentFiles(event.content);
-
-    const formData = new FormData();
-    formData.append('event', JSON.stringify(event));
-    place && formData.append('place', JSON.stringify(place));
-    forEach(files, ( file, url ) => {
-        formData.append('fileUrls', url);
-        formData.append('files', file);
-    });
-    thumbnail instanceof File
-        ? formData.append('thumbnail', thumbnail)
-        : event.thumbnail = thumbnail;
-
-    return formData;
-};
+import {postToFormData} from "../utils/helpers";
 
 export const postEvent = ( event, successCallback ) => async (dispatch) => {
 	dispatch(requestEvents());
 	const request = {
 		endpoint: 'events',
-		payload: await toFormData(event),
+		payload: await postToFormData(event, 'event'),
 		successAction: POST_EVENT_SUCCESS,
 		failureAction: POST_EVENT_FAILURE,
 		successCallback: () => {
@@ -57,7 +38,7 @@ export const updateEvent = (event, successCallback) => async dispatch => {
 	dispatch(requestEvents());
 	const request = {
 		endpoint: 'events/update',
-		payload: await toFormData(event),
+		payload: await postToFormData(event, 'event'),
 		successAction: UPDATE_EVENT_SUCCESS,
 		failureAction: UPDATE_EVENT_FAILURE,
 		successCallback: () => {
@@ -82,6 +63,12 @@ export const setEventPagination = (pageIndex) => {
     }
 };
 
+export const invalidateEvents = () => {
+	return {
+		type: INVALIDATE_EVENTS
+	}
+};
+
 export const requestEvents = () => {
     return {
         type: GET_EVENTS_REQUEST
@@ -100,7 +87,7 @@ export const loadEventById = id => dispatch => {
     dispatch(get(request));
 };
 
-export const loadEvents = () => dispatch => {
+const loadEvents = () => dispatch => {
     dispatch(requestEvents());
     const request = {
         endpoint: 'events/all',

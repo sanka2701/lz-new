@@ -60,12 +60,11 @@ export default function (state = defaultState, action) {
 			});
 
 		case UPDATE_EVENT_SUCCESS:
-			var a = produce(state, draftState => {
+			return produce(state, draftState => {
 				draftState.byId = assign(draftState.byId, mapKeys(events, 'id'));
 				draftState.isLoading= false;
 			});
-debugger;
-return a;
+
 		case POST_EVENT_SUCCESS:
 			return produce(state, draftState => {
 				draftState.byId = assign(draftState.byId, mapKeys(events, 'id'));

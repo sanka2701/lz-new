@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {ROOT_URL, SERVER_URL_PLACEHOLDER} from './constant';
-import _ from "lodash";
+import _, {forEach} from "lodash";
+import HtmlContentPostprocess from "./html_content_postprocess";
 
 export const hasRole = (user, roles) => {
     return user && roles.includes(user.role);
@@ -13,6 +14,24 @@ export const isOwner = (user, event) => {
 export const replaceServerUrlPlaceholder = serverUrl => {
 	const regex = new RegExp(SERVER_URL_PLACEHOLDER, 'g');
 	return serverUrl.replace(regex, ROOT_URL);
+};
+
+
+export const postToFormData = async ({ thumbnail, ...post }, type) => {
+	const processor = new HtmlContentPostprocess();
+	const files = await processor.getContentFiles(post.content);
+
+	const formData = new FormData();
+	formData.append(type, JSON.stringify(post));
+	forEach(files, ( file, url ) => {
+		formData.append('fileUrls', url);
+		formData.append('file', file);
+	});
+	thumbnail instanceof File
+		? formData.append('thumbnail', thumbnail)
+		: post.thumbnail = thumbnail;
+
+	return formData;
 };
 
 export const stripDiacritics = sting => sting.normalize('NFD').replace(/[\u0300-\u036f]/g, "");

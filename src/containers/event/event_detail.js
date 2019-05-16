@@ -54,6 +54,7 @@ class EventDetail extends React.Component {
             )
         }
 
+        // todo: extract to separate component and wrap with loading animation. Generify for Articles
         return (
             <div>
                 {(/*isOwner(currentUser, event) ||*/ hasRole(currentUser, [ROLE_ADMIN])) && (

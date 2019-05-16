@@ -74,6 +74,7 @@
   "icon.tooltip.showHideMap": "Zobraziť/Skryť mapu",
   "icon.tooltip.resetPlaceFilter": "Vymazať filter",
   "icon.tooltip.createNewItem": "Vytvoriť novú položku",
+  "icon.tooltip.invalidateData": "Znovu načítať data",
 
   "tag.label": "Názov kategórie",
 

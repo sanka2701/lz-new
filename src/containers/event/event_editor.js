@@ -33,7 +33,6 @@ class EventEditor extends React.Component {
 	}
 
 	async onSubmit(event) {
-		debugger;
 		if(!event.place.id){
 			await this.props.postPlace(event.place);
 		}
@@ -42,6 +41,7 @@ class EventEditor extends React.Component {
 			draft.placeId = event.place.id || last(store.getState().places.ids);
 			draft.endTime = event.endTime.millis;
 			draft.startTime = event.startTime.millis;
+			//fixme: this is causing troubles when extracting the ids the form sometimes passes array of numbers instead of objects
 			draft.tags = event.tags.map(tag => tag.id);
 			delete draft.place;
 		});

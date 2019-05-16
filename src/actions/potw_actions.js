@@ -4,37 +4,45 @@ import {
     GET_PHOTOS_FAILURE,
     GET_PHOTOS_SUCCESS,
     POST_PHOTO_FAILURE,
-    POST_PHOTO_SUCCESS
+    POST_PHOTO_SUCCESS, UPDATE_PHOTO_SUCCESS, UPDATE_PHOTO_FAILURE
 } from "./types";
 
-const toFormData = async ({ photoFile, ...weeklyPhoto }) => {
+const toFormData = async ({ photoUrl, ...weeklyPhoto }) => {
     const formData = new FormData();
 
     formData.append('json', JSON.stringify(weeklyPhoto));
-    photoFile instanceof File
-        ? formData.append('file', photoFile)
-        : weeklyPhoto.thumbnail = photoFile;
+    photoUrl instanceof File
+        ? formData.append('file', photoUrl)
+        : weeklyPhoto.thumbnail = photoUrl;
 
     return formData;
 };
 
-const buildRequest = async ( weeklyPhoto, endpoint ) => {
-    return {
-        endpoint: endpoint,
+export const postPhoto = ( weeklyPhoto, callback ) => async (dispatch) => {
+    dispatch(requestPhotos());
+    const request = {
+        endpoint: 'potw',
         payload: await toFormData(weeklyPhoto),
         successAction: POST_PHOTO_SUCCESS,
-        failureAction: POST_PHOTO_FAILURE
-    }
-};
-
-export const postPhoto = ( weeklyPhoto ) => async (dispatch) => {
-    const request = await buildRequest(weeklyPhoto, 'potw');
-    debugger;
+        failureAction: POST_PHOTO_FAILURE,
+        successCallback: () => {
+            callback && callback()
+        }
+    };
     dispatch(post(request));
 };
 
-export const updatePhoto = ( weeklyPhoto ) => async (dispatch) => {
-    const request = await buildRequest(weeklyPhoto, 'potw/update');
+export const updatePhoto = ( weeklyPhoto, callback ) => async (dispatch) => {
+    dispatch(requestPhotos());
+    const request = {
+        endpoint: 'potw/update',
+        payload: await toFormData(weeklyPhoto),
+        successAction: UPDATE_PHOTO_SUCCESS,
+        failureAction: UPDATE_PHOTO_FAILURE,
+        successCallback: () => {
+            callback && callback()
+        }
+    };
     dispatch(post(request));
 };
 
@@ -55,7 +63,7 @@ export const loadPhotoById = id => dispatch => {
     dispatch(get(request));
 };
 
-export const loadAllPhotos = filter => dispatch => {
+export const loadAllPhotos  = () => dispatch => {
     dispatch(requestPhotos());
     const request = {
         endpoint: 'potw/list',

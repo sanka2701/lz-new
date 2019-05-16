@@ -8,7 +8,11 @@ import {
   SET_PLACE_FILTER,
   RESET_PLACE_FILTER,
   DELETE_PLACES_SUCCESS,
-  DELETE_PLACES_FAILURE, UPDATE_PLACE_SUCCESS, UPDATE_PLACE_FAILURE, SET_NOTIFICATION,
+  DELETE_PLACES_FAILURE,
+  UPDATE_PLACE_SUCCESS,
+  UPDATE_PLACE_FAILURE,
+  SET_NOTIFICATION,
+  INVALIDATE_PLACES,
 } from "./types";
 import {change} from "redux-form";
 
@@ -117,6 +121,12 @@ export const resetPlaceFilter = () => dispatch => {
 
 export const selectPlace = (place, formName) => dispatch => {
   dispatch(change(formName, 'place', place))
+};
+
+export const invalidatePlaces = () => {
+  return {
+    type: INVALIDATE_PLACES
+  }
 };
 
 export const requestPlaces = () => {

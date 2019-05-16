@@ -9,6 +9,9 @@ export const ROLE_ADMIN =  'ROLE_ADMIN';
 export const ROLE_USER =  'ROLE_USER';
 export const ROLE_TRUSTED_USER =  'ROLE_TRUSTED_USER';
 
+export const POST_TYPE_ARTICLE = 'POST_TYPE_ARTICLE';
+export const POST_TYPE_EVENT = 'POST_TYPE_EVENT';
+
 export const BORDER_EVENT = 'B_EVENT';
 export const BORDER_ARTICLE = 'B_ARTICLE';
 export const BORDER_SIDEBAR = 'B_SIDEBAR';
