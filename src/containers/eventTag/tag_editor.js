@@ -23,10 +23,14 @@ class TagEditor extends React.Component {
 	}
 
 	onSubmit = (tag) => {
-		const { updateTag, postTag } = this.props;
+		const { updateTag, postTag, history } = this.props;
+		const successCallBack = () => {
+			history.push('/tags')
+		};
+
 		tag.id
-			? updateTag(tag)
-			: postTag(tag);
+			? updateTag(tag, successCallBack)
+			: postTag(tag, successCallBack);
 	};
 
 	onCancel() {

@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {FormattedMessage} from 'react-intl';
 import {Button, FormGroup, Label, Input, Alert} from 'reactstrap';
-import {post} from '../../actions';
-import {AUTH_USER, AUTH_ERROR} from '../../actions/types'
+import {dismissAuthError, loginUser} from '../../actions';
 import BorderCol from '../../components/ui/content/bordered_content';
-import _ from 'lodash';
+import {map, each} from 'lodash';
 
 const FIELDS = {
 	username: {
@@ -25,6 +24,16 @@ const FIELDS = {
 };
 
 class Login extends Component {
+	constructor(props){
+		super(props);
+		this.renderError  = this.renderError.bind(this);
+		this.addFormField = this.addFormField.bind(this);
+	}
+
+	componentWillUnmount() {
+		this.props.dismissAuthError();
+	}
+
 	renderField(field) {
 		const errorMessage = (field.meta.touched && field.meta.error) && (
 			<Alert color="danger">
@@ -54,39 +63,33 @@ class Login extends Component {
 	}
 
 	onSubmit = formProps => {
-		const { location } = this.props;
+		const { location, loginUser } = this.props;
 		const { from } = location.state || { from: { pathname: '/' } };
 
-		//todo: move to actions
-		const request = {
-			endpoint: 'users/login',
-			payload: formProps,
-			successAction: AUTH_USER,
-			failureAction: AUTH_ERROR,
-			successCallback: () => {
-				this.props.history.push(from)
-			}
+		const successCallback = () => {
+			this.props.history.push(from)
 		};
-		this.props.post(request);
+
+		loginUser(formProps, successCallback);
 	};
 
 	renderError = errorCode =>
 		 <Alert color="danger">
 			<FormattedMessage id={errorCode} defaultMessage= {`Unexpected Error. Error code: ${errorCode}`} />
-		</Alert>
+		</Alert>;
 
 	render() {
 		const {handleSubmit, apiErrors} = this.props;
 
 		return (
 			<BorderCol>
-				{_.map(apiErrors, this.renderError.bind(this))}
+				{map(apiErrors, this.renderError)}
 
 				<form onSubmit={handleSubmit(this.onSubmit)}>
 					<h3>
 						<FormattedMessage id='auth.login' defaultMessage='Login'/>
 					</h3>
-					{_.map(FIELDS, this.addFormField.bind(this))}
+					{map(FIELDS, this.addFormField)}
 					<Button type='submit' color="primary">
 						<FormattedMessage id='general.submit' defaultMessage='Submit'/>
 					</Button>{' '}
@@ -102,7 +105,7 @@ class Login extends Component {
 function validate(values) {
 	const errors = {};
 
-	_.each(FIELDS, (type, field) => {
+	each(FIELDS, (type, field) => {
 		if (!values[field]) {
 			errors[field] = 'auth.mandatoryField';
 		}
@@ -116,6 +119,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-	connect(mapStateToProps, {post}),
+	connect(mapStateToProps, {loginUser, dismissAuthError}),
 	reduxForm({form: 'login', validate})
 )(Login);

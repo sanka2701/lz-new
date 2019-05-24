@@ -12,6 +12,7 @@ import {
 } from "./types";
 
 export const deleteTag = ( id ) => async dispatch => {
+	dispatch(requestTags());
 	const request = {
 		endpoint: 'eventtag',
 		successAction: DELETE_TAG_SUCCESS,
@@ -22,6 +23,7 @@ export const deleteTag = ( id ) => async dispatch => {
 };
 
 export const loadTagById = id => dispatch => {
+	dispatch(requestTags());
 	const request = {
 		endpoint: 'eventtag/id',
 		params: { id },
@@ -31,23 +33,31 @@ export const loadTagById = id => dispatch => {
 	dispatch(get(request));
 };
 
-export const postTag = ( eventTag ) => async (dispatch) => {
+export const postTag = ( eventTag, successCallback ) => async (dispatch) => {
+	dispatch(requestTags());
   const request = {
     endpoint: 'eventtag',
     payload: eventTag,
     params: {},
     successAction: POST_TAG_SUCCESS,
-    failureAction: POST_TAG_FAILURE
+    failureAction: POST_TAG_FAILURE,
+		successCallback: () => {
+			successCallback && successCallback()
+		}
   };
   dispatch(post(request));
 };
 
-export const updateTag = (tag) => async dispatch => {
+export const updateTag = ( tag, successCallback ) => async dispatch => {
+	dispatch(requestTags());
 	const request = {
 		endpoint: 'eventtag/update',
 		payload: tag,
 		successAction: UPDATE_TAG_SUCCESS,
-		failureAction: UPDATE_TAG_FAILURE
+		failureAction: UPDATE_TAG_FAILURE,
+		successCallback: () => {
+			successCallback && successCallback()
+		}
 	};
 	dispatch(post(request));
 };

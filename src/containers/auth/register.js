@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {FormattedMessage} from 'react-intl';
 import {Button, FormGroup, Label, Input, Alert} from 'reactstrap';
-import {AUTH_USER, AUTH_ERROR} from '../../actions/types'
-import {post} from '../../actions';
+import {dismissAuthError, registerUser} from '../../actions';
 import BorderCol from '../../components/ui/content/bordered_content';
-import _ from 'lodash';
+import {map, each} from 'lodash';
 
 const FIELDS = {
 	/*
@@ -43,6 +42,17 @@ const FIELDS = {
 };
 
 class Register extends Component {
+
+	constructor(props) {
+		super(props);
+		this.addFormField = this.addFormField.bind(this);
+		this.renderError  = this.renderError.bind(this);
+	}
+
+	componentWillUnmount() {
+		this.props.dismissAuthError();
+	}
+
 	renderField(field) {
 		const errorMessage = (field.meta.touched && field.meta.error) && (
 			<Alert color="danger">
@@ -72,36 +82,29 @@ class Register extends Component {
 	}
 
 	onSubmit = formProps => {
-		// todo: create action for this
-		const request = {
-			endpoint: 'users',
-			payload: formProps,
-			successAction: AUTH_USER,
-			failureAction: AUTH_ERROR,
-			successCallback: () => {
-				this.props.history.push('/')
-			}
+		const successCallback = () => {
+			this.props.history.push('/')
 		};
-		this.props.post(request);
+		this.props.registerUser(formProps, successCallback);
 	};
 
 	renderError = errorCode =>
 		<Alert color="danger">
 			<FormattedMessage id={errorCode} defaultMessage= {`Unexpected Error. Error code: ${errorCode}`} />
-		</Alert>
+		</Alert>;
 
 	render() {
 		const {handleSubmit, apiErrors} = this.props;
 
 		return (
 			<BorderCol>
-				{_.map(apiErrors, this.renderError.bind(this))}
+				{map(apiErrors, this.renderError)}
 
 				<form onSubmit={handleSubmit(this.onSubmit)}>
 					<h3>
 						<FormattedMessage id='auth.register' defaultMessage='Register'/>
 					</h3>
-					{_.map(FIELDS, this.addFormField.bind(this))}
+					{map(FIELDS, this.addFormField)}
 					<Button type='submit' color="primary">
 						<FormattedMessage id='general.submit' defaultMessage='Submit'/>
 					</Button>{' '}
@@ -117,7 +120,7 @@ class Register extends Component {
 function validate(values) {
 	const errors = {};
 
-	_.each(FIELDS, (type, field) => {
+	each(FIELDS, (type, field) => {
 		if (!values[field] && type.mandatory) {
 			errors[field] = 'auth.mandatoryField';
 		}
@@ -135,6 +138,6 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-	connect(mapStateToProps, {post}),
+	connect(mapStateToProps, {registerUser, dismissAuthError}),
 	reduxForm({form: 'register', validate})
 )(Register);

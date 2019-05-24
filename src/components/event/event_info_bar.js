@@ -19,23 +19,26 @@ export default class EventInfoBar extends React.Component {
     }
 
     render() {
+        const { event } = this.props;
+        const startDate = new Date(event.startDate);
+
         return (
             <div className={'event-info-bar'}>
                 <Row>
                     <Col sm='4'>
                         <Label>
-                            <FaClock size={32}/>
+                            <FaCalendar size={32}/>
                         </Label>
                         <Label>
-                            12.06.2018
+                            {`${startDate.getDay()}.${startDate.getMonth()}.${startDate.getFullYear()}`}
                         </Label>
                     </Col>
                     <Col sm='4'>
                         <Label>
-                            <FaCalendar size={32}/>
+                            <FaClock size={32}/>
                         </Label>
                         <Label className={'info-data'}>
-                            12:30 - 16:00
+                            {`${event.startTime.label} - ${event.endTime.label}`}
                         </Label>
                     </Col>
                     <Col sm='4'>

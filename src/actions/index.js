@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { change } from 'redux-form'
 import {DISMISS_NOTIFICATION, ERROR_DISMISSED} from './types';
-import { AUTH_USER_OUT} from './types';
 import { PLACES_CLEARED } from './types';
 
 import { ROOT_URL, GOOGLE_URL, GOOGLE_API_KEY } from '../utils/constant';
@@ -30,13 +29,6 @@ export const dismissModalError = () => {
 export const clearSuggestions = () => {
     return {
         type: PLACES_CLEARED,
-        payload: null
-    }
-};
-
-export const logoutUser = () => {
-    return {
-        type: AUTH_USER_OUT,
         payload: null
     }
 };
